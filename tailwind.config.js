@@ -1,12 +1,13 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-    prefix: "tw-",
-    content: [
-      "./index.html",
-      "./src/**/*.{js,ts,jsx,tsx}",
-    ],
+    prefix: '',
+    content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
     theme: {
-      extend: {},
+        extend: {
+            backgroundImage: {
+                'movie-selection': "url('./src/assets/img/movieSelection.gif')",
+            },
+        },
     },
     plugins: [],
-  }
+};

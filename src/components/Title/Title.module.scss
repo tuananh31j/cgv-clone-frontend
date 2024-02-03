@@ -1,0 +1,24 @@
+.bg_line {
+    background-image: url('../../assets/img/bgDoubleLine.jpg');
+    background-repeat: repeat-x;
+    width: 100%;
+    text-align: center;
+    height: 60px;
+}
+.text {
+    text-indent: -9999px;
+    background-repeat: no-repeat;
+    height: 50px;
+    display: inline-block;
+    background-attachment: scroll;
+}
+
+.bg_movie_selection {
+    width: 425px;
+
+    background-image: url('../../assets/img/movieSelection.gif');
+}
+.bg_event {
+    width: 158px;
+    background-image: url('../../assets/img/movieEvent.gif');
+}

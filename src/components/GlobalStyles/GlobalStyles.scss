@@ -3,10 +3,14 @@
 @tailwind components;
 @tailwind utilities;
 
-@import '@radix-ui/themes/styles.css';
-
-$primary: #e52125;
-
 body {
-    transition: all 2s ease-in-out;
+    transition: all 1s ease-in-out;
+}
+.container {
+    width: 980px;
+}
+@import '@radix-ui/colors/black-alpha.css';
+@import '@radix-ui/colors/gray-dark.css';
+.pink__theme {
+    background-color: #ff9592;
 }

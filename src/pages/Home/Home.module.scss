@@ -1,0 +1,18 @@
+.wibget__nav {
+    background-image: url('../../assets/img/bg-header-transparent-home.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+
+    height: 90px;
+    li {
+        text-indent: -9999px;
+    }
+}
+.content {
+    background-image: url('../../assets/img/bg-content.png');
+    background-repeat: repeat-x;
+    background-attachment: scroll;
+    background-color: rgba(0, 0, 0, 0);
+    margin: 0 auto;
+    padding: 0;
+}
