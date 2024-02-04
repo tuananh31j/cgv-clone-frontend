@@ -5,7 +5,7 @@ import Image from '~/assets';
 const MovieItem = () => {
     return (
         <>
-            <div className={clsx(styles.card, 'relative will-change-auto transition-all w-[240px] bg-white')}>
+            <div className={clsx(styles.card, 'relative will-change-auto transition-all w-[240.3px] bg-white')}>
                 <img className={clsx(styles.card_image, 'w-full inline-block')} src={Image.itemCard1} alt='' />
                 <img className={clsx(styles.card__purchare, 'z-40 absolute top-0')} src={Image.iconPlayCard} alt='' />
                 <div

@@ -1,0 +1,17 @@
+.event__flag__left {
+    background-image: url('../../assets/img/eventFlagLeft.gif');
+    background-repeat: no-repeat;
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    left: 0;
+}
+.event__flag__right {
+    background-image: url('../../assets/img/eventFlagRight.gif');
+    background-repeat: no-repeat;
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    top: 0;
+    right: -21px;
+}

@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import useLocalStorage from './useLocalStorage';
 import { useDispatch, useSelector } from 'react-redux';
 import { pinkMode } from '~/store/Slices/Theme.slice';
@@ -7,20 +7,27 @@ const usePinkTheme = () => {
 
     const dispatch = useDispatch();
 
-    const addClass = (bodyElement: DOMTokenList, className: string) => {
-        bodyElement.add(className);
-        dispatch(pinkMode(true));
-    };
-    const removeClass = (bodyElement: DOMTokenList, className: string) => {
-        bodyElement.remove(className);
-        dispatch(pinkMode(false));
-    };
+    const addClass = useCallback(
+        (bodyElement: DOMTokenList, className: string) => {
+            bodyElement.add(className);
+            dispatch(pinkMode(true));
+        },
+        [dispatch]
+    );
+
+    const removeClass = useCallback(
+        (bodyElement: DOMTokenList, className: string) => {
+            bodyElement.remove(className);
+            dispatch(pinkMode(false));
+        },
+        [dispatch]
+    );
 
     useEffect(() => {
         const bodyElement = window.document.body.classList;
         const className = 'pink__theme';
         pinkTheme ? addClass(bodyElement, className) : removeClass(bodyElement, className);
-    }, [pinkTheme, setPinkTheme]);
+    }, [pinkTheme, addClass, removeClass]);
 
     return [pinkTheme, setPinkTheme];
 };

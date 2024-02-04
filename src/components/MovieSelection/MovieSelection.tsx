@@ -1,8 +1,9 @@
 import clsx from 'clsx';
 import styles from './MovieSelection.module.scss';
-import Image from '~/assets';
-import Title from '../Title/Title';
+
+import Title from '../Title';
 import Carousel from '../Carousel';
+
 import MovieItem from './MovieItem';
 
 const MovieSelection = () => {
@@ -11,7 +12,11 @@ const MovieSelection = () => {
         <>
             <div className='max-w-[978.4px] mx-auto my-8 mt-12'>
                 <Title name='movie selection' img='bg_movie_selection' />
-                <Carousel item='movie' data={[1, 2, 3, 4, 5, 6]}></Carousel>
+                <Carousel dataLength={data.length}>
+                    {data.map((item) => (
+                        <MovieItem key={item} />
+                    ))}
+                </Carousel>
             </div>
         </>
     );

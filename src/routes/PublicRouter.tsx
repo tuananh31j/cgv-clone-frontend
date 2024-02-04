@@ -1,5 +1,5 @@
-import MainLayout from '~/layouts/MainLayout/MainLayout';
-import HomePage from '~/pages/Home/Home';
+import MainLayout from '~/layouts/MainLayout';
+import HomePage from '~/pages/Home';
 import NotFound from '~/pages/NotFound';
 const PublicRouter = [
     {

@@ -5,8 +5,8 @@ import Image from '~/assets';
 const EventItem = () => {
     return (
         <>
-            <div className={clsx(styles.card, 'relative will-change-auto transition-all')}>
-                <img className={clsx(styles.card_image)} src={Image.itemCard1} alt='' />
+            <div className={clsx(styles.card, 'relative will-change-auto w-[240.3px] transition-all')}>
+                <img className={clsx(styles.card_image)} src={Image.eventItem1} alt='' />
             </div>
         </>
     );

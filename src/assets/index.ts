@@ -4,6 +4,8 @@ import slide1 from './img/slide1.png';
 import itemCard1 from './img/itemCard1.jpg';
 import iconPlayCard from './img/iconPlayCard.png';
 import iconLicense from './img/iconLicense.png';
+import eventItem1 from './img/eventItem1.png';
+import cjcgv from './img/cjcgv.png';
 import movieSelection from './img/movieSelection.gif';
 const Image = {
     bgHeader,
@@ -13,6 +15,8 @@ const Image = {
     iconPlayCard,
     movieSelection,
     iconLicense,
+    cjcgv,
+    eventItem1,
 };
 
 export default Image;

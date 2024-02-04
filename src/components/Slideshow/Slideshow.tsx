@@ -3,8 +3,11 @@ import Image from '~/assets';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGreaterThan, faLessThan } from '@fortawesome/free-solid-svg-icons';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
+
 import { useEffect, useRef, useState } from 'react';
+
 import SlideItem from './SlideItem';
+
 import clsx from 'clsx';
 import styles from './Slideshow.module.scss';
 
@@ -66,7 +69,7 @@ const Slideshow = ({ slideWith, containerWith }: { slideWith: number; containerW
         return () => {
             clearInterval(timerId.current);
         };
-    }, []);
+    }, [slideWith]);
 
     return (
         <>
