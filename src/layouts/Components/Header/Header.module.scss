@@ -14,7 +14,7 @@
 // .header__search__right {
 // }
 .header__logo {
-    width: 120px;
+    width: 130px;
 }
 .header__search__vn {
     background-color: $primary;
@@ -33,7 +33,7 @@
         content: '';
         position: absolute;
         left: 424px;
-        top: 6px;
+        top: 4px;
         background-repeat: no-repeat;
     }
     li:nth-child(2)::before {
@@ -43,7 +43,7 @@
         content: '';
         position: absolute;
         left: 594px;
-        top: 6px;
+        top: 4px;
         background-repeat: no-repeat;
     }
     li:nth-child(3)::before {
@@ -53,7 +53,7 @@
         content: '';
         position: absolute;
         left: 720px;
-        top: 6px;
+        top: 4px;
         background-repeat: no-repeat;
     }
     li a {
@@ -61,4 +61,9 @@
         color: inherit;
         font-size: 14px;
     }
+}
+
+.bg_menu_hover {
+    background-image: url('../../../assets/img/bgMenuHover.png');
+    background-repeat: repeat;
 }

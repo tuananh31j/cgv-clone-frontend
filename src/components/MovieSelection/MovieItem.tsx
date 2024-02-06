@@ -1,6 +1,7 @@
 import clsx from 'clsx';
 import styles from './MovieSelection.module.scss';
 import Image from '~/assets';
+import Button from '../Button';
 
 const MovieItem = () => {
     return (
@@ -15,18 +16,13 @@ const MovieItem = () => {
                     )}
                 >
                     <p className='uppercase font-bold text-center mb-2'>Mật vụ ong</p>
-                    <div className='flex justify-between uppercase text-sm font-semibold'>
-                        <div className='bg-[#e71a0f] p-[6px] rounded-md px-2'>
-                            <a href=''>Xem Chi tiết</a>
-                        </div>
-                        <div className='bg-[#e71a0f] p-[6px] rounded-md px-2'>
-                            <a
-                                className='relative ps-8 border border-[#f07469] border-solid rounded-md box-content p-[3px]'
-                                href=''
-                            >
-                                <span className={clsx(styles.card_purchare_icon)}></span>Mua vé
-                            </a>
-                        </div>
+                    <div className='flex justify-between items-center uppercase text-sm font-semibold'>
+                        <Button large href='/ok' primary>
+                            Xem chi tiết
+                        </Button>
+                        <Button iconDefault large href='/oôk' primary inLine>
+                            Mua vé
+                        </Button>
                     </div>
                 </div>
             </div>

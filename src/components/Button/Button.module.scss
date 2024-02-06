@@ -1,0 +1,11 @@
+@import '../GlobalStyles/Variable.scss';
+.card_purchare_icon {
+    content: '';
+    width: 25px;
+    height: 25px;
+    background-image: url('../../assets/img/iconPurchareTicket.png');
+    background-repeat: no-repeat;
+    position: absolute;
+    left: 2px;
+    top: 3px;
+}

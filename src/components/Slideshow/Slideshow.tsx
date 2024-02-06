@@ -11,19 +11,33 @@ import SlideItem from './SlideItem';
 import clsx from 'clsx';
 import styles from './Slideshow.module.scss';
 
-const Slideshow = ({ slideWith, containerWith }: { slideWith: number; containerWith: number }) => {
+const Slideshow = ({ slideWith, data }: { slideWith: number; data: number[] }) => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const slideElement = useRef<HTMLDivElement>(null);
 
     const timerId = useRef<NodeJS.Timeout>();
     const images = [Image.slide1, Image.slide1, Image.slide1];
 
+    const pickSlide = (index: number) => {
+        (() => {
+            clearInterval(timerId.current);
+        })();
+        setCurrentIndex(() => {
+            const newTranslateX = -slideWith * index;
+
+            if (slideElement.current) {
+                slideElement.current.style.transform = `translateX(${newTranslateX}px)`;
+            }
+            return index;
+        });
+    };
+
     const nextSlide = () => {
         (() => {
             clearInterval(timerId.current);
         })();
         setCurrentIndex((prevIndex) => {
-            const nextIndex = (prevIndex + 1) % 3;
+            const nextIndex = (prevIndex + 1) % data.length;
             const newTranslateX = -slideWith * nextIndex;
 
             if (slideElement.current) {
@@ -40,7 +54,7 @@ const Slideshow = ({ slideWith, containerWith }: { slideWith: number; containerW
         setCurrentIndex((prevIndex) => {
             let nextIndex = 0;
             if (prevIndex <= 0) {
-                nextIndex = prevIndex = 2;
+                nextIndex = 2;
             } else {
                 nextIndex = prevIndex - 1;
             }
@@ -56,7 +70,7 @@ const Slideshow = ({ slideWith, containerWith }: { slideWith: number; containerW
     useEffect(() => {
         timerId.current = setInterval(() => {
             setCurrentIndex((prevIndex) => {
-                const nextIndex = (prevIndex + 1) % 3;
+                const nextIndex = (prevIndex + 1) % data.length;
                 const newTranslateX = -slideWith * nextIndex;
 
                 if (slideElement.current) {
@@ -69,7 +83,7 @@ const Slideshow = ({ slideWith, containerWith }: { slideWith: number; containerW
         return () => {
             clearInterval(timerId.current);
         };
-    }, [slideWith]);
+    }, [slideWith, data.length]);
 
     return (
         <>
@@ -78,8 +92,24 @@ const Slideshow = ({ slideWith, containerWith }: { slideWith: number; containerW
                     ref={slideElement}
                     className='whitespace-nowrap transition-transform will-change-transform relative duration-1000'
                 >
-                    {images.map((item, i) => {
-                        return <SlideItem image={item} key={i} />;
+                    {data.map((item, i) => {
+                        return <SlideItem image={Image.slide1} key={i} />;
+                    })}
+                </div>
+                <div className='absolute z-50 flex gap-2 bottom-0 '>
+                    {data.map((item, i) => {
+                        const activted = i === currentIndex;
+                        return (
+                            <button
+                                onClick={() => pickSlide(i)}
+                                key={item}
+                                className={clsx('w-4 h-4 -indent-[9000px] bg-gray-700 rounded-full', {
+                                    [styles.active]: activted,
+                                })}
+                            >
+                                1
+                            </button>
+                        );
                     })}
                 </div>
                 <button

@@ -6,7 +6,7 @@ const Persional = () => {
     return (
         <div className={clsx(styles.header__persional)}>
             <nav>
-                <ul className='flex justify-end gap-10 w-[930px] my-2 mx-auto uppercase text-sm  text-gray-500'>
+                <ul className='flex justify-end gap-10 w-[930px] my-1 mx-auto uppercase text-sm  text-gray-500'>
                     <li>
                         <p>
                             <a href=''>Tin mới & Ưu đãi</a>

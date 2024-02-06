@@ -3,11 +3,12 @@
 @tailwind components;
 @tailwind utilities;
 
+@import 'tippy.js/dist/tippy.css';
 body {
-    transition: all 1s ease-in-out;
+    transition: background-color 1s ease-in-out;
 }
-.container {
-    width: 980px;
+.container-box {
+    max-width: 978.4px;
 }
 @import '@radix-ui/colors/black-alpha.css';
 @import '@radix-ui/colors/gray-dark.css';

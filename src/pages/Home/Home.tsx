@@ -10,7 +10,7 @@ import Event from '~/components/Event';
 const HomePage = () => {
     return (
         <>
-            <div className='container mx-auto mt-8'>
+            <div className='container-box mx-auto mt-8'>
                 <div>
                     <div className='wibget border-b border-solid border-black '>
                         <ul
@@ -59,7 +59,7 @@ const HomePage = () => {
                 </div>
             </div>
             <div className={clsx(style.content, 'h-[447.26px]')}>
-                <Slideshow slideWith={978.4} containerWith={978.4} />
+                <Slideshow slideWith={978.4} data={[1, 2, 3, 4, 5]} />
             </div>
             <MovieSelection />
             <Event />

@@ -5,6 +5,7 @@ import itemCard1 from './img/itemCard1.jpg';
 import iconPlayCard from './img/iconPlayCard.png';
 import iconLicense from './img/iconLicense.png';
 import eventItem1 from './img/eventItem1.png';
+import bgMenuHover from './img/bgMenuHover.png';
 import cjcgv from './img/cjcgv.png';
 import movieSelection from './img/movieSelection.gif';
 const Image = {
@@ -17,6 +18,7 @@ const Image = {
     iconLicense,
     cjcgv,
     eventItem1,
+    bgMenuHover,
 };
 
 export default Image;
