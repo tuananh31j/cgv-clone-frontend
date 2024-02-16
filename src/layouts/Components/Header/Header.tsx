@@ -18,7 +18,7 @@ const Header = () => {
                 >
                     <div className='flex gap-9 font-bold mt-2'>
                         <div className={clsx(cl.header__logo)}>
-                            <Link to={'/'}>
+                            <Link to={''}>
                                 <img src={Image.logo} alt='' />
                             </Link>
                         </div>

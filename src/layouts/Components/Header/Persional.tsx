@@ -1,6 +1,8 @@
 import clsx from 'clsx';
 import styles from './Header.module.scss';
 import PinkSwitch from '~/components/PinkSwitch/PinkSwitch';
+import Button from '~/components/Button';
+import Image from '~/assets';
 
 const Persional = () => {
     return (
@@ -8,39 +10,29 @@ const Persional = () => {
             <nav>
                 <ul className='flex justify-end gap-10 w-[930px] my-1 mx-auto uppercase text-sm  text-gray-500'>
                     <li>
-                        <p>
-                            <a href=''>Tin mới & Ưu đãi</a>
-                        </p>
+                        <Button to={'/'} iconLeft={<img src={Image.iconTagSale} />} className='uppercase'>
+                            Tin mới & Ưu đãi
+                        </Button>
                     </li>
                     <li>
-                        <p>
-                            <a href=''>Vé của tôi</a>
-                        </p>
+                        <Button to={'/'} iconLeft={<img src={Image.iconPersionalTicket} />} className='uppercase'>
+                            Vé của tôi
+                        </Button>
                     </li>
                     <li>
-                        <p>
-                            <a href=''>Đăng nhập</a>/<a href=''>Đăng ký</a>
-                        </p>
+                        <span className='flex items-center'>
+                            <Button to={'/'} iconLeft={<img src={Image.iconPersionalAccount} />} className='uppercase'>
+                                Đăng nhập
+                            </Button>
+                            <span className='px-[1px]'>/</span>
+                            <Button to={'/'} className='uppercase'>
+                                Đăng ký
+                            </Button>
+                        </span>
                     </li>
                     <li>
-                        <p>
-                            <button
-                                className={clsx(
-                                    styles.header__search__vn,
-                                    'border py-[0.2px] px-2 rounded-s-md text-white'
-                                )}
-                            >
-                                VN
-                            </button>
-                            <button
-                                className={clsx(
-                                    styles.header__search__en,
-                                    'border py-[0.2px] px-2 rounded-e-sm text-white'
-                                )}
-                            >
-                                EN
-                            </button>
-                        </p>
+                        <Button className=' rounded-s-md bg-[#e71a0f] px-3 py-[2px] text-white'>VN</Button>
+                        <Button className='rounded-e-md bg-gray-600 px-3 py-[2px] text-white'>EN</Button>
                     </li>
                     <li>
                         <PinkSwitch />

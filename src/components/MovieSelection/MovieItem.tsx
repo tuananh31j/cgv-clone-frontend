@@ -8,7 +8,7 @@ const MovieItem = () => {
         <>
             <div className={clsx(styles.card, 'relative will-change-auto transition-all w-[240.3px] bg-white')}>
                 <img className={clsx(styles.card_image, 'w-full inline-block')} src={Image.itemCard1} alt='' />
-                <img className={clsx(styles.card__purchare, 'z-40 absolute top-0')} src={Image.iconPlayCard} alt='' />
+                <img className={clsx(styles.card__purchare, ' absolute top-0')} src={Image.iconPlayCard} alt='' />
                 <div
                     className={clsx(
                         styles.card__purchare,
@@ -17,10 +17,10 @@ const MovieItem = () => {
                 >
                     <p className='uppercase font-bold text-center mb-2'>Mật vụ ong</p>
                     <div className='flex justify-between items-center uppercase text-sm font-semibold'>
-                        <Button large href='/ok' primary>
+                        <Button large to='/ok' primary>
                             Xem chi tiết
                         </Button>
-                        <Button iconDefault large href='/oôk' primary inLine>
+                        <Button iconLeft={<img src={Image.iconPurchareTicket} />} large href='/oôk' primary inLine>
                             Mua vé
                         </Button>
                     </div>

@@ -1,17 +1,18 @@
 .event__flag__left {
-    background-image: url('../../assets/img/eventFlagLeft.gif');
+    background-image: url('../../assets/img/eventFlagLeft.png');
     background-repeat: no-repeat;
     width: 40px;
     height: 40px;
     position: absolute;
-    left: 0;
+    top: 0.4px;
+    left: -19.7px;
 }
 .event__flag__right {
-    background-image: url('../../assets/img/eventFlagRight.gif');
+    background-image: url('../../assets/img/eventFlagRight.png');
     background-repeat: no-repeat;
-    width: 40px;
-    height: 40px;
+    width: 44px;
+    height: 44px;
     position: absolute;
     top: 0;
-    right: -21px;
+    right: -44px;
 }

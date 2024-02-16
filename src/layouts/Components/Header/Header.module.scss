@@ -1,7 +1,7 @@
 @use '../../../components/GlobalStyles/Variable.scss' as *;
 .header {
     width: 100%;
-    background: url('https://www.cgv.vn/skin/frontend/cgv/default/images/bg-cgv/bg-top.png') transparent;
+    background: url('../../../assets/img/bgHeader.png') transparent;
     background-size: 10px 135px;
     height: 135px;
 }
@@ -26,36 +26,6 @@
     background-color: gray;
 }
 .header__persional nav ul {
-    li:first-child::before {
-        background-image: url('../../../assets/img/iconTagSale.png');
-        height: 25px;
-        width: 25px;
-        content: '';
-        position: absolute;
-        left: 424px;
-        top: 4px;
-        background-repeat: no-repeat;
-    }
-    li:nth-child(2)::before {
-        background-image: url('../../../assets/img/iconPersionalTicker.png');
-        height: 25px;
-        width: 25px;
-        content: '';
-        position: absolute;
-        left: 594px;
-        top: 4px;
-        background-repeat: no-repeat;
-    }
-    li:nth-child(3)::before {
-        background-image: url('../../../assets/img/iconPersionalAccount.png');
-        height: 25px;
-        width: 25px;
-        content: '';
-        position: absolute;
-        left: 720px;
-        top: 4px;
-        background-repeat: no-repeat;
-    }
     li a {
         font-family: Verdana, Geneva, Tahoma, sans-serif;
         color: inherit;

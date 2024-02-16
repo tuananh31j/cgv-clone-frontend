@@ -7,14 +7,16 @@ import { faThumbsUp } from '@fortawesome/free-solid-svg-icons';
 import Image from '~/assets';
 import Tippy from '@tippyjs/react';
 import Button from '../Button';
+import { Link } from 'react-router-dom';
+import MovieDialog from '../MovieDialog';
 const MovieCard = () => {
     return (
         <div className='my-2'>
             <div className='w-[200px] h-[260px] relative inline-table border-4 border-black box-border'>
-                <Tippy content='Mật vụ ong' delay={[0, 50]} placement='right'>
-                    <a href=''>
-                        <img src={Image.itemCard1} className='w-full  ' alt='' />
-                    </a>
+                <Tippy content='Mật vụ ong' delay={[1000, 50]} placement='right'>
+                    <Link to={'/movies/1'}>
+                        <img src={Image.itemCard1} className='w-full cursor-pointer' alt='' />
+                    </Link>
                 </Tippy>
                 <span className={clsx(styles.card_rating_t16__bg, 'w-10 h-10 indent-[-9999px] absolute top-2 left-2')}>
                     T16
@@ -50,13 +52,21 @@ const MovieCard = () => {
             </div>
             <div className=' w-[200px] mt-5'>
                 <div className='flex items-end justify-between'>
-                    <Button small href='dfd' classNames='bg-blue-600'>
+                    <Button small className='bg-blue-600 text-white'>
                         <FontAwesomeIcon className='me-1' icon={faThumbsUp} />
                         Like <span>10</span>
                     </Button>
-                    <Button inLine primary large iconDefault href='/pdfd'>
-                        Mua vé
-                    </Button>
+                    <MovieDialog>
+                        <Button
+                            className='text-white'
+                            inLine
+                            primary
+                            large
+                            iconLeft={<img src={Image.iconPurchareTicket}></img>}
+                        >
+                            Mua vé
+                        </Button>
+                    </MovieDialog>
                 </div>
             </div>
         </div>

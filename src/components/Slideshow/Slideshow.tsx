@@ -67,23 +67,23 @@ const Slideshow = ({ slideWith, data }: { slideWith: number; data: number[] }) =
         });
     };
 
-    useEffect(() => {
-        timerId.current = setInterval(() => {
-            setCurrentIndex((prevIndex) => {
-                const nextIndex = (prevIndex + 1) % data.length;
-                const newTranslateX = -slideWith * nextIndex;
+    // useEffect(() => {
+    //     timerId.current = setInterval(() => {
+    //         setCurrentIndex((prevIndex) => {
+    //             const nextIndex = (prevIndex + 1) % data.length;
+    //             const newTranslateX = -slideWith * nextIndex;
 
-                if (slideElement.current) {
-                    slideElement.current.style.transform = `translateX(${newTranslateX}px)`;
-                }
-                return nextIndex;
-            });
-        }, 2000);
+    //             if (slideElement.current) {
+    //                 slideElement.current.style.transform = `translateX(${newTranslateX}px)`;
+    //             }
+    //             return nextIndex;
+    //         });
+    //     }, 4000);
 
-        return () => {
-            clearInterval(timerId.current);
-        };
-    }, [slideWith, data.length]);
+    //     return () => {
+    //         clearInterval(timerId.current);
+    //     };
+    // }, [slideWith, data.length]);
 
     return (
         <>

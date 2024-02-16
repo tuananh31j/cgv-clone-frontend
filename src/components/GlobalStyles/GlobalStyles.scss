@@ -1,17 +1,37 @@
+@use './Variable.scss' as *;
+
 @import 'normalize.css';
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
 @import 'tippy.js/dist/tippy.css';
 body {
     transition: background-color 1s ease-in-out;
 }
 .container-box {
     max-width: 978.4px;
+    margin: 0 auto;
 }
 @import '@radix-ui/colors/black-alpha.css';
 @import '@radix-ui/colors/gray-dark.css';
 .pink__theme {
     background-color: #ff9592;
+}
+.flag__left {
+    background-color: $primary;
+    clip-path: polygon(0 0, 100% 0, 100% 50%, 100% 100%, 0 98%, 56% 50%);
+    position: absolute;
+    top: 0.4px;
+    left: -39px;
+    width: 40px;
+    height: 40px;
+}
+.flag__right {
+    background-color: $primary;
+    clip-path: polygon(0 0, 100% 0, 44% 50%, 100% 100%, 0 98%, 0 47%);
+    width: 40px;
+    height: 41px;
+    position: absolute;
+    top: 0;
+    right: -39.5px;
 }

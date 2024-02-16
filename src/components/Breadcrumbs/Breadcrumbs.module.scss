@@ -1,0 +1,15 @@
+.breadcrumbs_line {
+    display: flex;
+    font-size: 15px;
+    gap: 10px;
+    li::after {
+        content: '>';
+        color: gray;
+        margin-left: 10px;
+        font-weight: 900;
+        font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    }
+    li:last-child::after {
+        display: none;
+    }
+}

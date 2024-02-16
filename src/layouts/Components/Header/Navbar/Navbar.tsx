@@ -1,7 +1,5 @@
 import clsx from 'clsx';
 import styles from '../Header.module.scss';
-import * as HoverCard from '@radix-ui/react-hover-card';
-import Image from '~/assets';
 import NavItem from './NavItem';
 
 const MENU_ITEMS = [
