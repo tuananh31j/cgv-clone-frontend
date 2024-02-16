@@ -10,7 +10,7 @@ import ToggleTabs from '../ToggleTabs';
 const Event = () => {
     const data = [1, 2, 3, 4, 9];
 
-    const tab1 = (
+    const Tab1 = () => (
         <Carousel dataLength={data.length}>
             {data.map((item) => (
                 <EventItem image={Image.eventItem1} key={item} />
@@ -18,7 +18,7 @@ const Event = () => {
         </Carousel>
     );
 
-    const tab2 = (
+    const Tab2 = () => (
         <Carousel dataLength={data.length}>
             {data.map((item) => (
                 <EventItem image={Image.itemCard1} key={item} />
@@ -30,7 +30,7 @@ const Event = () => {
         <>
             <div className='max-w-[978.4px] mx-auto my-8 mt-12'>
                 <Title name='Event' img='bg_event' />
-                <ToggleTabs tabName={{ tab1: 'Thành viên CGV', tab2: 'Tin mới & Ưu đãi' }} content={{ tab1, tab2 }} />
+                <ToggleTabs tabName={{ tab1: 'Thành viên CGV', tab2: 'Tin mới & Ưu đãi' }} Content={{ Tab1, Tab2 }} />
             </div>
         </>
     );

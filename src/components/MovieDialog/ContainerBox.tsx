@@ -15,7 +15,7 @@ const ContainerBox = ({
 
     return (
         <>
-            <div className='border-t-2 border-black my-7 '>
+            <div className='border-b-2 pb-4 border-black my-4  w-full'>
                 <div className='text-[#717171] text-xl my-2'>
                     <h1>{title}</h1>
                 </div>

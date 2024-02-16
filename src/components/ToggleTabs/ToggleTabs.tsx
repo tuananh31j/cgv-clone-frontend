@@ -11,6 +11,8 @@ const ToggleTabs = ({
     Content: { Tab1: React.ElementType; Tab2: React.ElementType };
     tabName: { tab1: string; tab2: string };
 }) => {
+    console.log(Content);
+
     const [toggleTabs, setToggleTabs] = useState(false);
     return (
         <>
