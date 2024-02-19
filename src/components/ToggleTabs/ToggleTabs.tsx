@@ -25,7 +25,7 @@ const ToggleTabs = ({
                         )}
                         value='tab1'
                     >
-                        <Button iconLeft={<span className={clsx('flag__left')}></span>} className='px-2 pe-[20px]'>
+                        <Button span iconLeft={<span className={clsx('flag__left')}></span>} className='px-2 pe-[20px]'>
                             <div className='flex'>
                                 <div className='w-7'>{!toggleTabs && <FontAwesomeIcon icon={faHandPointRight} />}</div>
                                 <span>{tabName.tab1}</span>
@@ -39,7 +39,7 @@ const ToggleTabs = ({
                         )}
                         value='tab2'
                     >
-                        <Button className='px-2 pe-[20px]' iconRight={<span className='flag__right'></span>}>
+                        <Button span className='px-2 pe-[20px]' iconRight={<span className='flag__right'></span>}>
                             <div className='flex'>
                                 <div className='w-7'>{toggleTabs && <FontAwesomeIcon icon={faHandPointRight} />}</div>
                                 <span>{tabName.tab2}</span>

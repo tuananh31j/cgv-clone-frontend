@@ -5,10 +5,12 @@ import { forwardRef } from 'react';
 interface IButtonProps {
     to?: string;
     href?: string;
+    span?: boolean;
     children: string | React.ReactNode;
     customChildren?: boolean;
     className?: string;
-    state?: string;
+    state?: string | boolean;
+    type?: 'normal' | 'vip' | 'double' | 'reservedSeat';
     primary?: boolean;
     secondary?: boolean;
     inLine?: boolean;
@@ -24,10 +26,12 @@ const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement | LinkProps, IBu
         {
             to,
             href,
+            span,
             children,
             customChildren,
             className,
             state,
+            type,
             primary,
             inLine,
             small,
@@ -48,11 +52,18 @@ const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement | LinkProps, IBu
         } else if (!to && !!href) {
             Comp = 'a';
             props.href = href;
+        } else if (span) {
+            Comp = 'span';
+        }
+
+        if (type === 'reservedSeat') {
+            children = 'X';
         }
         return (
             <>
                 <Comp
                     data-state={state ? 'active' : ''}
+                    data-type={type ? type : ''}
                     ref={ref}
                     {...passProps}
                     {...props}

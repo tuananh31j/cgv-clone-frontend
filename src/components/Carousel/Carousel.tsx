@@ -1,10 +1,14 @@
 import clsx from 'clsx';
 import styles from './Carousel.module.scss';
-import React, { ReactNode, useEffect, useRef, useState } from 'react';
+import React, { ReactNode, useRef, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGreaterThan, faLessThan } from '@fortawesome/free-solid-svg-icons';
 
-const Carousel = ({ children, dataLength }: { children: ReactNode; dataLength: number }) => {
+interface ICarouselProps {
+    children: ReactNode;
+    dataLength: number;
+}
+const Carousel: React.FC<ICarouselProps> = ({ children, dataLength }) => {
     const carouselElement = useRef<HTMLDivElement>(null);
     const [currentIndex, setCurrentIndex] = useState<number>(0);
     const nextSlide = () => {
@@ -14,8 +18,6 @@ const Carousel = ({ children, dataLength }: { children: ReactNode; dataLength: n
             if (carouselElement.current) {
                 carouselElement.current.style.transform = `translateX(${newTranslateX}px)`;
             }
-            console.log(prev, nextIndex, newTranslateX);
-
             return nextIndex;
         });
     };
@@ -27,8 +29,6 @@ const Carousel = ({ children, dataLength }: { children: ReactNode; dataLength: n
             if (carouselElement.current) {
                 carouselElement.current.style.transform = `translateX(${newTranslateX}px)`;
             }
-            console.log(prev, nextIndex, newTranslateX);
-
             return nextIndex;
         });
     };

@@ -5,6 +5,8 @@
 @tailwind components;
 @tailwind utilities;
 @import 'tippy.js/dist/tippy.css';
+@import 'react-toastify/dist/ReactToastify.css';
+
 body {
     transition: background-color 1s ease-in-out;
 }
@@ -12,8 +14,6 @@ body {
     max-width: 978.4px;
     margin: 0 auto;
 }
-@import '@radix-ui/colors/black-alpha.css';
-@import '@radix-ui/colors/gray-dark.css';
 .pink__theme {
     background-color: #ff9592;
 }

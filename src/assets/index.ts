@@ -12,6 +12,8 @@ import eventFlagLeft from './img/eventFlagLeft.png';
 import iconTagSale from './img/iconTagSale.png';
 import iconPersionalAccount from './img/iconPersionalAccount.png';
 import iconPersionalTicket from './img/iconPersionalTicket.png';
+import bgScreen from './img/bgScreen.png';
+import bimbim from './img/bimbim.png';
 
 import cjcgv from './img/cjcgv.png';
 import movieSelection from './img/movieSelection.gif';
@@ -32,6 +34,8 @@ const Image = {
     iconTagSale,
     iconPersionalAccount,
     iconPersionalTicket,
+    bgScreen,
+    bimbim,
 };
 
 export default Image;

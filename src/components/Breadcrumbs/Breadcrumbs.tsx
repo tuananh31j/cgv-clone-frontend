@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import styles from './Breadcrumbs.module.scss';
 
-import { Link, NavLink, useLocation } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHouse } from '@fortawesome/free-solid-svg-icons';
 
@@ -13,7 +13,7 @@ const Breadcrumbs = () => {
         .filter((crumb) => crumb !== '')
         .map((crumb, index, arr) => {
             currentLink += `/${crumb}`;
-            const lastIndex = arr.length - 1;
+            // const lastIndex = arr.length - 1;
             return (
                 <li key={index} className='text-gray-500'>
                     {crumb === 'movies' ? (
