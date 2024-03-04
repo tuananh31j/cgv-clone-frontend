@@ -6,9 +6,9 @@ import { faThumbsUp } from '@fortawesome/free-solid-svg-icons';
 
 import Image from '~/assets';
 import Tippy from '@tippyjs/react';
-import Button from '../Button';
 import { Link } from 'react-router-dom';
 import MovieDialog from '../MovieDialog';
+import Button from '../Button';
 const MovieCard = () => {
     return (
         <div className='my-2'>
@@ -52,7 +52,7 @@ const MovieCard = () => {
             </div>
             <div className=' w-[200px] mt-5'>
                 <div className='flex items-end justify-between'>
-                    <Button small className='bg-blue-600 text-white'>
+                    <Button onClick={() => console.log('oo')} className='bg-blue-600 text-white'>
                         <FontAwesomeIcon className='me-1' icon={faThumbsUp} />
                         Like <span>10</span>
                     </Button>

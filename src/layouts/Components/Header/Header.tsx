@@ -4,10 +4,31 @@ import clsx from 'clsx';
 import Persional from './Persional';
 import Navbar from './Navbar';
 import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import auth from '~/api/authApi';
+import { ICustomer } from '~/types/Customer';
+import { useSelector } from 'react-redux';
+import { RootState } from '~/store/store';
 const Header = () => {
+    const [currentUser, setCurrentUser] = useState<ICustomer>();
+    const accessToken = useSelector((state: RootState) => state.auth.login.currentUser);
+    useEffect(() => {
+        (async () => {
+            console.log(accessToken);
+
+            if (accessToken) {
+                const { data } = await auth.getMe();
+                console.log(data);
+
+                if (data) {
+                    setCurrentUser(data);
+                }
+            }
+        })();
+    }, [accessToken]);
     return (
         <>
-            <Persional />
+            <Persional currentUser={currentUser} />
 
             <header className={clsx(cl.header, 'bg-repeat-x bg-scroll bg-left-bottom w-full')}>
                 <div

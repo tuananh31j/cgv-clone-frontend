@@ -1,7 +1,6 @@
 import * as Dialog from '@radix-ui/react-dialog';
 import { Cross2Icon } from '@radix-ui/react-icons';
 import Image from '~/assets';
-import Button from '../Button';
 import clsx from 'clsx';
 import ImageMagnifier from '../ImageMagnifier';
 import ContainerBox from './ContainerBox';

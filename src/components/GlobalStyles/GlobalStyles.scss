@@ -6,7 +6,9 @@
 @tailwind utilities;
 @import 'tippy.js/dist/tippy.css';
 @import 'react-toastify/dist/ReactToastify.css';
-
+input:focus {
+    outline: none;
+}
 body {
     transition: background-color 1s ease-in-out;
 }

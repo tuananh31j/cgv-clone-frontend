@@ -2,10 +2,9 @@ import clsx from 'clsx';
 import styles from './Button.module.scss';
 import { Link, LinkProps, To } from 'react-router-dom';
 import { forwardRef } from 'react';
-interface IButtonProps {
+interface IButtonProps extends React.HTMLProps<HTMLButtonElement | HTMLAnchorElement> {
     to?: string;
     href?: string;
-    span?: boolean;
     children: string | React.ReactNode;
     customChildren?: boolean;
     className?: string;
@@ -26,7 +25,6 @@ const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement | LinkProps, IBu
         {
             to,
             href,
-            span,
             children,
             customChildren,
             className,
@@ -44,16 +42,15 @@ const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement | LinkProps, IBu
         ref
     ) => {
         let Comp: React.ElementType = 'button';
-        const props: { to: To; href?: string } = { to: '' };
+        const props: { to?: To; href?: string } = {};
         if (!!to && !href && to !== '') {
             Comp = Link;
             props.to = to;
             delete props.href;
         } else if (!to && !!href) {
             Comp = 'a';
+            delete props.to;
             props.href = href;
-        } else if (span) {
-            Comp = 'span';
         }
 
         if (type === 'reservedSeat') {
