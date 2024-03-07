@@ -25,10 +25,6 @@ const loginAsyncThunk = createAsyncThunk('auth/login', async (body: ILoginForm, 
     return res.data;
 });
 
-const refreshTokenAsyncThunk = createAsyncThunk('/auth/refresh', async (_, thunkAPI) => {
-    const res = await auth.refreshToken({ signal: thunkAPI.signal });
-    return res.data;
-});
 // const loginAsyncThunk = createAsyncThunk('auth/login', async (body: ILoginForm, thunkAPI) => {
 //     const res = await axiosClient.post<ILoginResponse>(`${REACT_API_URL}/auth/login`, body, {
 //         signal: thunkAPI.signal,
@@ -50,13 +46,9 @@ const authSlice = createSlice({
                 state.login.loading = false;
                 state.login.currentUser = action.payload;
                 localStorage.setItem('accessToken', action.payload.accessToken);
-            })
-            .addCase(refreshTokenAsyncThunk.fulfilled, (state, action) => {
-                state.login.currentUser.accessToken = action.payload.accessToken;
-                localStorage.setItem('accessToken', action.payload.accessToken);
             });
     },
 });
 
-export { loginAsyncThunk, refreshTokenAsyncThunk };
+export { loginAsyncThunk };
 export default authSlice.reducer;

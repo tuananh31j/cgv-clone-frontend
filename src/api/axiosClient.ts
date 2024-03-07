@@ -2,22 +2,25 @@ import axios, { AxiosInstance } from 'axios';
 import { useSelector } from 'react-redux';
 import store, { RootState, useAppDispatch } from '~/store/store';
 import auth from './authApi';
-import { refreshTokenAsyncThunk } from '~/store/Slices/AuthSlice';
+import { IRefreshTokenResponse } from '~/types/Auth';
+import { REACT_API_URL } from '~/constants/env';
 const axiosClient = axios.create({
     baseURL: import.meta.env.VITE_REACT_API_URL,
     timeout: 5000,
     headers: {
         'Content-Type': 'application/json',
     },
+    withCredentials: true,
 });
 
 axiosClient.interceptors.request.use(
     async (config) => {
-        const token = store.getState().auth.login.currentUser.accessToken;
+        console.log(document.cookie, 'kk1');
+
+        const token = localStorage.getItem('accessToken');
         if (token) {
             config.headers['Authorization'] = `Bearer ${token}`;
         }
-        console.log(config, 'rq');
 
         return config;
     },
@@ -26,15 +29,31 @@ axiosClient.interceptors.request.use(
 
 axiosClient.interceptors.response.use(
     (response) => response,
-    (error) => {
+    async (error) => {
+        console.log(error, 'err');
+
         const originalRequest = error.config;
-        const accessToken = store.getState().auth.login.currentUser.accessToken;
+        const accessToken = localStorage.getItem('accessToken');
+
         if (!originalRequest._retry && error.response.status === 401 && accessToken) {
-            originalRequest._retry = true;
-            store
-                .dispatch(refreshTokenAsyncThunk())
-                .then(() => axiosClient(originalRequest))
-                .catch((error) => console.log(error, 'refresh'));
+            try {
+                console.log(document.cookie, 'kk2');
+
+                originalRequest._retry = true;
+                const { accessToken: newAccessToken } = (
+                    await axios.post<IRefreshTokenResponse>(
+                        `${REACT_API_URL}/auth/refresh`,
+                        {},
+                        {
+                            withCredentials: true,
+                        }
+                    )
+                ).data;
+                localStorage.setItem('accessToken', newAccessToken);
+                return axiosClient(originalRequest);
+            } catch (error) {
+                console.log(error, 'rf');
+            }
         }
         return Promise.reject(error);
     }

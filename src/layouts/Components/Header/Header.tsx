@@ -13,6 +13,8 @@ const Header = () => {
     const [currentUser, setCurrentUser] = useState<ICustomer>();
     const accessToken = useSelector((state: RootState) => state.auth.login.currentUser);
     useEffect(() => {
+        console.log(accessToken);
+
         (async () => {
             console.log(accessToken);
 

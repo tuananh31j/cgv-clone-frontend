@@ -1,8 +1,8 @@
 import { useRoutes } from 'react-router-dom';
 import PublicRouter from './routes';
 function App() {
-    const publicRoutert = useRoutes(PublicRouter);
-    return <>{publicRoutert}</>;
+    const publicRouter = useRoutes(PublicRouter);
+    return <>{publicRouter}</>;
 }
 
 export default App;

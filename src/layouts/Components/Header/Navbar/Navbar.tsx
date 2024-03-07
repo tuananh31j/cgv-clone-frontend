@@ -4,7 +4,7 @@ import NavItem from './NavItem';
 
 const MENU_ITEMS = [
     {
-        name: 'phim',
+        name: 'Phim',
         children: [
             {
                 name: 'Phim đang chiếu',
