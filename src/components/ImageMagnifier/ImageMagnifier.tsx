@@ -27,7 +27,6 @@ const ImageMagnifier = ({ image }: { image: string }) => {
             y: e.pageY - top - 50 > 0 ? (e.pageY - top - 50 <= 255 ? e.pageY - top - 50 : 255) : 0,
         });
     };
-    console.log(backgroundPosition);
     return (
         <>
             <div
@@ -36,11 +35,11 @@ const ImageMagnifier = ({ image }: { image: string }) => {
                 onMouseEnter={() => setShowMagnifier(true)}
                 onMouseLeave={() => setShowMagnifier(false)}
             >
-                <img className='' src={image} alt='' />
+                <img className='w-[300px]' src={image} alt='' />
                 <div
                     className={clsx(
                         { hidden: !showMagnifier },
-                        `absolute w-[100px] h-[100px] bg-white bg-opacity-40 border-2 border-white border-opacity-50 `
+                        `absolute h-[100px] w-[100px] border-2 border-white border-opacity-50 bg-white bg-opacity-40 `
                     )}
                     style={{
                         top: `${cursorPosition.y}px`,
@@ -49,7 +48,7 @@ const ImageMagnifier = ({ image }: { image: string }) => {
                 ></div>
             </div>
             <div
-                className={clsx({ hidden: !showMagnifier }, 'absolute overflow-hidden text-center z-50 left-[30%]')}
+                className={clsx({ hidden: !showMagnifier }, 'absolute left-[30%] z-50 overflow-hidden text-center')}
                 style={{
                     backgroundImage: `url(${image})`,
                     width: '400px',

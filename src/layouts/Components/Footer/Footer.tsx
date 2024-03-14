@@ -8,10 +8,10 @@ import Icons from '~/components/Icons';
 const Footer = () => {
     return (
         <>
-            <div className={clsx(style.footer, 'bg-repeat-x bg-scroll  bg-bottom mt-8 pb-36')}>
-                <div className={clsx(style.footer__brand__slice, ' border-y-[2.2px] py-2 border-black')}>
+            <div className={clsx(style.footer, 'mt-8 bg-scroll  bg-bottom bg-repeat-x pb-36')}>
+                <div className={clsx(style.footer__brand__slice, ' border-y-[2.2px] border-black py-2')}>
                     <div className={clsx(style.footer__brand__slice__nav, 'mx-auto')}>
-                        <ul className={clsx('flex gap-4 justify-center')}>
+                        <ul className={clsx('flex justify-center gap-4')}>
                             <li>
                                 <a className='dx' href='https://www.cgv.vn/default/theaters/special/4dx'>
                                     4DX
@@ -76,10 +76,10 @@ const Footer = () => {
                         </ul>
                     </div>
                 </div>
-                <div className='text-[#636363] mx-auto footer__cgv__policy max-w-[978.4px]'>
+                <div className='footer__cgv__policy mx-auto max-w-[978.4px] text-[#636363]'>
                     <div className='grid grid-cols-4 grid-rows-1'>
                         <div>
-                            <h1 className=' text-md font-bold mt-5 mb-3'>CGV Việt Nam</h1>
+                            <h1 className=' text-md mb-3 mt-5 font-bold'>CGV Việt Nam</h1>
                             <ul className='text-md'>
                                 <li>
                                     <a href=''>Giới thiệu</a>
@@ -103,7 +103,7 @@ const Footer = () => {
                         </div>
 
                         <div>
-                            <h1 className=' text-md font-bold mt-5 mb-3'>Điều khoản sử dụng</h1>
+                            <h1 className=' text-md mb-3 mt-5 font-bold'>Điều khoản sử dụng</h1>
                             <ul className='text-md'>
                                 <li>
                                     <a href=''>Điều khoản chung</a>
@@ -124,16 +124,16 @@ const Footer = () => {
                         </div>
 
                         <div>
-                            <h1 className=' text-md font-bold mt-5 mb-3'>Kết nối với chúng tôi</h1>
-                            <ul className='flex gap-1 items-center my-2'>
+                            <h1 className=' text-md mb-3 mt-5 font-bold'>Kết nối với chúng tôi</h1>
+                            <ul className='my-2 flex items-center gap-1 text-center'>
                                 <li>
                                     <a href=''>
-                                        <FontAwesomeIcon className='text-blue-700 w-10 text-[34px]' icon={faFacebook} />
+                                        <FontAwesomeIcon className='w-10 text-[34px] text-blue-700' icon={faFacebook} />
                                     </a>
                                 </li>
                                 <li>
                                     <a href=''>
-                                        <FontAwesomeIcon className='text-red-500 w-10 text-[34px]' icon={faYoutube} />
+                                        <FontAwesomeIcon className='w-10 text-[34px] text-red-500' icon={faYoutube} />
                                     </a>
                                 </li>{' '}
                                 <li>
@@ -149,13 +149,13 @@ const Footer = () => {
                             </ul>
                             <div>
                                 <a href=''>
-                                    <img src={Image.iconLicense} alt='' />
+                                    <img className='ms-[-10px]' src={Image.iconLicense} alt='' />
                                 </a>
                             </div>
                         </div>
 
                         <div>
-                            <h1 className=' text-md font-bold mt-5 mb-3'>Chăm sóc khách hàng</h1>
+                            <h1 className=' text-md mb-3 mt-5 font-bold'>Chăm sóc khách hàng</h1>
                             <ul className='text-md'>
                                 <li>
                                     <a href=''>Hotline: 1900 6017</a>
@@ -170,15 +170,15 @@ const Footer = () => {
                         </div>
                     </div>
                 </div>
-                <div className='border-t-2 border-black w-full my-3 mt-4'>
+                <div className='my-3 mt-4 w-full border-t-2 border-black'>
                     {' '}
-                    <div className='footer__cgv__address text-[#636363] mx-auto max-w-[978.4px]  '>
+                    <div className='footer__cgv__address mx-auto max-w-[978.4px] text-[#636363]  '>
                         <div className='flex items-center'>
                             <div className='w-[20%]'>
                                 <img className='w-full' src={Image.cjcgv} alt='' />
                             </div>
                             <div>
-                                <h1 className=' text-md font-bold mt-5 mb-3 uppercase'>Công ty TNHH CJ CGV Việt Nam</h1>
+                                <h1 className=' text-md mb-3 mt-5 font-bold uppercase'>Công ty TNHH CJ CGV Việt Nam</h1>
                                 <ul className='w-10/12 text-sm'>
                                     <li>
                                         <p className=''>

@@ -16,14 +16,14 @@ const NavItem = ({
                 <NavigationMenu.Root>
                     <NavigationMenu.List>
                         <NavigationMenu.Item className='relative'>
-                            <NavigationMenu.Trigger className='cursor-pointer hover:shadow-black hover:shadow-sm font-bold'>
+                            <NavigationMenu.Trigger className='cursor-pointer font-bold hover:shadow-sm hover:shadow-black'>
                                 {menuParentName}
                             </NavigationMenu.Trigger>
                             <NavigationMenu.Content className='absolute '>
-                                <div className={clsx(styles.bg_menu_hover, 'p-1  w-full')}>
-                                    <ul className='p-2  text-white border-2 w-[200px]  border-solid border-gray-500 box-content '>
+                                <div className={clsx(styles.bg_menu_hover, 'w-full  p-1')}>
+                                    <ul className='box-content  w-[200px] border-2 border-solid  border-gray-500 p-2 text-white '>
                                         {menuChildren.map((item, i) => (
-                                            <li className='hover:text-[#e71a0f] font-bold' key={i}>
+                                            <li className='font-bold hover:text-[#e71a0f]' key={i}>
                                                 <Link to={item.path}>{item.name}</Link>
                                             </li>
                                         ))}

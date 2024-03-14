@@ -1,25 +1,24 @@
 import Button from '~/components/Button';
+import ButtonState from '../../Components/ButtonState';
 
 interface ISeatProps {
-    children?: string;
+    children?: React.ReactNode;
+    status?: boolean;
+    onClick?: () => void;
     type?: 'normal' | 'vip' | 'double' | 'reservedSeat';
 }
 
-const Seat: React.FC<ISeatProps> = ({ children, type, ...passProps }) => {
-    const props: { type?: 'normal' | 'vip' | 'double' | 'reservedSeat' } = {};
-    if (type) {
-        props.type = type;
-    }
+const Seat: React.FC<ISeatProps> = ({ children, type, status, onClick }) => {
     return (
         <>
-            <Button
-                {...passProps}
-                {...props}
-                customChildren
-                className='border-2 border-black w-[26px] text-xs flex flex-col justify-center items-center h-[26px] data-[state=active]:bg-red-700 data-[state=active]:border-red-600 data-[state=active]:text-white data-[state=active]:font-semibold data-[type=normal]:border-green-600 data-[type=vip]:border-red-800 data-[type=double]:border-pink-500 data-[type=reservedSeat]:bg-slate-200 data-[type=reservedSeat]:border-opacity-10 data-[type=reservedSeat]:bg-opacity-10 data-[type=reservedSeat]:text-opacity-40 data-[type=reservedSeat]:text-white'
+            <ButtonState
+                type={type}
+                onClick={onClick}
+                status={status}
+                className='flex h-[26px] w-[26px] cursor-pointer flex-col items-center justify-center border-2 border-black text-xs data-[status=active]:border-red-600 data-[type=double]:border-pink-500 data-[type=normal]:border-green-600 data-[type=vip]:border-red-800 data-[type=reservedSeat]:border-opacity-10 data-[status=active]:bg-red-700 data-[type=reservedSeat]:bg-slate-200 data-[type=reservedSeat]:bg-opacity-10 data-[status=active]:font-semibold data-[status=active]:text-white data-[type=reservedSeat]:text-white data-[type=reservedSeat]:text-opacity-40'
             >
                 {children}
-            </Button>
+            </ButtonState>
         </>
     );
 };

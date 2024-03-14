@@ -8,38 +8,50 @@ import { useEffect, useState } from 'react';
 import auth from '~/api/authApi';
 import { ICustomer } from '~/types/Customer';
 import { useSelector } from 'react-redux';
-import { RootState } from '~/store/store';
+import { RootState, useAppDispatch } from '~/store/store';
+import { logoutAsyncThunk } from '~/store/Slices/AuthSlice';
+import showMessage from '~/utilities/showMessage';
 const Header = () => {
     const [currentUser, setCurrentUser] = useState<ICustomer>();
-    const accessToken = useSelector((state: RootState) => state.auth.login.currentUser);
+    const user = useSelector((state: RootState) => state.auth.login.currentUser);
+    const dispatch = useAppDispatch();
+    const handleLogout = async () => {
+        try {
+            await dispatch(logoutAsyncThunk());
+            showMessage('Đã đăng xuất!', 'info');
+        } catch (error) {
+            console.log(error);
+        }
+    };
     useEffect(() => {
-        console.log(accessToken);
-
         (async () => {
-            console.log(accessToken);
-
-            if (accessToken) {
-                const { data } = await auth.getMe();
-                console.log(data);
-
-                if (data) {
-                    setCurrentUser(data);
+            if (user.accessToken !== '') {
+                try {
+                    const { data } = await auth.getMe();
+                    if (data) {
+                        setCurrentUser(data);
+                    }
+                } catch (error) {
+                    setCurrentUser(undefined);
                 }
+            } else {
+                setCurrentUser(undefined);
             }
         })();
-    }, [accessToken]);
+    }, [user]);
+
     return (
         <>
-            <Persional currentUser={currentUser} />
+            <Persional currentUser={currentUser} onClick={handleLogout} />
 
-            <header className={clsx(cl.header, 'bg-repeat-x bg-scroll bg-left-bottom w-full')}>
+            <header className={clsx(cl.header, 'w-full bg-scroll bg-left-bottom bg-repeat-x')}>
                 <div
                     className={clsx(
                         cl.header__container,
-                        'flex justify-between items-center w-[978.4px] mx-auto h-full'
+                        'mx-auto flex h-full w-[978.4px] items-center justify-between'
                     )}
                 >
-                    <div className='flex gap-9 font-bold mt-2'>
+                    <div className='mt-2 flex gap-9 font-bold'>
                         <div className={clsx(cl.header__logo)}>
                             <Link to={''}>
                                 <img src={Image.logo} alt='' />

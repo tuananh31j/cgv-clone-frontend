@@ -66,8 +66,8 @@ const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement | LinkProps, IBu
                     {...props}
                     className={clsx(
                         {
-                            'bg-[#e71a0f] rounded-md': primary,
-                            'p-1 rounded-md': inLine || large,
+                            'rounded-md bg-[#e71a0f]': primary,
+                            'rounded-md p-1': inLine || large,
                             'rounded-md': small,
                         },
                         '',
@@ -79,12 +79,12 @@ const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement | LinkProps, IBu
                         <span
                             className={clsx(
                                 {
-                                    'border text-white border-[#f07469] border-solid rounded-md': inLine,
-                                    'p-[4px] max-w-[120px] px-1': large,
-                                    'p-[4px] px-[6px] max-w-20 box-border text-sm ': small,
+                                    'rounded-md border border-solid border-[#f07469] text-white': inLine,
+                                    'max-w-[120px] p-[4px] px-1': large,
+                                    'box-border max-w-20 p-[4px] px-[6px] text-sm ': small,
                                     'bg-[#e71a0f]': primary,
                                 },
-                                'flex gap-[1px] items-center'
+                                'flex items-center gap-[1px]'
                             )}
                         >
                             {iconLeft && <span>{iconLeft}</span>}

@@ -3,19 +3,24 @@ import styles from './Carousel.module.scss';
 import React, { ReactNode, useRef, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGreaterThan, faLessThan } from '@fortawesome/free-solid-svg-icons';
+import { IShowtime } from '~/types/Showtime';
+import { MovieItem } from '../MovieSelection';
+import { IMovie } from '~/types/Movie';
 
 interface ICarouselProps {
-    children: ReactNode;
-    dataLength: number;
+    Item: React.ElementType;
+    data: IMovie[] | number[];
 }
-const Carousel: React.FC<ICarouselProps> = ({ children, dataLength }) => {
+const Carousel: React.FC<ICarouselProps> = ({ Item, data }) => {
     const carouselElement = useRef<HTMLDivElement>(null);
     const [currentIndex, setCurrentIndex] = useState<number>(0);
+    const itemSlide = useRef<HTMLImageElement>(null);
     const nextSlide = () => {
         setCurrentIndex((prev) => {
-            const nextIndex = (prev + 1) % (dataLength - 3);
-            const newTranslateX = 244.8 * nextIndex * -1;
-            if (carouselElement.current) {
+            const nextIndex = (prev + 1) % (data.length - 3);
+
+            if (carouselElement.current && itemSlide.current) {
+                const newTranslateX = (itemSlide.current.clientWidth + 4) * nextIndex * -1;
                 carouselElement.current.style.transform = `translateX(${newTranslateX}px)`;
             }
             return nextIndex;
@@ -24,9 +29,9 @@ const Carousel: React.FC<ICarouselProps> = ({ children, dataLength }) => {
 
     const prevSlide = () => {
         setCurrentIndex((prev) => {
-            const nextIndex = (prev - 1) % (dataLength - 3);
-            const newTranslateX = 244.8 * nextIndex * -1;
-            if (carouselElement.current) {
+            const nextIndex = (prev - 1) % (data.length - 3);
+            if (carouselElement.current && itemSlide.current) {
+                const newTranslateX = (itemSlide.current.clientWidth + 4) * nextIndex * -1;
                 carouselElement.current.style.transform = `translateX(${newTranslateX}px)`;
             }
             return nextIndex;
@@ -38,33 +43,38 @@ const Carousel: React.FC<ICarouselProps> = ({ children, dataLength }) => {
                 <div className=' m-w-[978.4px] overflow-hidden'>
                     <div
                         ref={carouselElement}
-                        className='inline-flex gap-[0.3rem]  whitespace-nowrap  will-change-transform bg-white duration-1000 '
+                        className='inline-flex gap-[4.8px]  whitespace-nowrap  bg-white duration-1000 will-change-transform '
                     >
-                        {children}
+                        {data.map((item, i) => (
+                            <Item ref={itemSlide} item={item} key={i} />
+                        ))}
                     </div>
                 </div>
 
-                {currentIndex !== 0 && (
+                {data.length > 5 && (
                     <>
-                        <span className='h-20 absolute w-20 top-[50%] -translate-y-1/2 -left-[2.6rem] -z-50  bg-[#e71a0f] inline-block  rounded-full'></span>
-                        <button
-                            onClick={prevSlide}
-                            className='absolute z-50 top-[50%] -translate-y-1/2   flex items-center  -left-[3.2rem]  p-6   rounded-full   text-2xl '
-                        >
-                            <FontAwesomeIcon className=' text-3xl text-white' icon={faLessThan} />
-                        </button>{' '}
-                    </>
-                )}
-
-                {currentIndex !== dataLength - 4 && (
-                    <>
-                        <span className='h-20 absolute w-20 top-[50%] -translate-y-1/2 -right-[2.4rem] -z-50  bg-[#e71a0f] inline-block  rounded-full'></span>
-                        <button
-                            onClick={nextSlide}
-                            className='absolute top-[50%] -translate-y-1/2 flex items-center  -right-[3.6rem]  p-6 px-8  rounded-full   text-2xl '
-                        >
-                            <FontAwesomeIcon className=' text-3xl text-white' icon={faGreaterThan} />
-                        </button>
+                        {currentIndex !== 0 && (
+                            <>
+                                <span className='absolute -left-[2.6rem] top-[50%] -z-50 inline-block h-20 w-20  -translate-y-1/2 rounded-full  bg-[#e71a0f]'></span>
+                                <button
+                                    onClick={prevSlide}
+                                    className='absolute -left-[3.2rem] top-[50%] z-50   flex -translate-y-1/2  items-center  rounded-full   p-6   text-2xl '
+                                >
+                                    <FontAwesomeIcon className=' text-3xl text-white' icon={faLessThan} />
+                                </button>{' '}
+                            </>
+                        )}
+                        {currentIndex !== data.length - 4 && (
+                            <>
+                                <span className='absolute -right-[2.4rem] top-[50%] -z-50 inline-block h-20 w-20  -translate-y-1/2 rounded-full  bg-[#e71a0f]'></span>
+                                <button
+                                    onClick={nextSlide}
+                                    className='absolute -right-[3.6rem] top-[50%] flex -translate-y-1/2  items-center  rounded-full p-6  px-8   text-2xl '
+                                >
+                                    <FontAwesomeIcon className=' text-3xl text-white' icon={faGreaterThan} />
+                                </button>
+                            </>
+                        )}
                     </>
                 )}
             </div>

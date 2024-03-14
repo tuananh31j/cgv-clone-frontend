@@ -1,37 +1,108 @@
-import ContainerBox from '../../ContainerBox';
-import { CalendarItem, RegionItem, ScreenAndSubItem, TimeItem } from './Items';
+import { getListOfNext30Day } from '../../../../utilities/helper';
+import { CalendarItem, RegionItem, ScreenAndSubItem, TimeItem } from '../../Components/Items';
+import { IRegion } from '~/types/Region';
+import Wrapper from '../../Components/Wrapper';
+import { IFormat } from '~/types/Format';
+import { IShowtime } from '~/types/Showtime';
 
-const BookingTime = () => {
-    const TODAY = new Date();
-    const LISTOFNEXT30DAY = [];
-    for (let i = 0; i < 30; i++) {
-        const nextDay = new Date(TODAY);
-        nextDay.setDate(TODAY.getDate() + i);
-        LISTOFNEXT30DAY.push(nextDay);
-    }
-
+const BookingTime = ({
+    calendarTarget,
+    regionTarget,
+    formatTarget,
+    ShowtimeTarget,
+    regions,
+    formats,
+    movies,
+    handleClickSelectCalendar,
+    handleClickSelectRegion,
+    handleClickSelectFormat,
+    handleClickSelectShowtime,
+}: {
+    calendarTarget: { index: number | string; date: Date | string };
+    regionTarget: { index: number | string; region: string };
+    formatTarget: { index: number | string; format: string };
+    ShowtimeTarget: { index: number | string; showtime: string };
+    regions: IRegion[];
+    formats: IFormat[];
+    movies: IShowtime[][];
+    handleClickSelectRegion: ({ index, region }: { index: number | string; region: string }) => void;
+    handleClickSelectCalendar: ({ index, date }: { index: number | string; date: string | Date }) => void;
+    handleClickSelectFormat: ({ index, format }: { index: number | string; format: string }) => void;
+    handleClickSelectShowtime: ({ index, showtime }: { index: number | string; showtime: string }) => void;
+}) => {
+    const list30Day = getListOfNext30Day();
     return (
         <>
             <div className=''>
-                <ContainerBox gridCols={'grid-cols-13'} data={LISTOFNEXT30DAY} Item={CalendarItem} />
+                <Wrapper>
+                    <div className='grid grid-cols-13'>
+                        {list30Day.map((item, i) => (
+                            <CalendarItem
+                                key={i}
+                                status={calendarTarget?.index === i}
+                                onClick={() => handleClickSelectCalendar({ index: i, date: item })}
+                                dataItem={item}
+                            />
+                        ))}
+                    </div>
+                </Wrapper>
 
-                <ContainerBox
-                    gridCols={'grid-cols-auto'}
-                    data={[
-                        1, 3, 4, 5, 6, 7, 8, 91, 0, 454, 445, 57, 67, 49, 20, 31, 46, 47, 51, 62, 73, 64, 75, 61, 71,
-                        60, 11, 22, 2222, 422, 4222, 423, 4234,
-                    ]}
-                    Item={RegionItem}
-                />
-                <ContainerBox gridCols='grid-cols-auto' data={[1, 3, 4]} Item={ScreenAndSubItem} />
-                <ContainerBox gridCols='grid-cols-auto' data={[1, 3, 4]} title='CGV Hùng Vương Plaza' Item={TimeItem} />
-                <ContainerBox gridCols='grid-cols-auto' data={[1, 3, 4]} title='CGV Hùng Vương Plaza' Item={TimeItem} />
-                <ContainerBox gridCols='grid-cols-auto' data={[1, 3, 4]} title='CGV Hùng Vương Plaza' Item={TimeItem} />
-                <ContainerBox gridCols='grid-cols-auto' data={[1, 3, 4]} title='CGV Hùng Vương Plaza' Item={TimeItem} />
-                <ContainerBox gridCols='grid-cols-auto' data={[1, 3, 4]} title='CGV Hùng Vương Plaza' Item={TimeItem} />
-                <ContainerBox gridCols='grid-cols-auto' data={[1, 3, 4]} title='CGV Hùng Vương Plaza' Item={TimeItem} />
-                <ContainerBox gridCols='grid-cols-auto' data={[1, 3, 4]} title='CGV Hùng Vương Plaza' Item={TimeItem} />
-                <ContainerBox gridCols='grid-cols-auto' data={[1, 3, 4]} title='CGV Hùng Vương Plaza' Item={TimeItem} />
+                {regions.length >= 1 && (
+                    <>
+                        <Wrapper>
+                            <div className='grid grid-cols-auto justify-start'>
+                                {regions.map((item, i) => (
+                                    <RegionItem
+                                        dataItem={item}
+                                        key={i}
+                                        status={regionTarget?.index === i}
+                                        onClick={() => handleClickSelectRegion({ index: i, region: item._id })}
+                                    />
+                                ))}
+                            </div>
+                        </Wrapper>
+
+                        <Wrapper>
+                            <div className='grid grid-cols-auto justify-start'>
+                                {formats.map((item, i) => (
+                                    <ScreenAndSubItem
+                                        dataItem={item}
+                                        key={i}
+                                        status={formatTarget?.index === i}
+                                        onClick={() => handleClickSelectFormat({ index: i, format: item._id })}
+                                    />
+                                ))}
+                            </div>
+                        </Wrapper>
+                        {movies.map((item, i) => {
+                            if (item.length >= 1) {
+                                return (
+                                    <Wrapper key={i} title={item[0].cinema.name}>
+                                        <div className='grid grid-cols-auto justify-start'>
+                                            {item.map((item, i) => (
+                                                <TimeItem
+                                                    key={i}
+                                                    dataItem={item.start_time}
+                                                    status={ShowtimeTarget.index === i}
+                                                    onClick={() =>
+                                                        handleClickSelectShowtime({ index: i, showtime: item._id })
+                                                    }
+                                                />
+                                            ))}
+                                        </div>
+                                    </Wrapper>
+                                );
+                            }
+                        })}
+                    </>
+                )}
+                {!(regions.length >= 1) && (
+                    <>
+                        <Wrapper>
+                            <p className='text-center font-extralight italic'>Hiện Chưa có lịch!😊</p>
+                        </Wrapper>
+                    </>
+                )}
             </div>
         </>
     );

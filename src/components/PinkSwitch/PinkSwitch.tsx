@@ -10,21 +10,21 @@ const PinkSwitch = () => {
             {pinkTheme ? (
                 <>
                     <Switch.Root
-                        className='w-[42px] h-[25px] bg-blackA9 
-                                    rounded-full relative shadow-[0_2px_10px] 
-                                    shadow-blackA7 
-                                    focus:shadow-black 
-                                    data-[state=checked]:bg-[#ff9592] 
-                                    outline-none cursor-default'
+                        className='bg-blackA9 shadow-blackA7 relative 
+                                    h-[25px] w-[42px] cursor-default 
+                                    rounded-full 
+                                    shadow-[0_2px_10px] 
+                                    outline-none 
+                                    focus:shadow-black data-[state=checked]:bg-[#ff9592]'
                         defaultChecked
                         onCheckedChange={toggle}
                     >
                         <Switch.Thumb
-                            className='block w-[21px] 
-                                    h-[21px] bg-white rounded-full 
-                                    shadow-[0_2px_2px] shadow-blackA7 
-                                    transition-transform duration-100 
-                                    translate-x-0.5 will-change-transform 
+                            className='shadow-blackA7 block 
+                                    h-[21px] w-[21px] translate-x-0.5 
+                                    rounded-full bg-white 
+                                    shadow-[0_2px_2px] transition-transform 
+                                    duration-100 will-change-transform 
                                     data-[state=checked]:translate-x-[19px]'
                         />
                     </Switch.Root>
@@ -32,20 +32,20 @@ const PinkSwitch = () => {
             ) : (
                 <>
                     <Switch.Root
-                        className='w-[42px] h-[25px] bg-blackA9 
-                                    rounded-full relative shadow-[0_2px_10px] 
+                        className='bg-blackA9 relative h-[25px] 
+                                    w-[42px] cursor-default rounded-full 
+                                    shadow-[0_2px_10px]  
                                     shadow-[#ff9592]  
-                                    focus:shadow-[#ff9592]  
-                                    data-[state=checked]:bg-[#ff9592] 
-                                    outline-none cursor-default'
+                                    outline-none 
+                                    focus:shadow-[#ff9592] data-[state=checked]:bg-[#ff9592]'
                         onCheckedChange={toggle}
                     >
                         <Switch.Thumb
-                            className='block w-[21px] 
-                                        h-[21px] bg-white rounded-full 
-                                        shadow-[0_2px_2px] shadow-blackA7 
-                                        transition-transform duration-100 
-                                        translate-x-0.5 
+                            className='shadow-blackA7 block 
+                                        h-[21px] w-[21px] translate-x-0.5 
+                                        rounded-full bg-white 
+                                        shadow-[0_2px_2px] transition-transform 
+                                        duration-100 
                                         data-[state=checked]:translate-x-[19px]'
                         />
                     </Switch.Root>

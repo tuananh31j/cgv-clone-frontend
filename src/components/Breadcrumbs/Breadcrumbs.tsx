@@ -23,7 +23,7 @@ const Breadcrumbs = () => {
                             className={({ isActive }) =>
                                 clsx(
                                     {
-                                        'text-black font-semibold underline': isActive,
+                                        'font-semibold text-black underline': isActive,
                                     },
                                     ''
                                 )
@@ -39,8 +39,8 @@ const Breadcrumbs = () => {
         });
 
     return (
-        <div className='bg-gray-200 border-b-[2px] border-gray-300'>
-            <ol className={clsx(styles.breadcrumbs_line, 'max-w-[978.4px] mx-auto py-1 ')}>
+        <div className='border-b-[2px] border-gray-300 bg-gray-200'>
+            <ol className={clsx(styles.breadcrumbs_line, 'mx-auto max-w-[978.4px] py-1 ')}>
                 <li>
                     <NavLink to={'/'}>
                         <FontAwesomeIcon icon={faHouse} />

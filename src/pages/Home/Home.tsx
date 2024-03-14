@@ -12,11 +12,11 @@ const HomePage = () => {
         <>
             <div className='container-box mx-auto mt-8'>
                 <div>
-                    <div className='wibget border-b border-solid border-black '>
+                    <div className='wibget mt-7 border-b border-solid border-black'>
                         <ul
                             className={clsx(
                                 style.wibget__nav,
-                                ' border-b border-solid border-black pb-6 mb-[5px] flex gap-4 '
+                                ' mb-[10px] flex gap-4 border-b border-solid border-black pb-9 '
                             )}
                         >
                             <li>

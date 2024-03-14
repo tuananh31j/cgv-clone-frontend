@@ -8,14 +8,14 @@ import Slideshow from '~/components/Slideshow';
 const Auth = () => {
     return (
         <div className='container-box'>
-            <div className='grid grid-cols-2 gap-4 items-start '>
+            <div className='grid grid-cols-2 items-start gap-4 '>
                 <div>
-                    <div className='bg-[#e71a0f] text-white flex justify-evenly p-2 my-8 uppercase'>
+                    <div className='my-8 flex justify-evenly bg-[#e71a0f] p-2 uppercase text-white'>
                         <NavLink
                             className={({ isActive }) => {
                                 const activeClass = isActive ? 'border-b-2 border-white' : '';
 
-                                return `${activeClass} p-2 uppercase font-bold`;
+                                return `${activeClass} p-2 font-bold uppercase`;
                             }}
                             to='/login'
                         >
@@ -25,7 +25,7 @@ const Auth = () => {
                             className={({ isActive }) => {
                                 const activeClass = isActive ? 'border-b-2 border-white' : '';
 
-                                return `${activeClass} p-2 uppercase font-bold`;
+                                return `${activeClass} p-2 font-bold uppercase`;
                             }}
                             to='/register'
                         >

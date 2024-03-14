@@ -1,9 +1,10 @@
 import { useState } from 'react';
+import { IRegion } from '~/types/Region';
 
 interface IContainerBoxProps {
     gridCols?: string;
     Item?: React.ElementType;
-    data?: number[] | Date[];
+    data?: number[] | Date[] | IRegion[];
     title?: string;
     Header?: React.ElementType;
     Footer?: React.ElementType;
@@ -28,8 +29,8 @@ const ContainerBox: React.FC<IContainerBoxProps> = ({
 
     return (
         <>
-            <div className={`border-b-2 pb-4 border-white border-opacity-15 my-4  w-full ${className}`}>
-                <div className='text-[#717171] text-xl my-2'>
+            <div className={`my-4 w-full border-b-2 border-white border-opacity-15  pb-4 ${className}`}>
+                <div className='my-2 text-xl text-[#717171]'>
                     <h1>{title}</h1>
                 </div>
                 {Header && <Header />}

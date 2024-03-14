@@ -1,11 +1,10 @@
 import { useState } from 'react';
 import Image from '~/assets';
+import { IConcession } from '~/types/Concession';
 
-const Item = () => {
+const Item = ({ concession }: { concession: IConcession }) => {
     const [quantity, setQuantity] = useState<number>(0);
     const increase = () => {
-        console.log('in', quantity);
-
         setQuantity((prev) => {
             if (prev < 4) return prev + 1;
 
@@ -13,39 +12,35 @@ const Item = () => {
         });
     };
     const decrease = () => {
-        console.log('de');
-
         setQuantity((prev) => {
             if (prev > 0) return prev - 1;
-
             return prev;
         });
     };
     return (
         <>
-            <div className='grid grid-cols-2 gap-7 items-start'>
+            <div className='grid grid-cols-2 items-start gap-7'>
                 <div>
-                    <img src={Image.bimbim} alt='' />
+                    <img src={concession.image} alt='' />
                 </div>
-                <div className='flex flex-col justify-start text-start mt-5'>
-                    <h1 className='font-semibold uppercase'>MILO COMBO 202</h1>
-                    <p>1 milo lớn + 1 nước ngọt siêu lớn + 1 bắp ngọt lớn</p>
+                <div className='mt-5 flex flex-col justify-start text-start'>
+                    <h1 className='font-semibold uppercase'>{concession.name}</h1>
                     <div className='font-light'>
-                        <p>- Nhận trong ngày xem phim.</p>
-                        <p>- Nhận trong ngày xem phim.</p>
-                        <p>- Nhận trong ngày xem phim.</p>
+                        {concession.description.map((item, i) => (
+                            <p>- {item}</p>
+                        ))}
                     </div>
                     <p>
-                        Giá: <span className='font-semibold'>999999999vnd</span>
+                        Giá: <span className='font-semibold'>{concession.price}vnd</span>
                     </p>
-                    <div className='flex gap-4 my-2'>
-                        <button onClick={decrease} className='w-7 text-xl font-bold h-10 bg-red-600 '>
+                    <div className='my-2 flex gap-4'>
+                        <button onClick={decrease} className='h-10 w-7 bg-red-600 text-xl font-bold '>
                             -
                         </button>
-                        <div className='w-10 text-xl font-bold h-10 bg-white text-black texxt-center flex flex-col justify-center items-center'>
+                        <div className='texxt-center flex h-10 w-10 flex-col items-center justify-center bg-white text-xl font-bold text-black'>
                             <span>{quantity}</span>
                         </div>
-                        <button onClick={increase} className='w-7 text-xl font-bold h-10 bg-red-600 '>
+                        <button onClick={increase} className='h-10 w-7 bg-red-600 text-xl font-bold '>
                             +
                         </button>
                     </div>

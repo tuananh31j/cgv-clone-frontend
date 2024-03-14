@@ -1,24 +1,30 @@
+import { useEffect, useState } from 'react';
 import BookingProgress from '../../BookingProgress';
-import ContainerBox from '../../ContainerBox';
+import Wrapper from '../../Components/Wrapper';
 import Item from './Item';
+import { IConcession } from '~/types/Concession';
+import useFetch from '~/hooks/useFetch';
+import concessionApi from '~/api/concession';
 
 const SnacksAndDrinks = () => {
-    const Header = () => {
-        return <div>Header</div>;
-    };
     const data = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0];
-    const Content = () => {
-        return (
-            <div className='grid grid-cols-2 justify-center gap-[4px] text-center'>
-                {data.map((item) => (
-                    <Item key={item} />
-                ))}
-            </div>
-        );
-    };
+    const {
+        data: concessionList,
+        loading,
+        error,
+    } = useFetch<IConcession[]>(async () => {
+        const { data } = await concessionApi.getAll();
+        return data;
+    });
+
     return (
         <>
-            <ContainerBox Header={BookingProgress} title='Bắp & nước' Content={Content}></ContainerBox>
+            <Wrapper title='Bắp & nước'>
+                <BookingProgress />
+                <div className='grid grid-cols-2 justify-center gap-[4px] text-center'>
+                    {concessionList && concessionList.map((item, i) => <Item concession={item} key={i} />)}
+                </div>
+            </Wrapper>
         </>
     );
 };

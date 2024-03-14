@@ -6,7 +6,7 @@ import { IRefreshTokenResponse } from '~/types/Auth';
 import { REACT_API_URL } from '~/constants/env';
 const axiosClient = axios.create({
     baseURL: import.meta.env.VITE_REACT_API_URL,
-    timeout: 5000,
+    timeout: 80000,
     headers: {
         'Content-Type': 'application/json',
     },
@@ -15,8 +15,6 @@ const axiosClient = axios.create({
 
 axiosClient.interceptors.request.use(
     async (config) => {
-        console.log(document.cookie, 'kk1');
-
         const token = localStorage.getItem('accessToken');
         if (token) {
             config.headers['Authorization'] = `Bearer ${token}`;
@@ -30,15 +28,11 @@ axiosClient.interceptors.request.use(
 axiosClient.interceptors.response.use(
     (response) => response,
     async (error) => {
-        console.log(error, 'err');
-
         const originalRequest = error.config;
         const accessToken = localStorage.getItem('accessToken');
 
         if (!originalRequest._retry && error.response.status === 401 && accessToken) {
             try {
-                console.log(document.cookie, 'kk2');
-
                 originalRequest._retry = true;
                 const { accessToken: newAccessToken } = (
                     await axios.post<IRefreshTokenResponse>(

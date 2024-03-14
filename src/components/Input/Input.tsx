@@ -10,7 +10,7 @@ const Input = forwardRef<HTMLInputElement, IInputProps>(
     ({ type, htmlFor, title, placeholder, require, flexBox, ...passProps }, ref) => {
         return (
             <div className={`mt-3 ${flexBox && 'flex items-center gap-2'}`}>
-                <label htmlFor={htmlFor} className='text-black font-semibold'>
+                <label htmlFor={htmlFor} className='font-semibold text-black'>
                     {title}
                     {require && <span className='text-[#e41a0f]'>*</span>}
                 </label>
@@ -19,7 +19,7 @@ const Input = forwardRef<HTMLInputElement, IInputProps>(
                     ref={ref}
                     placeholder={placeholder}
                     type={type}
-                    className='border border-gray-500 rounded-[3px] focus:border-[#e41a0f] p-2 w-full'
+                    className='w-full rounded-[3px] border border-gray-500 p-2 focus:border-[#e41a0f]'
                 />
             </div>
         );

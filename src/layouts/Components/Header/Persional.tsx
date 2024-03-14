@@ -5,29 +5,33 @@ import Button from '~/components/Button';
 import Image from '~/assets';
 import { useEffect, useState } from 'react';
 import { ICustomer } from '~/types/Customer';
-import auth from '~/api/authApi';
+import authApi from '~/api/authApi';
 import { AxiosResponse } from 'axios';
 import { Link } from 'react-router-dom';
+import * as NavigationMenu from '@radix-ui/react-navigation-menu';
+import { CaretDownIcon } from '@radix-ui/react-icons';
+import { useAppDispatch } from '~/store/store';
+import { logoutAsyncThunk } from '~/store/Slices/AuthSlice';
 
-const Persional = ({ currentUser }: { currentUser?: ICustomer }) => {
+const Persional = ({ currentUser, onClick }: { currentUser?: ICustomer; onClick: () => Promise<void> }) => {
     return (
         <div className={clsx(styles.header__persional)}>
             <nav>
-                <ul className='flex justify-end gap-10 w-[930px] my-1 mx-auto uppercase text-sm  text-gray-500'>
+                <ul className='mx-auto my-1 flex w-[930px] items-center justify-end gap-10 text-sm uppercase  text-gray-500'>
                     <li>
-                        <Link to={'/'} className='uppercase flex gap-1 items-center'>
+                        <Link to={'/'} className='flex items-center gap-1 uppercase'>
                             <img src={Image.iconTagSale} /> Tin mới & Ưu đãi
                         </Link>
                     </li>
                     <li>
-                        <Link to={'/'} className='uppercase flex gap-1 items-center'>
+                        <Link to={'/'} className='flex items-center gap-1 uppercase'>
                             <img src={Image.iconPersionalTicket} /> Vé của tôi
                         </Link>
                     </li>
                     <li>
                         {!currentUser && (
                             <span className='flex items-center'>
-                                <Link to={'login'} className='uppercase flex gap-1 items-center'>
+                                <Link to={'login'} className='flex items-center gap-1 uppercase'>
                                     <img src={Image.iconPersionalAccount} />
                                     Đăng nhập
                                 </Link>
@@ -37,12 +41,35 @@ const Persional = ({ currentUser }: { currentUser?: ICustomer }) => {
                                 </Link>
                             </span>
                         )}
-                        {currentUser && <span>Xin chào! {currentUser.name}</span>}
+                        {!!currentUser && (
+                            <NavigationMenu.Root>
+                                <NavigationMenu.List>
+                                    <NavigationMenu.Item className='relative'>
+                                        <NavigationMenu.Trigger className='cursor-pointe font-bold'>
+                                            <span className='flex items-center font-semibold'>
+                                                Xin chào 😊!{' '}
+                                                <span className='text-md uppercase'>{currentUser.name}</span>
+                                                <CaretDownIcon
+                                                    className='relative top-[1px] text-red-600 transition-transform duration-[250] ease-in hover:rotate-180'
+                                                    aria-hidden
+                                                />
+                                            </span>
+                                        </NavigationMenu.Trigger>
+                                        <NavigationMenu.Content className='absolute '>
+                                            <div className={clsx('w-full  p-1')}>
+                                                <ul className='box-content w-[100px] rounded-sm border-2  border-solid border-gray-500 bg-white p-2 text-black '>
+                                                    <li className='font-bold hover:text-[#e71a0f]'>
+                                                        <button onClick={onClick}>Logout</button>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </NavigationMenu.Content>
+                                    </NavigationMenu.Item>
+                                </NavigationMenu.List>
+                            </NavigationMenu.Root>
+                        )}
                     </li>
-                    <li>
-                        <button className=' rounded-s-md bg-[#e71a0f] px-3 py-[2px] text-white'>VN</button>
-                        <button className='rounded-e-md bg-gray-600 px-3 py-[2px] text-white'>EN</button>
-                    </li>
+
                     <li>
                         <PinkSwitch />
                     </li>

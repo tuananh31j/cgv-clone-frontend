@@ -1,5 +1,5 @@
 import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import auth from '~/api/authApi';
+import authApi from '~/api/authApi';
 import axiosClient from '~/api/axiosClient';
 import { REACT_API_URL } from '~/constants/env';
 import { ILoginForm, ILoginResponse } from '~/types/Auth';
@@ -7,22 +7,26 @@ import { ILoginForm, ILoginResponse } from '~/types/Auth';
 type IInitialState = {
     login: {
         currentUser: { accessToken: string; name: string; role: string };
-        loading: boolean;
         currentRequestId: undefined | string;
     };
+    loading: boolean;
 };
-const accessToken = localStorage.getItem('accessToken');
 
 const initialState: IInitialState = {
     login: {
-        currentUser: { accessToken: accessToken || '', name: '', role: '' },
-        loading: false,
+        currentUser: { accessToken: '', name: '', role: '' },
         currentRequestId: undefined,
     },
+    loading: false,
 };
 const loginAsyncThunk = createAsyncThunk('auth/login', async (body: ILoginForm, thunkAPI) => {
-    const res = await auth.login(body, { signal: thunkAPI.signal });
+    const res = await authApi.login(body, { signal: thunkAPI.signal });
     return res.data;
+});
+
+const logoutAsyncThunk = createAsyncThunk('auth/logout', async (_, thunkAPI) => {
+    await authApi.logout({ signal: thunkAPI.signal });
+    return { accessToken: '', name: '', role: '' };
 });
 
 // const loginAsyncThunk = createAsyncThunk('auth/login', async (body: ILoginForm, thunkAPI) => {
@@ -39,16 +43,24 @@ const authSlice = createSlice({
     extraReducers(builder) {
         builder
             .addCase(loginAsyncThunk.pending, (state, action) => {
-                state.login.loading = true;
+                state.loading = true;
                 const o = action.meta.requestId;
             })
             .addCase(loginAsyncThunk.fulfilled, (state, action) => {
-                state.login.loading = false;
+                state.loading = false;
                 state.login.currentUser = action.payload;
                 localStorage.setItem('accessToken', action.payload.accessToken);
+            })
+            .addCase(logoutAsyncThunk.pending, (state) => {
+                state.loading = true;
+            })
+            .addCase(logoutAsyncThunk.fulfilled, (state, action) => {
+                state.loading = false;
+                localStorage.removeItem('accessToken');
+                state.login.currentUser = initialState.login.currentUser;
             });
     },
 });
 
-export { loginAsyncThunk };
+export { loginAsyncThunk, logoutAsyncThunk };
 export default authSlice.reducer;

@@ -13,7 +13,7 @@ const Title = ({ name, img }: { name: string; img: string }) => {
                         className={clsx(
                             styles.text,
                             styles[img],
-                            `text-center -mt-6   absolute bottom-7 will-change-auto transition-colors borde-solid box-border -translate-x-1/2 border-x-8 bg-white border-white`
+                            `borde-solid absolute   bottom-7 -mt-6 box-border -translate-x-1/2 border-x-8 border-white bg-white text-center transition-colors will-change-auto`
                         )}
                     >
                         {name}
@@ -25,7 +25,7 @@ const Title = ({ name, img }: { name: string; img: string }) => {
                         className={clsx(
                             styles.text,
                             styles[img],
-                            `text-center -mt-6  absolute bottom-7 will-change-auto transition-colors  borde-solid box-border -translate-x-1/2 border-x-8 bg-[#ff9592] border-[#ff9592]`
+                            `borde-solid absolute  bottom-7 -mt-6 box-border -translate-x-1/2  border-x-8 border-[#ff9592] bg-[#ff9592] text-center transition-colors will-change-auto`
                         )}
                     >
                         {name}

@@ -1,45 +1,53 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { resolve } from 'path';
+import { useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
-import { z } from 'zod';
+import { Link, useNavigate } from 'react-router-dom';
+import authApi from '~/api/authApi';
+import cinemaApi from '~/api/cinemaApi';
+import regionApi from '~/api/regionApi';
 import Input from '~/components/Input';
 import ShowValidation from '~/components/ShowValidation';
-
-const registerSchema = z.object({
-    name: z.string().nonempty('Bạn chưa điền tên!').max(20, 'Tên không được vượt quá 20 ký tự!'),
-    phone: z
-        .string()
-        .nonempty('Bạn chưa điền số điện thoại!')
-        .min(10, 'Số điện thoại không hợp lệ!')
-        .max(12, 'Số điện thoại không hợp lệ!'),
-    email: z.string().nonempty('Bạn chưa điền email!').email('Email không hợp lệ!'),
-    password: z.string().nonempty('Bạn chưa điền mật khẩu!'),
-    sex: z
-        .string()
-        .nullable()
-        .refine((value) => value !== null, {
-            message: 'Bạn phải chọn giới tính',
-        }),
-    date_of_birth: z.string().nonempty('Bạn chưa điền ngày sinh!'),
-    region: z.string().nonempty('Bạn chưa chọn khu vực!'),
-    fay_cinema: z.string().nonempty('Bạn chưa điền rạp yêu thích!'),
-});
-
-type IRegisterForm = z.infer<typeof registerSchema>;
+import { IRegisterForm, registerSchema } from '~/types/Auth';
+import { ICinema } from '~/types/Cinema';
+import { IRegion } from '~/types/Region';
+import showMessage from '~/utilities/showMessage';
 
 const Register = () => {
+    const [regions, setRegions] = useState<IRegion[]>();
+    const [cinemas, setCinemas] = useState<ICinema[]>();
+    const navigator = useNavigate();
     const {
         register,
         handleSubmit,
         reset,
         formState: { errors, isSubmitting },
     } = useForm<IRegisterForm>({ resolver: zodResolver(registerSchema) });
+
     const onSubmit: SubmitHandler<IRegisterForm> = async (data) => {
-        await new Promise((resolve) => setTimeout(resolve, 3000));
-        console.log(data);
-        reset();
+        try {
+            await new Promise((resolve) => {
+                setTimeout(resolve, 2000);
+            });
+            console.log(data);
+
+            await authApi.register(data);
+            showMessage('Đăng ký thành công!', 'success');
+            reset();
+            navigator('/login');
+        } catch (error) {
+            console.log(error);
+        }
     };
+
+    useEffect(() => {
+        (async () => {
+            const { data: regionList } = await regionApi.getAll();
+            const { data: cinemaList } = await cinemaApi.getAll();
+            setRegions(regionList);
+            setCinemas(cinemaList);
+        })();
+    }, []);
     return (
         <form action='' onSubmit={handleSubmit(onSubmit)}>
             <div>
@@ -89,7 +97,7 @@ const Register = () => {
                 <ShowValidation errorField={errors.password} />
             </div>
 
-            <div className='grid grid-cols-2 gap-2 items-end justify-between'>
+            <div className='grid grid-cols-2 items-end justify-between gap-2'>
                 <div>
                     <Input
                         htmlFor='date_of_birth'
@@ -101,8 +109,8 @@ const Register = () => {
                     <ShowValidation errorField={errors.date_of_birth} />
                 </div>
 
-                <div className='flex flex-col justify-center w-full'>
-                    <div className='flex justify-between items-center gap-4'>
+                <div className='flex w-full flex-col justify-center'>
+                    <div className='flex items-center justify-between gap-4'>
                         <Input htmlFor='sex' title='Name' value={1} flexBox type='radio' {...register('sex')} />
                         <Input htmlFor='sex' title='Nữ' value={0} flexBox type='radio' {...register('sex')} />
                     </div>
@@ -110,47 +118,47 @@ const Register = () => {
                 </div>
             </div>
             <div className={`mt-3`}>
-                <label htmlFor='region' className='text-black font-semibold'>
+                <label htmlFor='region' className='font-semibold text-black'>
                     Khu vực
                     <span className='text-[#e41a0f]'>*</span>
                 </label>
                 <select
-                    className='border border-gray-500 rounded-[3px] focus:border-[#e41a0f] p-2 w-full'
+                    className='w-full rounded-[3px] border border-gray-500 p-2 focus:border-[#e41a0f]'
                     {...register('region')}
                 >
                     <option value=''>--Chọn khu vực--</option>
-                    <option value='123123'>Hà Nội</option>
+                    {regions && regions.map((item) => <option value={item._id}>{item.name}</option>)}
                 </select>
             </div>
             <ShowValidation errorField={errors.region} />
 
             <div className={`mt-3`}>
-                <label htmlFor='fay_cinema' className='text-black font-semibold'>
+                <label htmlFor='fay_cinema' className='font-semibold text-black'>
                     Rạp yêu thích
                     <span className='text-[#e41a0f]'>*</span>
                 </label>
                 <select
-                    className='border border-gray-500 rounded-[3px] focus:border-[#e41a0f] p-2 w-full'
+                    className='w-full rounded-[3px] border border-gray-500 p-2 focus:border-[#e41a0f]'
                     {...register('fay_cinema')}
                 >
                     <option value=''>--Chọn rạp yêu thích--</option>
-                    <option value='312312'>AEON Hà Đông</option>
+                    {cinemas && cinemas.map((item) => <option value={item._id}>{item.name}</option>)}
                 </select>
             </div>
             <ShowValidation errorField={errors.fay_cinema} />
 
             <button
                 disabled={isSubmitting}
-                className='w-full mt-3 h-14 bg-[#e41A0f] text-white p-3 border-transparent rounded-md flex flex-col items-center justify-center'
+                className='mt-3 flex h-14 w-full flex-col items-center justify-center rounded-md border-transparent bg-[#e41A0f] p-3 text-white'
             >
                 {isSubmitting ? (
-                    <span className='w-7 h-7 border-4 border-white animate-spin  rounded-full border-dotted inline-block'></span>
+                    <span className='inline-block h-7 w-7 animate-spin rounded-full  border-4 border-dotted border-white'></span>
                 ) : (
                     <span className=' inline-block'>Đăng ký</span>
                 )}
             </button>
             <Link
-                className='text-center  flex flex-col justify-center text-md text-blue-500 my-2 hover:underline'
+                className='text-md  my-2 flex flex-col justify-center text-center text-blue-500 hover:underline'
                 to='/login'
             >
                 Bạn đã có tài khoản?

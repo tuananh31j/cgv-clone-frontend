@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import Input from '~/components/Input';
 import { z } from 'zod';
@@ -9,10 +9,11 @@ import { ILoginForm, loginSchema } from '~/types/Auth';
 import { RootState, useAppDispatch } from '~/store/store';
 import { loginAsyncThunk } from '~/store/Slices/AuthSlice';
 import { useSelector } from 'react-redux';
+import showMessage from '~/utilities/showMessage';
 
 const Login = () => {
     const dispatch = useAppDispatch();
-    const isLoading = useSelector((state: RootState) => state.auth.login.loading);
+    const navigator = useNavigate();
     const {
         register,
         handleSubmit,
@@ -22,7 +23,13 @@ const Login = () => {
         await new Promise((resolve) => {
             setTimeout(resolve, 3000);
         });
-        dispatch(loginAsyncThunk(data));
+        try {
+            dispatch(loginAsyncThunk(data));
+            showMessage('Đăng nhập thành công!', 'success');
+            navigator('/');
+        } catch (error) {
+            console.log(error);
+        }
     };
 
     return (
@@ -50,16 +57,16 @@ const Login = () => {
 
             <button
                 disabled={isSubmitting}
-                className='w-full mt-3 h-14 bg-[#e41A0f] text-white p-3 border-transparent rounded-md flex flex-col items-center justify-center'
+                className='mt-3 flex h-14 w-full flex-col items-center justify-center rounded-md border-transparent bg-[#e41A0f] p-3 text-white'
             >
                 {isSubmitting ? (
-                    <span className='w-7 h-7 border-4 border-white animate-spin  rounded-full border-dotted inline-block'></span>
+                    <span className='inline-block h-7 w-7 animate-spin rounded-full  border-4 border-dotted border-white'></span>
                 ) : (
                     <span className=' inline-block'>Đăng nhập</span>
                 )}
             </button>
             <Link
-                className='text-center  flex flex-col justify-center text-md text-blue-500 my-2 hover:underline'
+                className='text-md  my-2 flex flex-col justify-center text-center text-blue-500 hover:underline'
                 to='/'
             >
                 Quên mật khẩu?

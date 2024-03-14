@@ -6,6 +6,24 @@
 @tailwind utilities;
 @import 'tippy.js/dist/tippy.css';
 @import 'react-toastify/dist/ReactToastify.css';
+
+::-webkit-scrollbar {
+    width: 12px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+    border-radius: 4px;
+}
+::-webkit-scrollbar-track:hover {
+    background: #e2d5d5;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+}
+
 input:focus {
     outline: none;
 }
