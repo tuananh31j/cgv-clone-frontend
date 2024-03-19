@@ -1,46 +1,76 @@
+import { format, parseISO } from 'date-fns';
 import Image from '~/assets';
+import { IConcession } from '~/types/Concession';
+import { IShowtime } from '~/types/Showtime';
 
-const BookingProgress = () => {
+const BookingProgress = ({
+    ticketInfor,
+    onClick,
+}: {
+    ticketInfor: {
+        showtimeTarget: IShowtime;
+        concessions: { quanlity: number; concession: IConcession }[];
+        seats: { index: number; name: string }[];
+    };
+    onClick: () => void;
+}) => {
+    const totalConcession = ticketInfor.concessions.reduce(
+        (init, item) => item.quanlity * item.concession.price + init,
+        0
+    );
+    const totalTicket = ticketInfor.seats.length * ticketInfor.showtimeTarget.price;
+    const totalPay = totalConcession + totalTicket;
     return (
         <>
-            <div className='flex items-start justify-evenly rounded-xl border border-transparent bg-black p-4'>
+            <div className='relative flex items-start justify-evenly rounded-xl border border-transparent bg-black p-4'>
                 <div className='w-[7vw]'>
-                    <img className='h-full w-full' src={Image.itemCard1} alt='' />
+                    <img className='h-full w-full' src={ticketInfor.showtimeTarget.movie.thumbnail} alt='' />
                 </div>
                 <div className='max-w-[10vw] uppercase'>
-                    <p className=''>Gia dinh x diep vien ma: trang</p>
-                    <p>2d</p>
-                    <p>t13</p>
+                    <p className=''>{ticketInfor.showtimeTarget.movie.name}</p>
+                    <p>{ticketInfor.showtimeTarget.theater.format.name}</p>
+                    <p>{ticketInfor.showtimeTarget.movie.rated_id.name}</p>
                 </div>
-                <div className='max-w-[20vw]'>
+                <div className='max-w-[40vw]'>
                     <div className='flex items-center gap-4'>
-                        <p>Rap</p>
-                        <p className='text-lg font-semibold'>CGV Hung Vuong Plaza</p>
+                        <p>Rạp</p>
+                        <p className='text-lg font-semibold'>{ticketInfor.showtimeTarget.cinema.name}</p>
                     </div>
                     <div className='flex items-center gap-4'>
-                        <p>Suat chieu</p>
-                        <p className='text-lg font-semibold'>21:50, 20/02/2024</p>
+                        <p>Suất chiếu</p>
+                        <p className='text-lg font-semibold'>
+                            {format(parseISO(ticketInfor.showtimeTarget.start_time), 'hh:mm')},{' '}
+                            {ticketInfor.showtimeTarget.date}
+                        </p>
                     </div>
                     <div className='flex items-center gap-4'>
-                        <p>Phong chieu</p>
-                        <p className='text-lg font-semibold'>Cimena 2</p>
+                        <p>Phòng chiếu</p>
+                        <p className='text-lg font-semibold'>{ticketInfor.showtimeTarget.theater.name}</p>
                     </div>
                     <div className='flex items-center gap-4'>
-                        <p>Ghe</p>
-                        <p className='text-lg font-semibold'>Vip J8, J7</p>
+                        <p>Ghế</p>
+                        <p className='text-lg font-semibold'>{ticketInfor.seats.map((item) => item.name).join('-')}</p>
                     </div>
                 </div>
                 <div>
                     <p>
-                        Gia ve: <span className='text-lg font-semibold'>500000000</span>
+                        Giá vé:
+                        <span className='text-lg font-semibold'>{totalTicket.toLocaleString('de-DE')} vnđ</span>
                     </p>
                     <p>
-                        Combo: <span className='text-lg font-semibold'>500000000</span>
+                        Combo:
+                        <span className='text-lg font-semibold'>{totalConcession.toLocaleString('de-DE')} vnđ</span>
                     </p>
                     <p>
-                        Tong: <span className='text-lg font-semibold'>700000000000</span>
+                        Tổng: <span className='text-lg font-semibold'>{totalPay.toLocaleString('de-DE')} vnđ</span>
                     </p>
                 </div>
+                <button
+                    onClick={onClick}
+                    className='absolute bottom-3 right-3 rounded-md border-b border-red-500 p-2 transition-all  duration-150 ease-in-out hover:border-transparent hover:text-red-500 hover:underline active:translate-y-1 active:border-red-500 active:no-underline'
+                >
+                    Tiếp tục <span className=' font-extrabold'>{'>'}</span>
+                </button>
             </div>
         </>
     );

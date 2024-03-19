@@ -11,10 +11,10 @@ type IInitialState = {
     };
     loading: boolean;
 };
-
+const me = localStorage.getItem('me') || null;
 const initialState: IInitialState = {
     login: {
-        currentUser: { accessToken: '', name: '', role: '' },
+        currentUser: me ? JSON.parse(me) : { accessToken: '', name: '', role: '' },
         currentRequestId: undefined,
     },
     loading: false,
@@ -29,13 +29,6 @@ const logoutAsyncThunk = createAsyncThunk('auth/logout', async (_, thunkAPI) => 
     return { accessToken: '', name: '', role: '' };
 });
 
-// const loginAsyncThunk = createAsyncThunk('auth/login', async (body: ILoginForm, thunkAPI) => {
-//     const res = await axiosClient.post<ILoginResponse>(`${REACT_API_URL}/auth/login`, body, {
-//         signal: thunkAPI.signal,
-//     });
-//     return res.data;
-// });
-
 const authSlice = createSlice({
     name: 'auth',
     initialState,
@@ -49,15 +42,15 @@ const authSlice = createSlice({
             .addCase(loginAsyncThunk.fulfilled, (state, action) => {
                 state.loading = false;
                 state.login.currentUser = action.payload;
-                localStorage.setItem('accessToken', action.payload.accessToken);
+                localStorage.setItem('me', JSON.stringify(action.payload));
             })
             .addCase(logoutAsyncThunk.pending, (state) => {
                 state.loading = true;
             })
             .addCase(logoutAsyncThunk.fulfilled, (state, action) => {
                 state.loading = false;
-                localStorage.removeItem('accessToken');
-                state.login.currentUser = initialState.login.currentUser;
+                localStorage.removeItem('me');
+                state.login.currentUser = action.payload;
             });
     },
 });

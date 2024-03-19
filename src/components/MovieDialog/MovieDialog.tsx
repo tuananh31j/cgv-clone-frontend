@@ -5,9 +5,12 @@ import { useCallback, useState } from 'react';
 import GroupTabs from './GroupTabs/GroupTabs';
 import { IShowtime } from '~/types/Showtime';
 import showtimeApi from '~/api/showtimeApi';
-import useFetch from '~/hooks/useFetch';
+import useAsync from '~/hooks/useAsync';
 const MovieDialog = ({ movieID, children }: { children: React.ReactNode; movieID: string }) => {
-    const [groupTabs, setGroupTabs] = useState({ bookingTime: { date: '' } });
+    const [isOpen, setIsOpen] = useState<boolean>(false);
+    const handleCloseDialog = () => {
+        setIsOpen(false);
+    };
     const getMovieShowtimeList = useCallback(async () => {
         // await new Promise((resolve) => {
         //     setTimeout(resolve, 3000);
@@ -16,11 +19,11 @@ const MovieDialog = ({ movieID, children }: { children: React.ReactNode; movieID
         return listShowtime.filter((item) => item.movie._id === movieID);
     }, [movieID]);
 
-    const { data: movieShowtimeList, loading, error } = useFetch<IShowtime[]>(getMovieShowtimeList);
+    const { value: movieShowtimeList, loading, error } = useAsync<IShowtime[]>(getMovieShowtimeList);
 
     return (
         <>
-            <Dialog.Root>
+            <Dialog.Root open={isOpen} onOpenChange={setIsOpen}>
                 <Dialog.Trigger asChild>{children}</Dialog.Trigger>
                 <Dialog.Portal>
                     <Dialog.Overlay className='data-[state=open]:animate-overlayShow fixed inset-0 z-40 bg-black bg-opacity-85' />
@@ -31,7 +34,9 @@ const MovieDialog = ({ movieID, children }: { children: React.ReactNode; movieID
                                     <div className='h-8 w-8 animate-spin rounded-full border-4 border-dotted border-white transition-all'></div>
                                 </div>
                             )}
-                            {!loading && movieShowtimeList && <GroupTabs movies={movieShowtimeList} />}
+                            {!loading && movieShowtimeList && (
+                                <GroupTabs movies={movieShowtimeList} onHandleCloseDialog={handleCloseDialog} />
+                            )}
 
                             <Dialog.Close asChild>
                                 <button

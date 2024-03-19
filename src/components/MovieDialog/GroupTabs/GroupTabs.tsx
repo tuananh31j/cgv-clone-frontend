@@ -1,23 +1,31 @@
 import * as Tabs from '@radix-ui/react-tabs';
-import { CalendarItem, RegionItem } from '../Components/Items';
 import BookingTime from './BookingTime';
 import SeatSelection from './SeatSelection';
 import SnacksAndDrinks from './SnacksAndDrinks';
 import Payment from './Payment';
 import { IShowtime } from '~/types/Showtime';
-import { getListOfNext30Day } from '~/utilities/helper';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import regionApi from '~/api/regionApi';
 import { IRegion } from '~/types/Region';
-import useFetch from '~/hooks/useFetch';
+import useAsync from '~/hooks/useAsync';
 import { IFormat } from '~/types/Format';
 import formatApi from '~/api/formatApi';
 import showtimeApi from '~/api/showtimeApi';
 import showMessage from '~/utilities/showMessage';
+import Animation from '~/components/Animation';
+import concessionApi from '~/api/concession';
+import { IConcession } from '~/types/Concession';
+import uniqid from 'uniqid';
+import { useSelector } from 'react-redux';
+import { RootState } from '~/store/store';
+import { ICustomer } from '~/types/Customer';
+import authApi from '~/api/authApi';
+import orderApi from '~/api/orderApi';
+import { useNavigate } from 'react-router-dom';
 
 const InitCalendar = {
-    index: 0,
-    date: new Date(),
+    index: '',
+    date: '',
 };
 const InitShowtime = {
     index: '',
@@ -48,16 +56,128 @@ interface ISelectShowtime {
     showtime: string;
 }
 
-const GroupTabs = ({ movies }: { movies: IShowtime[] }) => {
-    // const [regions, setRegions] = useState<IRegion[]>([]);
-    const [formats, setFormats] = useState<IFormat[]>([]);
+const GroupTabs = ({ movies, onHandleCloseDialog }: { movies: IShowtime[]; onHandleCloseDialog: () => void }) => {
+    const [tabControl, setTabControl] = useState<string>('tab1');
+
+    //select
     const [selectCalendar, setSelectCalendar] = useState<ISelectCalendar>(InitCalendar);
     const [selectShowtime, setSelectShowtime] = useState<ISelectShowtime>(InitShowtime);
     const [selectRegion, setSelectRegion] = useState<ISelectRegion>(InitRegion);
     const [selectFormat, setSelectFormat] = useState<ISelectFormat>(InitFormat);
     const [currentMovieTime, setCurrentMovieTime] = useState<IShowtime[][]>([]);
-    // const [showtimeTarget, setShowtimeTarget] = useState<IShowtime>();
     const [pickSeat, setPickSeat] = useState<{ index: number; name: string }[]>([]);
+    const [selectConcessions, setSelectConcessions] = useState<{ quanlity: number; concession: IConcession }[]>([]);
+
+    //get
+    const getShowtimeTarget = async () => {
+        if (selectShowtime.showtime !== '') {
+            const { data } = await showtimeApi.getOne(selectShowtime.showtime);
+            return data;
+        }
+        return undefined;
+    };
+    const getFormatList = async () => {
+        const { data } = await formatApi.getAll();
+        const listFormatCurrent = movies.map((item) => {
+            if (item.date === selectCalendar.date && item.theater.region._id === selectRegion.region) {
+                return item.theater.format._id;
+            }
+        });
+        const formatList = data.filter((item, i) => listFormatCurrent.includes(item._id));
+        return formatList;
+    };
+    const getRegionList = async () => {
+        const { data } = await regionApi.getAll();
+        const listRegionCurrent = movies.map((item) => {
+            if (item.date === selectCalendar.date) {
+                return item.theater.region._id;
+            }
+        });
+        const regionList = data.filter((item, i) => listRegionCurrent.includes(item._id));
+        return regionList;
+    };
+    const getListConcession = async () => {
+        const { data } = await concessionApi.getAll();
+        return data;
+    };
+    const getMe = async () => {
+        const { data } = await authApi.getMe();
+        return data;
+    };
+    const getSoldSeats = async (id: string) => {
+        const { data } = await orderApi.getSoldSeatsList(id);
+        return data;
+    };
+
+    //list
+    const { value: showtimeTarget } = useAsync<IShowtime | undefined>(getShowtimeTarget, [selectShowtime]);
+    const { value: regions } = useAsync<IRegion[]>(getRegionList, [movies, selectCalendar]);
+    const { value: formats } = useAsync<IFormat[]>(getFormatList, [movies, selectCalendar, selectRegion]);
+    const { value: concessionList } = useAsync<IConcession[]>(getListConcession);
+    const { value: meInfor } = useAsync<ICustomer>(getMe);
+    const { value: soldSeatsList } = useAsync<string[]>(async () => {
+        if (showtimeTarget && showtimeTarget._id) {
+            return getSoldSeats(showtimeTarget?._id);
+        }
+        return [];
+    }, [showtimeTarget]);
+
+    //handle
+    const handleAddOrder = async () => {
+        if (selectShowtime.showtime !== '' && pickSeat.length > 0 && meInfor && showtimeTarget) {
+            const newOrder = {
+                qr_code: uniqid(),
+                user_name: meInfor.name,
+                movie_name: showtimeTarget.movie.name,
+                start_time: showtimeTarget.start_time,
+                end_time: showtimeTarget.end_time,
+                date: showtimeTarget.date,
+                payment_type: true,
+                region_name: showtimeTarget.theater.region.name,
+                cinema_name: showtimeTarget.cinema.name,
+                screening_format_name: showtimeTarget.theater.format.name,
+                seat_quantity: pickSeat.length,
+                seat_name: pickSeat.map((item) => item.name),
+                current_seat_price: showtimeTarget.price,
+                current_concession_price: selectConcessions.reduce(
+                    (init, item) => init + item.quanlity * item.concession.price,
+                    0
+                ),
+                concession_ref: selectConcessions.map((item) => item.concession._id),
+                user_ref: meInfor._id,
+                region_ref: showtimeTarget.theater.region._id,
+                format_ref: showtimeTarget.theater.format._id,
+                movie_ref: showtimeTarget.movie._id,
+                cinema_ref: showtimeTarget.cinema._id,
+                showtime_ref: showtimeTarget._id,
+            };
+            console.log(newOrder);
+
+            try {
+                await orderApi.add(newOrder);
+                showMessage('Đặt vé thành công!', 'success');
+                onHandleCloseDialog();
+            } catch (error) {
+                console.log(error);
+            }
+        }
+    };
+    const handleConcession = useCallback(({ quanlity, concession }: { quanlity: number; concession: IConcession }) => {
+        if (quanlity >= 2) {
+            setSelectConcessions((prev) => {
+                return prev.map((item) => {
+                    if (item.concession._id === concession._id) {
+                        return { ...item, quanlity: quanlity };
+                    }
+                    return item;
+                });
+            });
+        } else if (quanlity === 1) {
+            setSelectConcessions((prev) => {
+                return [...prev, { quanlity, concession }];
+            });
+        }
+    }, []);
     const handleClickSeat = ({ index, name }: { index: number; name: string }) => {
         const seatIndex = pickSeat.map((item) => item.index);
         const minValue = Math.min(...seatIndex);
@@ -85,64 +205,25 @@ const GroupTabs = ({ movies }: { movies: IShowtime[] }) => {
     };
     const handleClickSelectShowtime = ({ index, showtime }: ISelectShowtime) => {
         setSelectShowtime({ index, showtime });
+        setTabControl('tab2');
+    };
+    const onClickToTabPay = () => {
+        setTabControl('tab4');
     };
 
-    const { data: showtimeTarget } = useFetch<IShowtime>(async () => {
-        const { data } = await showtimeApi.getOne(selectShowtime.showtime);
-        return data;
-    }, [selectShowtime]);
-
-    const { data: regions } = useFetch<IRegion[]>(async () => {
-        const { data } = await regionApi.getAll();
-        const listRegionCurrent = movies.map((item) => {
-            if (item.date === selectCalendar.date) {
-                return item.theater.region;
-            }
-        });
-        const regionList = data.filter((item, i) => listRegionCurrent.includes(item._id));
-        return regionList;
-    }, [movies, selectCalendar]);
-
-    // useEffect(() => {
-    //     (async () => {
-    //         const { data } = await regionApi.getAll();
-    //         const listRegionCurrent = movies.map((item) => {
-    //             if (item.date === selectCalendar.date) {
-    //                 return item.theater.region;
-    //             }
-    //         });
-    //         const regionList = data.filter((item, i) => listRegionCurrent.includes(item._id));
-    //         setRegions(regionList);
-    //     })();
-    // }, [movies, selectCalendar]);
-
-    // useEffect(() => {
-    //     (async () => {
-    //         try {
-    //             const { data } = await showtimeApi.getOne(selectShowtime.showtime);
-    //             setShowtimeTarget(data);
-    //             console.log(data, 'ok');
-    //         } catch (error) {
-    //             console.log(error);
-    //         }
-    //     })();
-    // }, [selectShowtime]);
+    //side effect
     useEffect(() => {
-        console.log(selectShowtime);
-
         if (selectCalendar.date && selectRegion.region !== '' && selectFormat.format !== '') {
             const arr = movies
                 .filter(
                     (item) =>
-                        item.theater.region === selectRegion.region &&
-                        item.theater.format === selectFormat.format &&
+                        item.theater.region._id === selectRegion.region &&
+                        item.theater.format._id === selectFormat.format &&
                         item.date === selectCalendar.date
                 )
                 .map((item, i, arr) => {
                     return arr.filter((movie) => {
-                        if (i >= 1) {
-                            return movie.cinema._id === item.cinema._id && arr[i]._id !== item._id;
-                        }
+                        if (i >= 1) return movie.cinema._id === item.cinema._id && arr[i]._id !== item._id;
                         return movie.cinema._id === item.cinema._id;
                     });
                 });
@@ -152,90 +233,109 @@ const GroupTabs = ({ movies }: { movies: IShowtime[] }) => {
     }, [selectCalendar, selectFormat, selectRegion, movies, selectShowtime]);
 
     useEffect(() => {
-        (async () => {
-            const { data } = await formatApi.getAll();
-            const listFormatCurrent = movies.map((item) => {
-                if (item.date === selectCalendar.date && item.theater.region === selectRegion.region) {
-                    return item.theater.format;
-                }
-            });
-            const formatList = data.filter((item, i) => listFormatCurrent.includes(item._id));
-            setFormats(formatList);
-        })();
-    }, [movies, selectCalendar, selectRegion]);
-
-    useEffect(() => {
-        if (!!regions && regions.length >= 1) {
-            setSelectRegion({ index: 0, region: regions[0]._id });
-        }
+        if (!!regions && regions.length >= 1) return setSelectRegion({ index: 0, region: regions[0]._id });
     }, [regions]);
     useEffect(() => {
-        if (formats.length >= 1) {
-            setSelectFormat({ index: 0, format: formats[0]._id });
-        }
+        if (formats && formats.length >= 1) return setSelectFormat({ index: 0, format: formats[0]._id });
     }, [formats]);
 
     return (
-        <Tabs.Root className='flex h-[90vh] w-full flex-col overflow-y-scroll transition-all' defaultValue='tab1'>
+        <Tabs.Root
+            className='flex h-[90vh] w-full flex-col overflow-y-scroll transition-all'
+            defaultValue='tab1'
+            value={tabControl}
+            onValueChange={setTabControl}
+        >
             <Tabs.List
                 className='sticky top-0 flex shrink-0 bg-gray-950 pb-2 text-[15px] font-bold uppercase'
                 aria-label='Manage your account'
             >
                 <Tabs.Trigger
-                    className='h-[45px] flex-1 items-center bg-gray-950 px-5 uppercase data-[state=active]:border-b-2 data-[state=active]:border-red-700'
+                    className='h-[45px] flex-1 items-center border-b-[2px] border-transparent bg-gray-950 px-5 uppercase data-[state=active]:border-b-[2px] data-[state=active]:border-red-700'
                     value='tab1'
                 >
                     Đặt lịch
                 </Tabs.Trigger>
                 <Tabs.Trigger
-                    className={`h-[45px] flex-1 items-center bg-gray-950 px-5 uppercase data-[state=active]:border-b-2 data-[state=active]:border-red-700 ${!(selectShowtime.showtime !== '') ? 'opacity-10' : ''}`}
+                    className={`h-[45px] flex-1 items-center border-b-[2px] border-transparent bg-gray-950 px-5 uppercase data-[state=active]:border-b-[2px] data-[state=active]:border-red-700 ${!(selectShowtime.showtime !== '') ? 'opacity-10' : ''}`}
                     value='tab2'
                     disabled={!(selectShowtime.showtime !== '')}
                 >
                     Chọn ghế
                 </Tabs.Trigger>
                 <Tabs.Trigger
-                    className='h-[45px] flex-1 items-center bg-gray-950 px-5 uppercase data-[state=active]:border-b-2 data-[state=active]:border-red-700'
+                    className={`h-[45px] flex-1 items-center border-b-[2px] border-transparent bg-gray-950 px-5 uppercase data-[state=active]:border-b-[2px] data-[state=active]:border-red-700 ${pickSeat.length <= 0 ? 'opacity-10' : ''}`}
                     value='tab3'
+                    disabled={pickSeat.length <= 0}
                 >
                     Ăn vặt
                 </Tabs.Trigger>
                 <Tabs.Trigger
-                    className='h-[45px] flex-1 items-center bg-gray-950 px-5 uppercase data-[state=active]:border-b-2 data-[state=active]:border-red-700'
+                    className={`h-[45px] flex-1 items-center border-b-[2px] border-transparent bg-gray-950 px-5 uppercase data-[state=active]:border-b-[2px] data-[state=active]:border-red-700 ${pickSeat.length <= 0 ? 'opacity-10' : ''}`}
                     value='tab4'
+                    disabled={pickSeat.length <= 0}
                 >
                     Thanh toán
                 </Tabs.Trigger>
             </Tabs.List>
             <Tabs.Content className='my-4' value='tab1'>
-                <BookingTime
-                    regionTarget={selectRegion}
-                    calendarTarget={selectCalendar}
-                    formatTarget={selectFormat}
-                    regions={regions ? regions : []}
-                    formats={formats}
-                    movies={currentMovieTime}
-                    ShowtimeTarget={selectShowtime}
-                    handleClickSelectCalendar={handleClickSelectCalendar}
-                    handleClickSelectRegion={handleClickSelectRegion}
-                    handleClickSelectFormat={handleClickSelectFormat}
-                    handleClickSelectShowtime={handleClickSelectShowtime}
-                />
+                <Animation>
+                    <BookingTime
+                        regionTarget={selectRegion}
+                        calendarTarget={selectCalendar}
+                        formatTarget={selectFormat}
+                        regions={regions ? regions : []}
+                        formats={formats ? formats : []}
+                        movies={currentMovieTime}
+                        ShowtimeTarget={selectShowtime}
+                        handleClickSelectCalendar={handleClickSelectCalendar}
+                        handleClickSelectRegion={handleClickSelectRegion}
+                        handleClickSelectFormat={handleClickSelectFormat}
+                        handleClickSelectShowtime={handleClickSelectShowtime}
+                    />
+                </Animation>
             </Tabs.Content>
             <Tabs.Content className='my-4' value='tab2'>
-                {selectShowtime.showtime !== '' && !Array.isArray(showtimeTarget) && showtimeTarget && (
-                    <SeatSelection
-                        handleClick={handleClickSeat}
-                        pickSeat={pickSeat}
-                        seatingMatrix={{ cols: showtimeTarget.theater.colums, rows: showtimeTarget.theater.rows }}
-                    />
+                {showtimeTarget && (
+                    <Animation>
+                        <SeatSelection
+                            soldSeatsList={soldSeatsList}
+                            handleClick={handleClickSeat}
+                            pickSeat={pickSeat}
+                            seatingMatrix={{ cols: showtimeTarget.theater.colums, rows: showtimeTarget.theater.rows }}
+                        />
+                    </Animation>
                 )}
             </Tabs.Content>
             <Tabs.Content className='my-4' value='tab3'>
-                <SnacksAndDrinks />
+                {pickSeat.length > 0 && showtimeTarget && concessionList && (
+                    <Animation>
+                        <SnacksAndDrinks
+                            handleConcession={handleConcession}
+                            onclickToNextTab={onClickToTabPay}
+                            concessions={concessionList}
+                            propsBookingProgress={{
+                                showtimeTarget: showtimeTarget,
+                                seats: pickSeat,
+                                concessions: selectConcessions,
+                            }}
+                        />
+                    </Animation>
+                )}
             </Tabs.Content>
             <Tabs.Content className='my-4' value='tab4'>
-                <Payment />
+                {pickSeat.length > 0 && showtimeTarget && concessionList && (
+                    <Animation>
+                        <Payment
+                            ticketInfor={{
+                                showtimeTarget: showtimeTarget,
+                                seats: pickSeat,
+                                concessions: selectConcessions,
+                            }}
+                            onRequest={handleAddOrder}
+                        />
+                    </Animation>
+                )}
             </Tabs.Content>
         </Tabs.Root>
     );

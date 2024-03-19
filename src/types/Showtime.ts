@@ -3,6 +3,7 @@ export interface IShowtime {
     date: string;
     start_time: string;
     end_time: string;
+    price: number;
     re_showing: boolean;
     cinema: {
         _id: string;
@@ -16,12 +17,21 @@ export interface IShowtime {
         name: string;
         colums: number;
         rows: number;
-        region: string;
+        region: {
+            _id: string;
+            name: string;
+            createdAt: string;
+            updatedAt: string;
+            __v: number;
+        };
         cinema: string;
-        format: string;
-        createdAt: string;
-        updatedAt: string;
-        __v: number;
+        format: {
+            _id: string;
+            name: string;
+            createdAt: string;
+            updatedAt: string;
+            __v: number;
+        };
     };
     movie: {
         _id: string;
@@ -31,7 +41,15 @@ export interface IShowtime {
         actors: string;
         categories: string;
         show_duration: number;
-        rated_id: string;
+        rated_id: {
+            _id: string;
+            name: string;
+            icon: string;
+            description: string;
+            createdAt: string;
+            updatedAt: string;
+            __v: 0;
+        };
         liked: number;
         description: string;
         language: string;

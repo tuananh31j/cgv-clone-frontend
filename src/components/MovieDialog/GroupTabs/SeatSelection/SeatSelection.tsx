@@ -1,24 +1,23 @@
-import Image from '~/assets';
 import Header from './Header';
 import Footer from './Footer';
 import Seat from './Seat';
-import { ENGLISH_ALPHABET } from '~/constants';
-import { useEffect, useState } from 'react';
-import { ToastContainer, toast } from 'react-toastify';
 import showMessage from '~/utilities/showMessage';
 import Wrapper from '../../Components/Wrapper';
 import { gennerateSeats } from '~/utilities/helper';
-import { it } from 'node:test';
+import { useEffect, useState } from 'react';
+import orderApi from '~/api/orderApi';
 const SeatSelection = ({
     seatingMatrix,
     pickSeat,
     handleClick,
+    soldSeatsList = [],
 }: {
     seatingMatrix: {
         cols: number;
         rows: number;
     };
     pickSeat: { index: number; name: string }[];
+    soldSeatsList?: string[];
     handleClick: ({ index, name }: { index: number; name: string }) => void;
 }) => {
     const seatingMatrixStyle = seatingMatrix
@@ -36,6 +35,7 @@ const SeatSelection = ({
         if (vipSeats <= index && index < doubleSeats) return 'double';
         return 'reservedSeat';
     };
+
     return (
         <>
             <Wrapper title='Người/ghế'>
@@ -45,11 +45,11 @@ const SeatSelection = ({
                         return (
                             <Seat
                                 onClick={
-                                    item === 'D3'
-                                        ? () => showMessage('Ghế đã được đặt!', 'warning')
+                                    soldSeatsList.includes(item)
+                                        ? () => showMessage('Ghế đã được đặt!', 'info')
                                         : () => handleClick({ index, name: item })
                                 }
-                                type={item === 'D3' ? 'reservedSeat' : checkTypeSeat(index)}
+                                type={soldSeatsList.includes(item) ? 'reservedSeat' : checkTypeSeat(index)}
                                 status={pickSeat.map((item) => item.index).includes(index)}
                                 key={item}
                             >

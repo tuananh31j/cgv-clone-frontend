@@ -1,5 +1,4 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import useLocalStorage from '~/hooks/useLocalStorage';
 const pinkThemeSlice = createSlice({
     name: 'pinkTheme',
     initialState: false,

@@ -3,7 +3,7 @@ import cl from './Header.module.scss';
 import clsx from 'clsx';
 import Persional from './Persional';
 import Navbar from './Navbar';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import auth from '~/api/authApi';
 import { ICustomer } from '~/types/Customer';
@@ -12,13 +12,15 @@ import { RootState, useAppDispatch } from '~/store/store';
 import { logoutAsyncThunk } from '~/store/Slices/AuthSlice';
 import showMessage from '~/utilities/showMessage';
 const Header = () => {
-    const [currentUser, setCurrentUser] = useState<ICustomer>();
+    const [currentUser, setCurrentUser] = useState<ICustomer | undefined>();
     const user = useSelector((state: RootState) => state.auth.login.currentUser);
     const dispatch = useAppDispatch();
+    const navigater = useNavigate();
     const handleLogout = async () => {
         try {
             await dispatch(logoutAsyncThunk());
             showMessage('Đã đăng xuất!', 'info');
+            // navigater('/');
         } catch (error) {
             console.log(error);
         }
@@ -32,6 +34,8 @@ const Header = () => {
                         setCurrentUser(data);
                     }
                 } catch (error) {
+                    console.log(error);
+
                     setCurrentUser(undefined);
                 }
             } else {

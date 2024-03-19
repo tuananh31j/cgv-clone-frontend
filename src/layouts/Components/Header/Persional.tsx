@@ -24,7 +24,7 @@ const Persional = ({ currentUser, onClick }: { currentUser?: ICustomer; onClick:
                         </Link>
                     </li>
                     <li>
-                        <Link to={'/'} className='flex items-center gap-1 uppercase'>
+                        <Link to={'my-ticket'} className='flex items-center gap-1 uppercase'>
                             <img src={Image.iconPersionalTicket} /> Vé của tôi
                         </Link>
                     </li>
