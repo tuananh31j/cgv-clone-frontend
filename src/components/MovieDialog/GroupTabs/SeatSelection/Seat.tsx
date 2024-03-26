@@ -1,4 +1,3 @@
-import Button from '~/components/Button';
 import ButtonState from '../../Components/ButtonState';
 
 interface ISeatProps {

@@ -1,4 +1,3 @@
-import Button from '~/components/Button';
 import ButtonState from '../ButtonState';
 import { IFormat } from '~/types/Format';
 

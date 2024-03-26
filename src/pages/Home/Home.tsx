@@ -1,13 +1,31 @@
 import clsx from 'clsx';
 import style from './Home.module.scss';
-
-import React from 'react';
-
 import Slideshow from '~/components/Slideshow';
 import MovieSelection from '~/components/MovieSelection';
 import Event from '~/components/Event';
+import useAsync from '~/hooks/useAsync';
+import { IBanner } from '~/types/Banner';
+import bannerApi from '~/api/bannerApi';
+import { Link } from 'react-router-dom';
+import { useCallback } from 'react';
+import showtimeApi from '~/api/showtimeApi';
+import { IMovie } from '~/types/Movie';
 
 const HomePage = () => {
+    const { value: banners } = useAsync<IBanner[] | []>(async () => {
+        try {
+            const { data } = await bannerApi.getBannerActive();
+            return data;
+        } catch (error) {
+            return [];
+        }
+    });
+    const getMoviesNowShowing = useCallback(async () => {
+        const { data: movies } = await showtimeApi.getMoviesNowShowing();
+        const listMovieNowShowing = movies.map((movie, i) => movie.movieDetails);
+        return listMovieNowShowing;
+    }, []);
+    const { value: moviesNowShowing, loading } = useAsync<IMovie[]>(getMoviesNowShowing);
     return (
         <>
             <div className='container-box mx-auto mt-8'>
@@ -20,48 +38,40 @@ const HomePage = () => {
                             )}
                         >
                             <li>
-                                <a className='theater' href='https://www.cgv.vn/default/cinox/site/'>
+                                <Link className='theater' to='/'>
                                     cgv theater
-                                </a>
+                                </Link>
                             </li>
                             <li>
-                                <a className='now-sh' href='https://www.cgv.vn/default/movies/now-showing.html/'>
+                                <Link className='now-sh' to='/showing.html/'>
                                     now showing
-                                </a>
+                                </Link>
                             </li>
                             <li>
-                                <a className='special' href='https://www.cgv.vn/default/theaters/special/gold-class'>
+                                <Link className='special' to='/gold-class'>
                                     cgv special
-                                </a>
+                                </Link>
                             </li>
                             <li>
-                                <a className='event' href='https://www.cgv.vn/default/cinemas/sale/'>
+                                <Link className='event' to='/'>
                                     Mua voucher, thẻ quả tặng CGV
-                                </a>
+                                </Link>
                             </li>
                             <li>
-                                <a className='ticket required-login' href='https://www.cgv.vn/default/contacts/'>
-                                    my ticket info
-                                </a>
+                                <Link to={'/'}>my ticket info</Link>
                             </li>
                             <li>
-                                <a className='dc' href='https://www.cgv.vn/default/newsoffer/'>
-                                    discount info
-                                </a>
+                                <Link to={'/'}> discount info</Link>
                             </li>
                             <li>
-                                <a className='login-header' href='https://www.cgv.vn/default/customer/account/create/'>
-                                    create account quick
-                                </a>
+                                <Link to={'/'}>create account quick</Link>
                             </li>
                         </ul>
                     </div>
                 </div>
             </div>
-            <div className={clsx(style.content, 'h-[447.26px]')}>
-                <Slideshow slideWith={978.4} data={[1, 2, 3, 4, 5]} />
-            </div>
-            <MovieSelection />
+            <div className={clsx(style.content, 'h-[447.26px]')}>{banners && <Slideshow data={banners} />}</div>
+            {moviesNowShowing && <MovieSelection moviesNowShowing={moviesNowShowing} loading={loading} />}
             <Event />
         </>
     );

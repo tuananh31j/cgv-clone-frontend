@@ -1,17 +1,12 @@
 import clsx from 'clsx';
 import styles from './Header.module.scss';
 import PinkSwitch from '~/components/PinkSwitch/PinkSwitch';
-import Button from '~/components/Button';
 import Image from '~/assets';
-import { useEffect, useState } from 'react';
 import { ICustomer } from '~/types/Customer';
-import authApi from '~/api/authApi';
-import { AxiosResponse } from 'axios';
-import { Link } from 'react-router-dom';
 import * as NavigationMenu from '@radix-ui/react-navigation-menu';
 import { CaretDownIcon } from '@radix-ui/react-icons';
 import { useAppDispatch } from '~/store/store';
-import { logoutAsyncThunk } from '~/store/Slices/AuthSlice';
+import { Link } from 'react-router-dom';
 
 const Persional = ({ currentUser, onClick }: { currentUser?: ICustomer; onClick: () => Promise<void> }) => {
     return (
@@ -24,7 +19,7 @@ const Persional = ({ currentUser, onClick }: { currentUser?: ICustomer; onClick:
                         </Link>
                     </li>
                     <li>
-                        <Link to={'my-ticket'} className='flex items-center gap-1 uppercase'>
+                        <Link to={'account/my-ticket'} className='flex items-center gap-1 uppercase'>
                             <img src={Image.iconPersionalTicket} /> Vé của tôi
                         </Link>
                     </li>
@@ -47,7 +42,7 @@ const Persional = ({ currentUser, onClick }: { currentUser?: ICustomer; onClick:
                                     <NavigationMenu.Item className='relative'>
                                         <NavigationMenu.Trigger className='cursor-pointe font-bold'>
                                             <span className='flex items-center font-semibold'>
-                                                Xin chào 😊!{' '}
+                                                Xin chào 😊!
                                                 <span className='text-md uppercase'>{currentUser.name}</span>
                                                 <CaretDownIcon
                                                     className='relative top-[1px] text-red-600 transition-transform duration-[250] ease-in hover:rotate-180'
@@ -58,7 +53,12 @@ const Persional = ({ currentUser, onClick }: { currentUser?: ICustomer; onClick:
                                         <NavigationMenu.Content className='absolute '>
                                             <div className={clsx('w-full  p-1')}>
                                                 <ul className='box-content w-[100px] rounded-sm border-2  border-solid border-gray-500 bg-white p-2 text-black '>
-                                                    <li className='font-bold hover:text-[#e71a0f]'>
+                                                    {currentUser.role === 'admin' && (
+                                                        <li className='font-bold hover:text-[#e71a0f]'>
+                                                            <Link to='admin'>Admin</Link>
+                                                        </li>
+                                                    )}
+                                                    <li className='text-[16px] font-bold hover:text-[#e71a0f]'>
                                                         <button onClick={onClick}>Logout</button>
                                                     </li>
                                                 </ul>

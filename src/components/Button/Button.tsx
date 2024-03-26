@@ -1,5 +1,4 @@
 import clsx from 'clsx';
-import styles from './Button.module.scss';
 import { Link, LinkProps, To } from 'react-router-dom';
 import { forwardRef } from 'react';
 interface IButtonProps extends React.HTMLProps<HTMLButtonElement | HTMLAnchorElement> {
@@ -9,7 +8,6 @@ interface IButtonProps extends React.HTMLProps<HTMLButtonElement | HTMLAnchorEle
     customChildren?: boolean;
     className?: string;
     state?: string | boolean;
-    type?: 'normal' | 'vip' | 'double' | 'reservedSeat';
     primary?: boolean;
     secondary?: boolean;
     inLine?: boolean;
@@ -29,7 +27,6 @@ const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement | LinkProps, IBu
             customChildren,
             className,
             state,
-            type,
             primary,
             inLine,
             small,
@@ -53,14 +50,10 @@ const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement | LinkProps, IBu
             props.href = href;
         }
 
-        if (type === 'reservedSeat') {
-            children = 'X';
-        }
         return (
             <>
                 <Comp
                     data-state={state ? 'active' : ''}
-                    data-type={type ? type : ''}
                     ref={ref}
                     {...passProps}
                     {...props}

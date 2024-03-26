@@ -21,7 +21,7 @@ const Login = () => {
     } = useForm<ILoginForm>({ resolver: zodResolver(loginSchema) });
     const onSubmit: SubmitHandler<ILoginForm> = async (data) => {
         await new Promise((resolve) => {
-            setTimeout(resolve, 3000);
+            setTimeout(resolve, 1000);
         });
         try {
             dispatch(loginAsyncThunk(data));

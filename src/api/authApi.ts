@@ -19,9 +19,13 @@ const authApi = {
     },
     refreshToken() {
         const path = 'auth/refresh';
-        return axios.post<IRefreshTokenResponse>(`${REACT_API_URL}/${path}`, {
-            withCredentials: true,
-        });
+        return axios.post<IRefreshTokenResponse>(
+            `${REACT_API_URL}/${path}`,
+            {},
+            {
+                withCredentials: true,
+            }
+        );
     },
     logout(config?: AxiosRequestConfig) {
         const path = 'auth/logout';

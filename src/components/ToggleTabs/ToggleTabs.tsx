@@ -19,30 +19,28 @@ const ToggleTabs = ({
                     <Tabs.Trigger
                         onClick={() => setToggleTabs(false)}
                         className={clsx(
-                            'relative box-border flex items-center border-e-2  border-solid bg-[#e71a0f]  py-[8px]  data-[state=active]:font-semibold'
+                            'relative box-border flex items-center border-e-2  border-solid bg-[#e71a0f] px-2  py-[8px]  data-[state=active]:font-semibold'
                         )}
                         value='tab1'
                     >
-                        <Button iconLeft={<span className={clsx('flag__left')}></span>} className='px-2 pe-[20px]'>
-                            <div className='flex'>
-                                <div className='w-7'>{!toggleTabs && <FontAwesomeIcon icon={faHandPointRight} />}</div>
-                                <span>{tabName.tab1.name}</span>
-                            </div>
-                        </Button>
+                        <span className={clsx('flag__left')}></span>
+                        <div className='flex'>
+                            <div className='w-7'>{!toggleTabs && <FontAwesomeIcon icon={faHandPointRight} />}</div>
+                            <span>{tabName.tab1.name}</span>
+                        </div>
                     </Tabs.Trigger>
                     <Tabs.Trigger
                         onClick={() => setToggleTabs(true)}
                         className={clsx(
-                            'relative box-border flex items-center border-e-2 border-solid  bg-[#e71a0f] py-[8px]  data-[state=active]:font-semibold'
+                            'relative box-border flex items-center border-e-2 border-solid bg-[#e71a0f]  px-2 py-[8px]  data-[state=active]:font-semibold'
                         )}
                         value='tab2'
                     >
-                        <Button className='px-2 pe-[20px]' iconRight={<span className='flag__right'></span>}>
-                            <div className='flex'>
-                                <div className='w-7'>{toggleTabs && <FontAwesomeIcon icon={faHandPointRight} />}</div>
-                                <span>{tabName.tab2.name}</span>
-                            </div>
-                        </Button>
+                        <span className='flag__right'></span>
+                        <div className='flex'>
+                            <div className='w-7'>{toggleTabs && <FontAwesomeIcon icon={faHandPointRight} />}</div>
+                            <span>{tabName.tab2.name}</span>
+                        </div>
                     </Tabs.Trigger>
                 </Tabs.List>
 

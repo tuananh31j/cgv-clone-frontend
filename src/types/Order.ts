@@ -1,3 +1,5 @@
+import { IMovie } from './Movie';
+
 export interface IOrder {
     qr_code: string;
     user_name: string;
@@ -5,6 +7,7 @@ export interface IOrder {
     start_time: string;
     end_time: string;
     date: string;
+    status?: 'active' | 'expired' | 'used';
     payment_type?: boolean;
     region_name: string;
     cinema_name: string;
@@ -17,7 +20,7 @@ export interface IOrder {
     user_ref: string;
     region_ref: string;
     format_ref: string;
-    movie_ref: string;
+    movie_ref: string | IMovie;
     cinema_ref: string;
     showtime_ref: string;
 }

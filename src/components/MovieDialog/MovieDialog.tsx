@@ -11,15 +11,6 @@ const MovieDialog = ({ movieID, children }: { children: React.ReactNode; movieID
     const handleCloseDialog = () => {
         setIsOpen(false);
     };
-    const getMovieShowtimeList = useCallback(async () => {
-        // await new Promise((resolve) => {
-        //     setTimeout(resolve, 3000);
-        // });
-        const { data: listShowtime } = await showtimeApi.getAll();
-        return listShowtime.filter((item) => item.movie._id === movieID);
-    }, [movieID]);
-
-    const { value: movieShowtimeList, loading, error } = useAsync<IShowtime[]>(getMovieShowtimeList);
 
     return (
         <>
@@ -29,14 +20,7 @@ const MovieDialog = ({ movieID, children }: { children: React.ReactNode; movieID
                     <Dialog.Overlay className='data-[state=open]:animate-overlayShow fixed inset-0 z-40 bg-black bg-opacity-85' />
                     <Dialog.Content className='data-[state=open]:animate-contentShow fixed left-[50%] top-[50%] z-50 w-[90vw]  translate-x-[-50%] translate-y-[-50%] rounded-[6px] bg-gray-950 p-5 px-10 text-white shadow-[hsl(206_22%_7%_/_35%)_0px_10px_38px_-10px,_hsl(206_22%_7%_/_20%)_0px_10px_20px_-15px] focus:outline-none '>
                         <div>
-                            {loading && (
-                                <div className='flex h-20 w-full flex-col items-center justify-center'>
-                                    <div className='h-8 w-8 animate-spin rounded-full border-4 border-dotted border-white transition-all'></div>
-                                </div>
-                            )}
-                            {!loading && movieShowtimeList && (
-                                <GroupTabs movies={movieShowtimeList} onHandleCloseDialog={handleCloseDialog} />
-                            )}
+                            <GroupTabs movieID={movieID} onHandleCloseDialog={handleCloseDialog} />
 
                             <Dialog.Close asChild>
                                 <button

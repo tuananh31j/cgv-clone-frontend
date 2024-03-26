@@ -10,6 +10,10 @@ const orderApi = {
         const path = `orders/seats/${id}`;
         return axiosClient.get<string[]>(`${REACT_API_URL}/${path}`);
     },
+    getListMyOrders(id: string) {
+        const path = `orders/my-orders/${id}`;
+        return axiosClient.get<IOrder[]>(`${REACT_API_URL}/${path}`);
+    },
 };
 
 export default orderApi;

@@ -27,7 +27,7 @@ const Register = () => {
     const onSubmit: SubmitHandler<IRegisterForm> = async (data) => {
         try {
             await new Promise((resolve) => {
-                setTimeout(resolve, 2000);
+                setTimeout(resolve, 1000);
             });
             console.log(data);
 
@@ -111,8 +111,8 @@ const Register = () => {
 
                 <div className='flex w-full flex-col justify-center'>
                     <div className='flex items-center justify-between gap-4'>
-                        <Input htmlFor='sex' title='Name' value={1} flexBox type='radio' {...register('sex')} />
-                        <Input htmlFor='sex' title='Nữ' value={0} flexBox type='radio' {...register('sex')} />
+                        <Input htmlFor='sex' title='Name' value={'male'} flexBox type='radio' {...register('sex')} />
+                        <Input htmlFor='sex' title='Nữ' value={'female'} flexBox type='radio' {...register('sex')} />
                     </div>
                     <ShowValidation errorField={errors.sex} />
                 </div>

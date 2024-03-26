@@ -1,3 +1,5 @@
+import { IMovie } from './Movie';
+
 export interface IShowtime {
     _id: string;
     date: string;
@@ -61,3 +63,8 @@ export interface IShowtime {
     updatedAt: string;
     __v: number;
 }
+export type IMoviesShow = {
+    _id: string;
+    date: string;
+    movieDetails: IMovie;
+};

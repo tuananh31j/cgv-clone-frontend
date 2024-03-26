@@ -33,6 +33,7 @@ export type ILoginResponse = {
     name: string;
     role: string;
     accessToken: string;
+    id: string;
 };
 
 export type ILoginForm = z.infer<typeof loginSchema>;

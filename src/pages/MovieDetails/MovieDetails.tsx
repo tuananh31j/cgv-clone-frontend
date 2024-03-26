@@ -1,19 +1,12 @@
 import { faThumbsUp } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import clsx from 'clsx';
-import { MouseEventHandler, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Image from '~/assets';
 import Button from '~/components/Button';
-import styles from './MovieDetails.module.scss';
-import ImageMagnifier from '~/components/ImageMagnifier';
 import ToggleTabs from '~/components/ToggleTabs';
 import { useParams } from 'react-router-dom';
 import { IMovie } from '~/types/Movie';
 import movieApi from '~/api/movieApi';
-
-interface IRouteParams {
-    id?: string;
-}
 
 const MovieDetails = () => {
     const { id } = useParams();
@@ -40,9 +33,9 @@ const MovieDetails = () => {
             {movie && (
                 <>
                     <div className='mb-8 flex gap-6'>
-                        <div className='relative '>
+                        {/* <div className='relative '>
                             <ImageMagnifier image={movie.thumbnail} />
-                        </div>
+                        </div> */}
 
                         <div className='w-4/5'>
                             <div className='border-b-[1px] border-gray-300 '>
@@ -67,14 +60,14 @@ const MovieDetails = () => {
                                 <p>
                                     <span className='font-bold'>Ngôn ngữ:</span> {movie.language}
                                 </p>
-                                <p>
+                                {/* <p>
                                     <span className='font-bold'>Rated:</span>
                                     <span className='font-bold uppercase'>{movie.rated_id.name}</span>
                                 </p>
                                 <p>
                                     <span>T18</span>
                                     <span>starium</span>
-                                </p>
+                                </p> */}
                             </div>
                             <div className='mt-3 inline-flex items-end gap-3'>
                                 <Button small className='bg-blue-600 text-white'>

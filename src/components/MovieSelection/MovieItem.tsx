@@ -3,19 +3,26 @@ import styles from './MovieSelection.module.scss';
 import Image from '~/assets';
 import Button from '../Button';
 import { forwardRef } from 'react';
-import { IShowtime } from '~/types/Showtime';
 import MovieDialog from '../MovieDialog';
 import { IMovie } from '~/types/Movie';
+import { useSelector } from 'react-redux';
+import { RootState } from '~/store/store';
 
 interface IMovieProps {
     item: IMovie;
 }
 
 const MovieItem = forwardRef<HTMLImageElement, IMovieProps>(({ item }, ref) => {
+    const user = useSelector((state: RootState) => state.auth.login.currentUser.accessToken);
     return (
         <>
             <div className={clsx(styles.card, 'relative w-[240.3px] bg-white transition-all will-change-auto')}>
-                <img ref={ref} className={clsx(styles.card_image, 'inline-block w-full')} src={item.thumbnail} alt='' />
+                <img
+                    ref={ref}
+                    className={clsx(styles.card_image, 'inline-block h-full w-full object-cover')}
+                    src={item.thumbnail}
+                    alt=''
+                />
                 <img className={clsx(styles.card__purchare, ' absolute top-0')} src={Image.iconPlayCard} alt='' />
                 <div
                     className={clsx(
@@ -28,11 +35,18 @@ const MovieItem = forwardRef<HTMLImageElement, IMovieProps>(({ item }, ref) => {
                         <Button large to={`movies/${item._id}`} primary>
                             Xem chi tiết
                         </Button>
-                        <MovieDialog movieID={item._id}>
-                            <Button iconLeft={<img src={Image.iconPurchareTicket} />} large primary inLine>
+                        {user !== '' && (
+                            <MovieDialog movieID={item._id}>
+                                <Button iconLeft={<img src={Image.iconPurchareTicket} />} large primary inLine>
+                                    Mua vé
+                                </Button>
+                            </MovieDialog>
+                        )}
+                        {user === '' && (
+                            <Button to='login' iconLeft={<img src={Image.iconPurchareTicket} />} large primary inLine>
                                 Mua vé
                             </Button>
-                        </MovieDialog>
+                        )}
                     </div>
                 </div>
             </div>

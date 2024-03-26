@@ -5,6 +5,8 @@ import MoviesComingSoon from '~/pages/MoviesComingSoon';
 import MoviesNowShowing from '~/pages/MoviesNowShowing';
 import Register from '~/pages/Auth/Register';
 import Auth from '~/pages/Auth';
+import Account from '~/pages/Account';
+import ProtectedRoute from '~/components/ProtectedRoute';
 const PublicRoutes = [
     { path: 'movies/now-showing', element: <MoviesNowShowing /> },
     { path: 'movies/coming-soon', element: <MoviesComingSoon /> },
@@ -12,7 +14,11 @@ const PublicRoutes = [
     { path: 'cinemas-list', element: <CinemasList /> },
     {
         path: '',
-        element: <Auth />,
+        element: (
+            <ProtectedRoute>
+                <Auth />
+            </ProtectedRoute>
+        ),
         children: [
             { index: true, element: <Login /> },
             { path: 'login', element: <Login /> },

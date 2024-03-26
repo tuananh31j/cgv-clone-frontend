@@ -1,11 +1,18 @@
-import { Link, NavLink, Outlet } from 'react-router-dom';
-import Header from './Header';
-import Login from './Login';
-import Register from './Register';
-import Input from '~/components/Input/Input';
+import { NavLink, Outlet } from 'react-router-dom';
+import bannerApi from '~/api/bannerApi';
 import Slideshow from '~/components/Slideshow';
+import useAsync from '~/hooks/useAsync';
+import { IBanner } from '~/types/Banner';
 
 const Auth = () => {
+    const { value: banners } = useAsync<IBanner[] | []>(async () => {
+        try {
+            const { data } = await bannerApi.getBannerActive();
+            return data;
+        } catch (error) {
+            return [];
+        }
+    });
     return (
         <div className='container-box'>
             <div className='grid grid-cols-2 items-start gap-4 '>
@@ -36,9 +43,7 @@ const Auth = () => {
                         <Outlet />
                     </div>
                 </div>
-                <div>
-                    <Slideshow slideWith={900} data={[1, 2, 3, 4, 5, 6]}></Slideshow>
-                </div>
+                <div>{banners && <Slideshow data={banners}></Slideshow>}</div>
             </div>
         </div>
     );

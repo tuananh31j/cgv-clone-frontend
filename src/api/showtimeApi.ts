@@ -1,6 +1,6 @@
 import { REACT_API_URL } from '~/constants/env';
 import axiosClient from './axiosClient';
-import { IShowtime } from '~/types/Showtime';
+import { IMoviesShow, IShowtime } from '~/types/Showtime';
 
 const showtimeApi = {
     getAll() {
@@ -10,6 +10,18 @@ const showtimeApi = {
     getOne(id: string) {
         const path = `showtimes/${id}`;
         return axiosClient.get<IShowtime>(`${REACT_API_URL}/${path}`);
+    },
+    getListMoviesShowtimeById(id: string) {
+        const path = `showtimes/movies/${id}`;
+        return axiosClient.get<IShowtime[]>(`${REACT_API_URL}/${path}`);
+    },
+    getMoviesNowShowing() {
+        const path = 'showtimes/movies-now-showing';
+        return axiosClient.get<IMoviesShow[]>(`${REACT_API_URL}/${path}`);
+    },
+    getMoviesComingSoon() {
+        const path = 'showtimes/movies-coming-soon';
+        return axiosClient.get<IMoviesShow[]>(`${REACT_API_URL}/${path}`);
     },
 };
 

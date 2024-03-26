@@ -22,6 +22,7 @@ import { ICustomer } from '~/types/Customer';
 import authApi from '~/api/authApi';
 import orderApi from '~/api/orderApi';
 import { useNavigate } from 'react-router-dom';
+import { format } from 'date-fns';
 
 const InitCalendar = {
     index: '',
@@ -56,7 +57,7 @@ interface ISelectShowtime {
     showtime: string;
 }
 
-const GroupTabs = ({ movies, onHandleCloseDialog }: { movies: IShowtime[]; onHandleCloseDialog: () => void }) => {
+const GroupTabs = ({ movieID, onHandleCloseDialog }: { movieID: string; onHandleCloseDialog: () => void }) => {
     const [tabControl, setTabControl] = useState<string>('tab1');
 
     //select
@@ -67,6 +68,17 @@ const GroupTabs = ({ movies, onHandleCloseDialog }: { movies: IShowtime[]; onHan
     const [currentMovieTime, setCurrentMovieTime] = useState<IShowtime[][]>([]);
     const [pickSeat, setPickSeat] = useState<{ index: number; name: string }[]>([]);
     const [selectConcessions, setSelectConcessions] = useState<{ quanlity: number; concession: IConcession }[]>([]);
+
+    const getMovieShowtimeList = useCallback(async () => {
+        // await new Promise((resolve) => {
+        //     setTimeout(resolve, 3000);
+        // });
+        const { data } = await showtimeApi.getListMoviesShowtimeById(movieID);
+        return data;
+    }, [movieID]);
+    let movies: IShowtime[] = [];
+
+    movies = useAsync<IShowtime[] | []>(getMovieShowtimeList).value || [];
 
     //get
     const getShowtimeTarget = async () => {
@@ -79,7 +91,8 @@ const GroupTabs = ({ movies, onHandleCloseDialog }: { movies: IShowtime[]; onHan
     const getFormatList = async () => {
         const { data } = await formatApi.getAll();
         const listFormatCurrent = movies.map((item) => {
-            if (item.date === selectCalendar.date && item.theater.region._id === selectRegion.region) {
+            const dateOnly = format(item.date, 'yyyy-MM-dd');
+            if (dateOnly === selectCalendar.date && item.theater.region._id === selectRegion.region) {
                 return item.theater.format._id;
             }
         });
@@ -89,21 +102,20 @@ const GroupTabs = ({ movies, onHandleCloseDialog }: { movies: IShowtime[]; onHan
     const getRegionList = async () => {
         const { data } = await regionApi.getAll();
         const listRegionCurrent = movies.map((item) => {
-            if (item.date === selectCalendar.date) {
+            const dateOnly = format(item.date, 'yyyy-MM-dd');
+            if (dateOnly === selectCalendar.date) {
                 return item.theater.region._id;
             }
         });
         const regionList = data.filter((item, i) => listRegionCurrent.includes(item._id));
+
         return regionList;
     };
     const getListConcession = async () => {
         const { data } = await concessionApi.getAll();
         return data;
     };
-    const getMe = async () => {
-        const { data } = await authApi.getMe();
-        return data;
-    };
+
     const getSoldSeats = async (id: string) => {
         const { data } = await orderApi.getSoldSeatsList(id);
         return data;
@@ -114,7 +126,7 @@ const GroupTabs = ({ movies, onHandleCloseDialog }: { movies: IShowtime[]; onHan
     const { value: regions } = useAsync<IRegion[]>(getRegionList, [movies, selectCalendar]);
     const { value: formats } = useAsync<IFormat[]>(getFormatList, [movies, selectCalendar, selectRegion]);
     const { value: concessionList } = useAsync<IConcession[]>(getListConcession);
-    const { value: meInfor } = useAsync<ICustomer>(getMe);
+    const meInfor = useSelector((state: RootState) => state.auth.login.currentUser);
     const { value: soldSeatsList } = useAsync<string[]>(async () => {
         if (showtimeTarget && showtimeTarget._id) {
             return getSoldSeats(showtimeTarget?._id);
@@ -144,7 +156,7 @@ const GroupTabs = ({ movies, onHandleCloseDialog }: { movies: IShowtime[]; onHan
                     0
                 ),
                 concession_ref: selectConcessions.map((item) => item.concession._id),
-                user_ref: meInfor._id,
+                user_ref: meInfor.id,
                 region_ref: showtimeTarget.theater.region._id,
                 format_ref: showtimeTarget.theater.format._id,
                 movie_ref: showtimeTarget.movie._id,
@@ -219,7 +231,7 @@ const GroupTabs = ({ movies, onHandleCloseDialog }: { movies: IShowtime[]; onHan
                     (item) =>
                         item.theater.region._id === selectRegion.region &&
                         item.theater.format._id === selectFormat.format &&
-                        item.date === selectCalendar.date
+                        format(item.date, 'yyyy-MM-dd') === selectCalendar.date
                 )
                 .map((item, i, arr) => {
                     return arr.filter((movie) => {
@@ -230,7 +242,7 @@ const GroupTabs = ({ movies, onHandleCloseDialog }: { movies: IShowtime[]; onHan
 
             setCurrentMovieTime(arr);
         }
-    }, [selectCalendar, selectFormat, selectRegion, movies, selectShowtime]);
+    }, [selectCalendar, selectFormat, selectRegion, movieID, selectShowtime]);
 
     useEffect(() => {
         if (!!regions && regions.length >= 1) return setSelectRegion({ index: 0, region: regions[0]._id });

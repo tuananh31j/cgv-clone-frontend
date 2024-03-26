@@ -61,7 +61,7 @@ const Carousel: React.FC<ICarouselProps> = ({ Item, data }) => {
                                     className='absolute -left-[3.2rem] top-[50%] z-50   flex -translate-y-1/2  items-center  rounded-full   p-6   text-2xl '
                                 >
                                     <FontAwesomeIcon className=' text-3xl text-white' icon={faLessThan} />
-                                </button>{' '}
+                                </button>
                             </>
                         )}
                         {currentIndex !== data.length - 4 && (
