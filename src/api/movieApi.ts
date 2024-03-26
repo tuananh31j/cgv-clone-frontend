@@ -1,4 +1,3 @@
-import axios from 'axios';
 import axiosClient from './axiosClient';
 import { IMovie } from '~/types/Movie';
 import { REACT_API_URL } from '~/constants/env';

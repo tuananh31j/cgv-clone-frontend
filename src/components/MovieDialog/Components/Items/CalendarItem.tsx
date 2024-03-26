@@ -1,15 +1,12 @@
 import { DAY_OF_EN_SHORT } from '~/constants';
 import ButtonState from '../ButtonState';
 
-const CalendarItem = ({
-    dataItem,
-    status,
-    onClick,
-}: {
+type ICalendarItemProps = {
     dataItem: Date | string;
     status: boolean;
     onClick: () => void;
-}) => {
+};
+const CalendarItem: React.FC<ICalendarItemProps> = ({ dataItem, status, onClick }) => {
     const date = new Date(dataItem);
 
     return (

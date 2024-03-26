@@ -1,15 +1,12 @@
 import ButtonState from '../ButtonState';
 import { IFormat } from '~/types/Format';
 
-const ScreenAndSubItem = ({
-    dataItem,
-    status,
-    onClick,
-}: {
+type IScreenAndSubItem = {
     dataItem: IFormat | string;
     status: boolean;
     onClick: () => void;
-}) => {
+};
+const ScreenAndSubItem: React.FC<IScreenAndSubItem> = ({ dataItem, status, onClick }) => {
     return (
         <>
             <ButtonState

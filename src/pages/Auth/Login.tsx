@@ -1,14 +1,11 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import Input from '~/components/Input';
-import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import ShowValidation from '~/components/ShowValidation';
-import axiosClient from '~/api/axiosClient';
 import { ILoginForm, loginSchema } from '~/types/Auth';
-import { RootState, useAppDispatch } from '~/store/store';
+import { useAppDispatch } from '~/store/store';
 import { loginAsyncThunk } from '~/store/Slices/AuthSlice';
-import { useSelector } from 'react-redux';
 import showMessage from '~/utilities/showMessage';
 
 const Login = () => {

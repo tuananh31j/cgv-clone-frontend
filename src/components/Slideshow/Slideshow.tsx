@@ -1,5 +1,3 @@
-import Image from '~/assets';
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGreaterThan, faLessThan } from '@fortawesome/free-solid-svg-icons';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';

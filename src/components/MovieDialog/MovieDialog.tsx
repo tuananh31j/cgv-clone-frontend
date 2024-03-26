@@ -1,11 +1,7 @@
 import * as Dialog from '@radix-ui/react-dialog';
 import { Cross2Icon } from '@radix-ui/react-icons';
-import clsx from 'clsx';
-import { useCallback, useState } from 'react';
-import GroupTabs from './GroupTabs/GroupTabs';
-import { IShowtime } from '~/types/Showtime';
-import showtimeApi from '~/api/showtimeApi';
-import useAsync from '~/hooks/useAsync';
+import { useState } from 'react';
+import GroupTabs from './GroupTabs';
 const MovieDialog = ({ movieID, children }: { children: React.ReactNode; movieID: string }) => {
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const handleCloseDialog = () => {

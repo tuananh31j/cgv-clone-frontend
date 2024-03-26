@@ -9,7 +9,10 @@ import MovieDialog from '../MovieDialog';
 import Button from '../Button';
 import { format } from 'date-fns';
 import { IMoviesShow } from '~/types/Showtime';
-const MovieCard = ({ movie, unEvent }: { movie: IMoviesShow; unEvent: boolean }) => {
+
+type IMovieCardProps = { movie: IMoviesShow; unEvent: boolean };
+
+const MovieCard: React.FC<IMovieCardProps> = ({ movie, unEvent }) => {
     return (
         <div className='my-2'>
             <div className='relative box-border inline-table h-[260px] w-[200px] border-4 border-black'>

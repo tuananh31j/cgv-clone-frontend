@@ -1,15 +1,12 @@
 import ButtonState from '../ButtonState';
 import { format, parseISO } from 'date-fns';
 
-const TimeItem = ({
-    dataItem,
-    status,
-    onClick,
-}: {
+type ITimeItemProps = {
     dataItem: string;
     status: boolean | string;
     onClick: () => void;
-}) => {
+};
+const TimeItem: React.FC<ITimeItemProps> = ({ dataItem, status, onClick }) => {
     const date = parseISO(dataItem);
     const formatTime = format(date, 'HH:mm');
     return (

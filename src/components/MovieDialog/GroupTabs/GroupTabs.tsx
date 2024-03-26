@@ -18,10 +18,7 @@ import { IConcession } from '~/types/Concession';
 import uniqid from 'uniqid';
 import { useSelector } from 'react-redux';
 import { RootState } from '~/store/store';
-import { ICustomer } from '~/types/Customer';
-import authApi from '~/api/authApi';
 import orderApi from '~/api/orderApi';
-import { useNavigate } from 'react-router-dom';
 import { format } from 'date-fns';
 
 const InitCalendar = {

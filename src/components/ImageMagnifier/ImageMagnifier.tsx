@@ -7,7 +7,7 @@ const ImageMagnifier = ({ image }: { image: string }) => {
     const [cursorPosition, setCursorPosition] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
 
     const handleMouseMove: MouseEventHandler<HTMLDivElement> = (e) => {
-        const { left, top, width, height, bottom } = e.currentTarget.getBoundingClientRect();
+        const { left, top, width, height } = e.currentTarget.getBoundingClientRect();
         const x =
             ((e.pageX - left) / width) * 100 > 0
                 ? ((e.pageX - left) / width) * 100 <= 100

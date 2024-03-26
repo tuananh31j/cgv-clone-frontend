@@ -7,7 +7,7 @@
         "skipLibCheck": true,
         "baseUrl": ".",
         "paths": {
-            "~/*": ["src/*"],
+            "~/*": ["src/*"]
         },
         "outDir": "./dist",
 
@@ -21,10 +21,10 @@
 
         /* Linting */
         "strict": true,
-        "noUnusedLocals": false,
+        "noUnusedLocals": true,
         "noUnusedParameters": false,
-        "noFallthroughCasesInSwitch": true,
+        "noFallthroughCasesInSwitch": true
     },
     "include": ["src/**/*"],
-    "references": [{ "path": "./tsconfig.node.json" }],
+    "references": [{ "path": "./tsconfig.node.json" }]
 }

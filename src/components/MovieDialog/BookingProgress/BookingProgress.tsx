@@ -1,19 +1,16 @@
 import { format, parseISO } from 'date-fns';
-import Image from '~/assets';
 import { IConcession } from '~/types/Concession';
 import { IShowtime } from '~/types/Showtime';
 
-const BookingProgress = ({
-    ticketInfor,
-    onClick,
-}: {
+type IBookingProgressProps = {
     ticketInfor: {
         showtimeTarget: IShowtime;
         concessions: { quanlity: number; concession: IConcession }[];
         seats: { index: number; name: string }[];
     };
     onClick: () => void;
-}) => {
+};
+const BookingProgress: React.FC<IBookingProgressProps> = ({ ticketInfor, onClick }) => {
     const totalConcession = ticketInfor.concessions.reduce(
         (init, item) => item.quanlity * item.concession.price + init,
         0

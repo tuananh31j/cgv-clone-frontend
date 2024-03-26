@@ -1,10 +1,6 @@
 import Title from '../Title';
 import Carousel from '../Carousel';
 import EventItem from './EventItem';
-
-import clsx from 'clsx';
-import styles from './Event.module.scss';
-import Image from '~/assets';
 import ToggleTabs from '../ToggleTabs';
 
 const Event = () => {

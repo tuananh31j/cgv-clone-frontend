@@ -5,7 +5,6 @@ import MoviesComingSoon from '~/pages/MoviesComingSoon';
 import MoviesNowShowing from '~/pages/MoviesNowShowing';
 import Register from '~/pages/Auth/Register';
 import Auth from '~/pages/Auth';
-import Account from '~/pages/Account';
 import ProtectedRoute from '~/components/ProtectedRoute';
 const PublicRoutes = [
     { path: 'movies/now-showing', element: <MoviesNowShowing /> },

@@ -1,9 +1,5 @@
-import clsx from 'clsx';
-import Image from '~/assets';
-import styles from './MovieShowcase.module.scss';
 import MovieCard from '../MovieCard';
 import Breadcrumbs from '../Breadcrumbs';
-import { IMovie } from '~/types/Movie';
 import { IMoviesShow } from '~/types/Showtime';
 
 const MovieShowcase = ({ title, data, unEvent }: { title: string; data: IMoviesShow[]; unEvent?: boolean }) => {

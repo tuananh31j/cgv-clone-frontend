@@ -1,15 +1,13 @@
 import { IRegion } from '~/types/Region';
 import ButtonState from '../ButtonState';
 
-const RegionItem = ({
-    dataItem,
-    status,
-    onClick,
-}: {
+type IRegionItemProps = {
     dataItem: IRegion;
     status: boolean | string;
     onClick: () => void;
-}) => {
+};
+
+const RegionItem: React.FC<IRegionItemProps> = ({ dataItem, status, onClick }) => {
     return (
         <>
             <ButtonState

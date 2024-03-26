@@ -3,7 +3,6 @@ import showtimeApi from '~/api/showtimeApi';
 import Loading from '~/components/Loading';
 import MovieShowcase from '~/components/MovieShowcase';
 import useAsync from '~/hooks/useAsync';
-import { IMovie } from '~/types/Movie';
 import { IMoviesShow } from '~/types/Showtime';
 
 const MoviesNowShowing = () => {

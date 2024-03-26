@@ -3,24 +3,24 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 
-const menus = [
-    {
-        path: '',
-        name: 'Thông kê',
-    },
-    {
-        path: null,
-        name: 'Quản lý xuất chiều',
-        children: [
-            { path: 'movies/now-showing', name: 'Phim đang chiếu' },
-            { path: 'movies/comming-soon', name: 'Phim sắp chiếu' },
-        ],
-    },
-    { path: 'movies', name: ' Quản lý phim' },
-    { path: 'orders', name: ' Quản lý vé' },
-    { path: 'banner', name: ' Quản lý banner' },
-    { path: null, name: 'Rạp phim', children: 'callAPI' },
-];
+// const menus = [
+//     {
+//         path: '',
+//         name: 'Thông kê',
+//     },
+//     {
+//         path: null,
+//         name: 'Quản lý xuất chiều',
+//         children: [
+//             { path: 'movies/now-showing', name: 'Phim đang chiếu' },
+//             { path: 'movies/comming-soon', name: 'Phim sắp chiếu' },
+//         ],
+//     },
+//     { path: 'movies', name: ' Quản lý phim' },
+//     { path: 'orders', name: ' Quản lý vé' },
+//     { path: 'banner', name: ' Quản lý banner' },
+//     { path: null, name: 'Rạp phim', children: 'callAPI' },
+// ];
 
 const Sidebar = () => {
     const [isNav, setIsNav] = useState<boolean>(true);

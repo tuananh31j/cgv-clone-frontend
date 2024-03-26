@@ -1,16 +1,13 @@
 import { useEffect, useState } from 'react';
-import Image from '~/assets';
 import { IConcession } from '~/types/Concession';
 
-const Item = ({
-    concession,
-    handleConcession,
-    selectedConcessions,
-}: {
+type IItemProps = {
     concession: IConcession;
     selectedConcessions: { quanlity: number; concession: IConcession }[];
     handleConcession: ({ quanlity, concession }: { quanlity: number; concession: IConcession }) => void;
-}) => {
+};
+
+const Item: React.FC<IItemProps> = ({ concession, handleConcession, selectedConcessions }) => {
     const resultConcession = selectedConcessions.find((item) => item.concession._id === concession._id);
     const [concessionTarget, setConcessionTarget] = useState<{ quanlity: number; concession: IConcession }>({
         quanlity: resultConcession ? resultConcession.quanlity : 0,

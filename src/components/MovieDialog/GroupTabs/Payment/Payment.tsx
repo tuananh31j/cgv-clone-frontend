@@ -1,20 +1,17 @@
-import Image from '~/assets';
 import Wrapper from '../../Components/Wrapper';
 import { IShowtime } from '~/types/Showtime';
 import { IConcession } from '~/types/Concession';
 import { differenceInMinutes, format, parseISO } from 'date-fns';
 
-const Payment = ({
-    onRequest,
-    ticketInfor,
-}: {
+type IPaymentProps = {
     onRequest: () => void;
     ticketInfor: {
         showtimeTarget: IShowtime;
         concessions: { quanlity: number; concession: IConcession }[];
         seats: { index: number; name: string }[];
     };
-}) => {
+};
+const Payment: React.FC<IPaymentProps> = ({ onRequest, ticketInfor }) => {
     const totalConcession = ticketInfor.concessions.reduce(
         (init, item) => item.quanlity * item.concession.price + init,
         0

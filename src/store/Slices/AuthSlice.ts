@@ -53,7 +53,6 @@ const authSlice = createSlice({
         builder
             .addCase(loginAsyncThunk.pending, (state, action) => {
                 state.loading = true;
-                const o = action.meta.requestId;
             })
             .addCase(loginAsyncThunk.fulfilled, (state, action) => {
                 state.loading = false;

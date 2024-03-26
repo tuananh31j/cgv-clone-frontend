@@ -1,17 +1,12 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import authApi from '~/api/authApi';
-import cinemaApi from '~/api/cinemaApi';
 import customerApi from '~/api/customerApi';
-import regionApi from '~/api/regionApi';
 import Image from '~/assets';
 import Input from '~/components/Input';
 import ShowValidation from '~/components/ShowValidation';
-import { IRegisterForm, registerSchema } from '~/types/Auth';
-import { ICinema } from '~/types/Cinema';
 import { IEditCustomerForm, editCustomerForm } from '~/types/Customer';
-import { IRegion } from '~/types/Region';
 import showMessage from '~/utilities/showMessage';
 
 const MyInfor = () => {

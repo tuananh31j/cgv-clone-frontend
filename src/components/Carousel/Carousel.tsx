@@ -1,10 +1,6 @@
-import clsx from 'clsx';
-import styles from './Carousel.module.scss';
-import React, { ReactNode, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGreaterThan, faLessThan } from '@fortawesome/free-solid-svg-icons';
-import { IShowtime } from '~/types/Showtime';
-import { MovieItem } from '../MovieSelection';
 import { IMovie } from '~/types/Movie';
 
 interface ICarouselProps {

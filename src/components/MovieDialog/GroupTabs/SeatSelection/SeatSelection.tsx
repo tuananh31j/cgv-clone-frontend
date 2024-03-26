@@ -4,14 +4,7 @@ import Seat from './Seat';
 import showMessage from '~/utilities/showMessage';
 import Wrapper from '../../Components/Wrapper';
 import { gennerateSeats } from '~/utilities/helper';
-import { useEffect, useState } from 'react';
-import orderApi from '~/api/orderApi';
-const SeatSelection = ({
-    seatingMatrix,
-    pickSeat,
-    handleClick,
-    soldSeatsList = [],
-}: {
+type ISeatSelectionProps = {
     seatingMatrix: {
         cols: number;
         rows: number;
@@ -19,7 +12,9 @@ const SeatSelection = ({
     pickSeat: { index: number; name: string }[];
     soldSeatsList?: string[];
     handleClick: ({ index, name }: { index: number; name: string }) => void;
-}) => {
+};
+
+const SeatSelection: React.FC<ISeatSelectionProps> = ({ seatingMatrix, pickSeat, handleClick, soldSeatsList = [] }) => {
     const seatingMatrixStyle = seatingMatrix
         ? {
               display: 'grid',

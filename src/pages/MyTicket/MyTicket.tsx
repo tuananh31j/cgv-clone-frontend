@@ -1,9 +1,7 @@
 import Tippy from '@tippyjs/react';
 import { format } from 'date-fns';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
 import orderApi from '~/api/orderApi';
-import Image from '~/assets';
 import DetailsOrder from '~/components/DetailsOrder';
 import useAsync from '~/hooks/useAsync';
 import { RootState } from '~/store/store';

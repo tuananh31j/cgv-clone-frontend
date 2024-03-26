@@ -1,6 +1,3 @@
-import { useState } from 'react';
-import { IRegion } from '~/types/Region';
-
 interface IContainerBoxProps {
     children: React.ReactNode;
     className?: string;

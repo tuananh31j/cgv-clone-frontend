@@ -5,7 +5,6 @@ import Image from '~/assets';
 import { ICustomer } from '~/types/Customer';
 import * as NavigationMenu from '@radix-ui/react-navigation-menu';
 import { CaretDownIcon } from '@radix-ui/react-icons';
-import { useAppDispatch } from '~/store/store';
 import { Link } from 'react-router-dom';
 
 const Persional = ({ currentUser, onClick }: { currentUser?: ICustomer; onClick: () => Promise<void> }) => {

@@ -5,19 +5,7 @@ import Wrapper from '../../Components/Wrapper';
 import { IFormat } from '~/types/Format';
 import { IShowtime } from '~/types/Showtime';
 
-const BookingTime = ({
-    calendarTarget,
-    regionTarget,
-    formatTarget,
-    ShowtimeTarget,
-    regions,
-    formats,
-    movies,
-    handleClickSelectCalendar,
-    handleClickSelectRegion,
-    handleClickSelectFormat,
-    handleClickSelectShowtime,
-}: {
+type IBookingTimeProps = {
     calendarTarget: { index: number | string; date: Date | string };
     regionTarget: { index: number | string; region: string };
     formatTarget: { index: number | string; format: string };
@@ -29,6 +17,19 @@ const BookingTime = ({
     handleClickSelectCalendar: ({ index, date }: { index: number | string; date: string | Date }) => void;
     handleClickSelectFormat: ({ index, format }: { index: number | string; format: string }) => void;
     handleClickSelectShowtime: ({ index, showtime }: { index: number | string; showtime: string }) => void;
+};
+const BookingTime: React.FC<IBookingTimeProps> = ({
+    calendarTarget,
+    regionTarget,
+    formatTarget,
+    ShowtimeTarget,
+    regions,
+    formats,
+    movies,
+    handleClickSelectCalendar,
+    handleClickSelectRegion,
+    handleClickSelectFormat,
+    handleClickSelectShowtime,
 }) => {
     const list30Day = getListOfNext30Day();
     return (

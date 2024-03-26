@@ -1,5 +1,4 @@
 import * as Tabs from '@radix-ui/react-tabs';
-import Button from '../Button';
 import { useState } from 'react';
 import clsx from 'clsx';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
