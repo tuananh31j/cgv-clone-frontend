@@ -2,7 +2,7 @@ import Image from '~/assets';
 import style from './Footer.module.scss';
 import clsx from 'clsx';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFacebook, faSquareInstagram, faYoutube } from '@fortawesome/free-brands-svg-icons';
+import { faFacebook, faYoutube } from '@fortawesome/free-brands-svg-icons';
 import Icons from '~/components/Icons';
 
 const Footer = () => {

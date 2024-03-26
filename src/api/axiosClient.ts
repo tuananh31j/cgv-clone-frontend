@@ -1,6 +1,4 @@
 import axios from 'axios';
-import { IRefreshTokenResponse } from '~/types/Auth';
-import { REACT_API_URL } from '~/constants/env';
 import authApi from './authApi';
 const axiosClient = axios.create({
     baseURL: import.meta.env.VITE_REACT_API_URL,
