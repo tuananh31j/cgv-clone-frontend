@@ -10,7 +10,9 @@ const DetailsOrder = ({ order, children }: { order: IOrder; children: React.Reac
             <Dialog.Portal>
                 <Dialog.Overlay className='fixed inset-0 bg-black bg-opacity-45' />
                 <Dialog.Content className=' fixed left-[50%] top-[50%] max-h-[85vh] w-[90vw] max-w-[750px] translate-x-[-50%] translate-y-[-50%] rounded-[6px] bg-white p-[25px] shadow-[hsl(206_22%_7%_/_35%)_0px_10px_38px_-10px,_hsl(206_22%_7%_/_20%)_0px_10px_20px_-15px] '>
-                    <Dialog.Title className='text-mauve12 m-0 text-[17px] font-medium'>Chi tiet ve ban</Dialog.Title>
+                    <Dialog.Title className='text-mauve12 m-0 text-[17px] font-medium uppercase'>
+                        Chi tiết vé bán
+                    </Dialog.Title>
                     <div className='grid grid-cols-2'>
                         <div className='line flex items-center gap-x-2'>
                             <div className=''>

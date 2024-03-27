@@ -40,7 +40,7 @@ const MyInfor = () => {
     }, []);
     return (
         <>
-            <div className=' py-3'>
+            <div className=' -z-50 py-3'>
                 <h1 className='w-full bg-gray-800 p-2 text-center text-white'>Thông tin chung</h1>
             </div>
             <div className='mx-6'>

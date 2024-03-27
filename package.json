@@ -79,5 +79,5 @@
         "typescript": "^5.4.3",
         "vite": "^4.4.5"
     },
-    "proxy": "https://cgv-clone-backend.onrender1.com/"
+    "proxy": "https://cgv-clone-backend-1.onrender.com"
 }

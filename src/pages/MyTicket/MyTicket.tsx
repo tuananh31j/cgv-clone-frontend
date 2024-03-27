@@ -21,7 +21,7 @@ const MyTicket = () => {
     }, []);
     return (
         <>
-            <div className=' py-3'>
+            <div className=' py-3 -z-50'>
                 <h1 className='w-full bg-gray-800 p-2 text-center text-white'>Vé của tôi</h1>
             </div>
             {myListOrders &&
@@ -55,7 +55,7 @@ const MyTicket = () => {
                         <div>
                             <DetailsOrder order={item}>
                                 <button className='text-[15px] italic text-blue-600 underline transition-all duration-150 ease-in-out hover:scale-105 hover:text-blue-800'>
-                                    Chi tiet
+                                    Chi tiết
                                 </button>
                             </DetailsOrder>
                         </div>
