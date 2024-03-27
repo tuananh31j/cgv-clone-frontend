@@ -3,7 +3,6 @@ import { useEffect } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import authApi from '~/api/authApi';
 import customerApi from '~/api/customerApi';
-import Image from '~/assets';
 import Input from '~/components/Input';
 import ShowValidation from '~/components/ShowValidation';
 import { IEditCustomerForm, editCustomerForm } from '~/types/Customer';
@@ -48,7 +47,7 @@ const MyInfor = () => {
                 <div className='flex h-20 w-20 flex-col justify-center rounded-full border border-transparent'>
                     <img
                         className='h-full w-full rounded-full border border-transparent'
-                        src={Image.eventItem1}
+                        src='http://res.cloudinary.com/djcimgjcc/image/upload/v1697091622/hltpfy4cll9ah2sd2pi4.png'
                         alt=''
                     />
                 </div>

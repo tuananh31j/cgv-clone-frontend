@@ -27,9 +27,12 @@ export const editCustomerForm = z.object({
         .min(10, 'Số điện thoại không hợp lệ!')
         .max(12, 'Số điện thoại không hợp lệ!'),
     email: z.string().nonempty('Bạn chưa điền email!').email('Email không hợp lệ!'),
-    sex: z.string().refine((value) => value !== null, {
-        message: 'Bạn phải chọn giới tính',
-    }),
+    sex: z
+        .string()
+        .nonempty('Bạn chưa điền email!')
+        .refine((value) => value == null, {
+            message: 'Bạn phải chọn giới tính',
+        }),
     date_of_birth: z.string().nonempty('Bạn chưa điền ngày sinh!'),
 });
 

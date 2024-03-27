@@ -1,5 +1,7 @@
 function checkCookieExist(cookieName: string) {
     const cookies = document.cookie; // Lấy chuỗi cookie
+    console.log(cookies);
+
     const cookieArray = cookies.split(';'); // Tách chuỗi cookie thành một mảng dựa trên dấu chấm phẩy
     for (let i = 0; i < cookieArray.length; i++) {
         const cookie = cookieArray[i];

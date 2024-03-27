@@ -5,7 +5,13 @@ import MovieItem from './MovieItem';
 import { IMovie } from '~/types/Movie';
 import Loading from '../Loading';
 
-const MovieSelection = ({ moviesNowShowing, loading }: { moviesNowShowing: IMovie[]; loading: boolean }) => {
+const MovieSelection = ({
+    moviesNowShowing,
+    loading,
+}: {
+    moviesNowShowing: IMovie[] | undefined;
+    loading: boolean;
+}) => {
     return (
         <>
             <div className='mx-auto my-8 mt-12 max-w-[978.4px]'>

@@ -10,9 +10,13 @@ import { Link } from 'react-router-dom';
 import { useCallback } from 'react';
 import showtimeApi from '~/api/showtimeApi';
 import { IMovie } from '~/types/Movie';
+import useDocumentTitle from '~/hooks/useDocumentTitle';
+import Loading from '~/components/Loading';
 
 const HomePage = () => {
-    const { value: banners } = useAsync<IBanner[] | []>(async () => {
+    useDocumentTitle('Trang chủ');
+
+    const { value: banners, loading: bannerLoading } = useAsync<IBanner[] | []>(async () => {
         try {
             const { data } = await bannerApi.getBannerActive();
             return data;
@@ -25,7 +29,7 @@ const HomePage = () => {
         const listMovieNowShowing = movies.map((movie, i) => movie.movieDetails);
         return listMovieNowShowing;
     }, []);
-    const { value: moviesNowShowing, loading } = useAsync<IMovie[]>(getMoviesNowShowing);
+    const { value: moviesNowShowing, loading: movieLoading } = useAsync<IMovie[]>(getMoviesNowShowing);
     return (
         <>
             <div className='container-box mx-auto mt-8'>
@@ -70,8 +74,10 @@ const HomePage = () => {
                     </div>
                 </div>
             </div>
-            <div className={clsx(style.content, 'h-[447.26px]')}>{banners && <Slideshow data={banners} />}</div>
-            {moviesNowShowing && <MovieSelection moviesNowShowing={moviesNowShowing} loading={loading} />}
+            <div className={clsx(style.content, 'h-[447.26px]')}>
+                {banners && <Slideshow data={banners} />} {bannerLoading && <Loading />}
+            </div>
+            <MovieSelection moviesNowShowing={moviesNowShowing} loading={movieLoading} />
             <Event />
         </>
     );

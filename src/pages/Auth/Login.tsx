@@ -7,8 +7,11 @@ import { ILoginForm, loginSchema } from '~/types/Auth';
 import { useAppDispatch } from '~/store/store';
 import { loginAsyncThunk } from '~/store/Slices/AuthSlice';
 import showMessage from '~/utilities/showMessage';
+import useDocumentTitle from '~/hooks/useDocumentTitle';
 
 const Login = () => {
+    useDocumentTitle('Đăng nhập');
+
     const dispatch = useAppDispatch();
     const navigator = useNavigate();
     const {

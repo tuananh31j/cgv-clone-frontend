@@ -13,7 +13,7 @@ interface IMovieProps {
 }
 
 const MovieItem = forwardRef<HTMLImageElement, IMovieProps>(({ item }, ref) => {
-    const user = useSelector((state: RootState) => state.auth.login.currentUser.accessToken);
+    const user = useSelector((state: RootState) => state.auth.login.currentUser.id);
     return (
         <>
             <div className={clsx(styles.card, 'relative w-[240.3px] bg-white transition-all will-change-auto')}>

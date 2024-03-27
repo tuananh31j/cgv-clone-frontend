@@ -4,15 +4,11 @@ import clsx from 'clsx';
 import Persional from './Persional';
 import Navbar from './Navbar';
 import { Link } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import auth from '~/api/authApi';
-import { ICustomer } from '~/types/Customer';
 import { useSelector } from 'react-redux';
 import { RootState, useAppDispatch } from '~/store/store';
 import { logoutAsyncThunk } from '~/store/Slices/AuthSlice';
 import showMessage from '~/utilities/showMessage';
 const Header = () => {
-    const [currentUser, setCurrentUser] = useState<ICustomer | undefined>();
     const user = useSelector((state: RootState) => state.auth.login.currentUser);
     const dispatch = useAppDispatch();
     const handleLogout = async () => {
@@ -23,28 +19,28 @@ const Header = () => {
             console.log(error);
         }
     };
-    useEffect(() => {
-        (async () => {
-            if (user.accessToken !== '') {
-                try {
-                    const { data } = await auth.getMe();
-                    if (data) {
-                        setCurrentUser(data);
-                    }
-                } catch (error) {
-                    console.log(error);
+    // useEffect(() => {
+    //     (async () => {
+    //         if (user.id !== '') {
+    //             try {
+    //                 const { data } = await auth.getMe();
+    //                 if (data) {
+    //                     setCurrentUser(data);
+    //                 }
+    //             } catch (error) {
+    //                 console.log(error);
 
-                    setCurrentUser(undefined);
-                }
-            } else {
-                setCurrentUser(undefined);
-            }
-        })();
-    }, [user]);
+    //                 setCurrentUser(undefined);
+    //             }
+    //         } else {
+    //             setCurrentUser(undefined);
+    //         }
+    //     })();
+    // }, [user]);
 
     return (
         <>
-            <Persional currentUser={currentUser} onClick={handleLogout} />
+            <Persional currentUser={user} onClick={handleLogout} />
 
             <header className={clsx(cl.header, 'w-full bg-scroll bg-left-bottom bg-repeat-x')}>
                 <div

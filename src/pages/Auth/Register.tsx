@@ -7,12 +7,15 @@ import cinemaApi from '~/api/cinemaApi';
 import regionApi from '~/api/regionApi';
 import Input from '~/components/Input';
 import ShowValidation from '~/components/ShowValidation';
+import useDocumentTitle from '~/hooks/useDocumentTitle';
 import { IRegisterForm, registerSchema } from '~/types/Auth';
 import { ICinema } from '~/types/Cinema';
 import { IRegion } from '~/types/Region';
 import showMessage from '~/utilities/showMessage';
 
 const Register = () => {
+    useDocumentTitle('Đăng ký');
+
     const [regions, setRegions] = useState<IRegion[]>();
     const [cinemas, setCinemas] = useState<ICinema[]>();
     const navigator = useNavigate();

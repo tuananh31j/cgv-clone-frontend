@@ -2,7 +2,7 @@ import axios from 'axios';
 import authApi from './authApi';
 const axiosClient = axios.create({
     baseURL: import.meta.env.VITE_REACT_API_URL,
-    timeout: 800000,
+    timeout: 260000,
     headers: {
         'Content-Type': 'application/json',
     },
@@ -43,20 +43,3 @@ axiosClient.interceptors.response.use(
 );
 
 export default axiosClient;
-
-// class AxiosClient {
-//     instance: AxiosInstance;
-//     constructor() {
-//         this.instance = axios.create({
-//             baseURL: process.env.REACT_API_URL,
-//             headers: {
-//                 'content-type': 'application/json',
-//             },
-//         });
-
-//         this.instance.interceptors.request.use((config) => {
-//             let date = new Date();
-//             return config;
-//         });
-//     }
-// }

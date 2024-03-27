@@ -2,12 +2,17 @@ import clsx from 'clsx';
 import styles from './Header.module.scss';
 import PinkSwitch from '~/components/PinkSwitch/PinkSwitch';
 import Image from '~/assets';
-import { ICustomer } from '~/types/Customer';
 import * as NavigationMenu from '@radix-ui/react-navigation-menu';
 import { CaretDownIcon } from '@radix-ui/react-icons';
 import { Link } from 'react-router-dom';
 
-const Persional = ({ currentUser, onClick }: { currentUser?: ICustomer; onClick: () => Promise<void> }) => {
+const Persional = ({
+    currentUser,
+    onClick,
+}: {
+    currentUser: { name: string; role: string; id: string };
+    onClick: () => Promise<void>;
+}) => {
     return (
         <div className={clsx(styles.header__persional)}>
             <nav>
@@ -23,7 +28,7 @@ const Persional = ({ currentUser, onClick }: { currentUser?: ICustomer; onClick:
                         </Link>
                     </li>
                     <li>
-                        {!currentUser && (
+                        {currentUser.id === '' && (
                             <span className='flex items-center'>
                                 <Link to={'login'} className='flex items-center gap-1 uppercase'>
                                     <img src={Image.iconPersionalAccount} />
@@ -35,7 +40,7 @@ const Persional = ({ currentUser, onClick }: { currentUser?: ICustomer; onClick:
                                 </Link>
                             </span>
                         )}
-                        {!!currentUser && (
+                        {currentUser.id !== '' && (
                             <NavigationMenu.Root>
                                 <NavigationMenu.List>
                                     <NavigationMenu.Item className='relative'>

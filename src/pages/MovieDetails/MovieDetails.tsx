@@ -7,6 +7,7 @@ import ToggleTabs from '~/components/ToggleTabs';
 import { useParams } from 'react-router-dom';
 import { IMovie } from '~/types/Movie';
 import movieApi from '~/api/movieApi';
+import useDocumentTitle from '~/hooks/useDocumentTitle';
 
 const MovieDetails = () => {
     const { id } = useParams();
@@ -25,6 +26,7 @@ const MovieDetails = () => {
         const ytbEmbed = props.trailer_embed ? props.trailer_embed : 'gAmW3kvgMok';
         return <iframe width='560' height='315' src={`//www.youtube.com/embed/${ytbEmbed}`} allowFullScreen></iframe>;
     };
+    useDocumentTitle(movie?.name || '');
     return (
         <div className='container-box'>
             <div className='mb-7 border-b-2 border-black'>

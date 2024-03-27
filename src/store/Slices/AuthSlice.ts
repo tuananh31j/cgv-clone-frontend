@@ -1,48 +1,38 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import authApi from '~/api/authApi';
 import { ILoginForm } from '~/types/Auth';
-import { checkCookieExist } from '~/utilities/cookie';
-
 type IInitialState = {
     login: {
-        currentUser: { accessToken: string; name: string; role: string; id: string };
+        currentUser: { name: string; role: string; id: string };
         currentRequestId: undefined | string;
     };
     loading: boolean;
 };
-const accessToken = localStorage.getItem('accessToken');
-const meInfor = localStorage.getItem('me');
-const refreshToken = checkCookieExist('refreshToken');
-
-let myName = '';
-let myRole = '';
-let myId = '';
-let myAccessToken = '';
-if (meInfor && refreshToken && accessToken) {
-    const meInforObj = JSON.parse(meInfor);
-    myName = meInforObj.name;
-    myRole = meInforObj.role;
-    myId = meInforObj.id;
-    myAccessToken = accessToken;
-} else {
-    localStorage.removeItem('me');
-    localStorage.removeItem('accessToken');
-}
 const initialState: IInitialState = {
     login: {
-        currentUser: { accessToken: myAccessToken, name: myName, role: myRole, id: myId },
+        currentUser: { name: '', role: '', id: '' },
         currentRequestId: undefined,
     },
     loading: false,
 };
 const loginAsyncThunk = createAsyncThunk('auth/login', async (body: ILoginForm, thunkAPI) => {
-    const res = await authApi.login(body, { signal: thunkAPI.signal });
-    return res.data;
+    const { data } = await authApi.login(body, { signal: thunkAPI.signal });
+    return data;
 });
 
 const logoutAsyncThunk = createAsyncThunk('auth/logout', async (_, thunkAPI) => {
     await authApi.logout({ signal: thunkAPI.signal });
-    return { accessToken: '', name: '', role: '', id: '' };
+    return { name: '', role: '', id: '' };
+});
+const getMeAsyncThunk = createAsyncThunk('auth/me', async (_, thunkAPI) => {
+    try {
+        const { data } = await authApi.getMe();
+        return { name: data.name, role: data.role, id: data._id };
+    } catch (error) {
+        console.log(error);
+
+        return { name: '', role: '', id: '' };
+    }
 });
 
 const authSlice = createSlice({
@@ -56,10 +46,9 @@ const authSlice = createSlice({
             })
             .addCase(loginAsyncThunk.fulfilled, (state, action) => {
                 state.loading = false;
-                state.login.currentUser = action.payload;
-                localStorage.setItem('accessToken', action.payload.accessToken);
                 const { accessToken, ...others } = action.payload;
-                localStorage.setItem('me', JSON.stringify(others));
+                state.login.currentUser = others;
+                localStorage.setItem('accessToken', accessToken);
             })
             .addCase(logoutAsyncThunk.pending, (state) => {
                 state.loading = true;
@@ -67,11 +56,23 @@ const authSlice = createSlice({
             .addCase(logoutAsyncThunk.fulfilled, (state, action) => {
                 state.loading = false;
                 localStorage.removeItem('accessToken');
-                localStorage.removeItem('me');
+                state.login.currentUser = action.payload;
+            })
+            .addCase(getMeAsyncThunk.pending, (state) => {
+                state.loading = true;
+            })
+            .addCase(getMeAsyncThunk.rejected, (state) => {
+                state.loading = false;
+                state.login.currentUser.id = '';
+                state.login.currentUser.role = '';
+                state.login.currentUser.name = '';
+            })
+            .addCase(getMeAsyncThunk.fulfilled, (state, action) => {
+                state.loading = false;
                 state.login.currentUser = action.payload;
             });
     },
 });
 
-export { loginAsyncThunk, logoutAsyncThunk };
+export { loginAsyncThunk, logoutAsyncThunk, getMeAsyncThunk };
 export default authSlice.reducer;

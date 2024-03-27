@@ -3,7 +3,7 @@ import { Navigate } from 'react-router-dom';
 import { RootState } from '~/store/store';
 
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
-    const token = useSelector((state: RootState) => state.auth.login.currentUser.accessToken);
+    const token = useSelector((state: RootState) => state.auth.login.currentUser.id);
     if (token) {
         return <Navigate to='/not-found' replace />;
     }
