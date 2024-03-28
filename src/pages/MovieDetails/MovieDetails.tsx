@@ -8,8 +8,12 @@ import { useParams } from 'react-router-dom';
 import { IMovie } from '~/types/Movie';
 import movieApi from '~/api/movieApi';
 import useDocumentTitle from '~/hooks/useDocumentTitle';
+import MovieDialog from '~/components/MovieDialog';
+import { useSelector } from 'react-redux';
+import { RootState } from '~/store/store';
 
 const MovieDetails = () => {
+    const user = useSelector((state: RootState) => state.auth.login.currentUser.id);
     const { id } = useParams();
     const [movie, setMovie] = useState<IMovie>();
     useEffect(() => {
@@ -17,13 +21,13 @@ const MovieDetails = () => {
             const { data } = await movieApi.getOne(id as string);
             setMovie(data);
         })();
-    });
+    }, []);
     const Tab1 = (props: { desc: string }) => {
         return <span className='text-sm'>{props.desc}</span>;
     };
 
-    const Tab2 = (props: { trailer_embed?: string }) => {
-        const ytbEmbed = props.trailer_embed ? props.trailer_embed : 'gAmW3kvgMok';
+    const Tab2 = ({ trailer_embed }: { trailer_embed?: string }) => {
+        const ytbEmbed = trailer_embed ? trailer_embed : 'gAmW3kvgMok';
         return <iframe width='560' height='315' src={`//www.youtube.com/embed/${ytbEmbed}`} allowFullScreen></iframe>;
     };
     useDocumentTitle(movie?.name || '');
@@ -35,10 +39,9 @@ const MovieDetails = () => {
             {movie && (
                 <>
                     <div className='mb-8 flex gap-6'>
-                        {/* <div className='relative '>
-                            <ImageMagnifier image={movie.thumbnail} />
-                        </div> */}
-
+                        <div className='relative '>
+                            <img className='w-[300px]' src={movie.thumbnail} alt='' />
+                        </div>
                         <div className='w-4/5'>
                             <div className='border-b-[1px] border-gray-300 '>
                                 <h1 className='pb-7 text-2xl font-semibold uppercase'>{movie.name}</h1>
@@ -76,15 +79,24 @@ const MovieDetails = () => {
                                     <FontAwesomeIcon className='me-1' icon={faThumbsUp} />
                                     Like <span>10</span>
                                 </Button>
-                                <Button
-                                    iconLeft={<img src={Image.iconPurchareTicket} />}
-                                    large
-                                    href='/oôk'
-                                    primary
-                                    inLine
-                                >
-                                    Mua vé
-                                </Button>
+                                {user !== '' && (
+                                    <MovieDialog movieID={movie._id}>
+                                        <Button iconLeft={<img src={Image.iconPurchareTicket} />} large primary inLine>
+                                            Mua vé
+                                        </Button>
+                                    </MovieDialog>
+                                )}
+                                {user === '' && (
+                                    <Button
+                                        to='/login'
+                                        iconLeft={<img src={Image.iconPurchareTicket} />}
+                                        large
+                                        primary
+                                        inLine
+                                    >
+                                        Mua vé
+                                    </Button>
+                                )}
                             </div>
                         </div>
                     </div>
