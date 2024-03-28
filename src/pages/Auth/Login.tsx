@@ -29,7 +29,6 @@ const Login = () => {
                 .unwrap()
                 .then((value) =>
                     setRefreshTokenCookie('refreshToken', value.refreshToken, {
-                        domain: 'cgv-clone-backend-1.onrender.com',
                         path: '/',
                     })
                 );

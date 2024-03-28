@@ -1,16 +1,14 @@
-function checkCookieExist(cookieName: string) {
-    const cookies = document.cookie; // Lấy chuỗi cookie
-    console.log(cookies);
-
-    const cookieArray = cookies.split(';'); // Tách chuỗi cookie thành một mảng dựa trên dấu chấm phẩy
+function getCookie(cookieName: string) {
+    const cookies = document.cookie; 
+    const cookieArray = cookies.split(';');
     for (let i = 0; i < cookieArray.length; i++) {
         const cookie = cookieArray[i];
-        const cookiePair = cookie.split('='); // Tách tên và giá trị của cookie
+        const cookiePair = cookie.split('=');
         if (cookieName == cookiePair[0].trim()) {
-            return true; // Nếu tên cookie trùng khớp, trả về true
+            return cookiePair[1];
         }
     }
-    return false; // Nếu không tìm thấy cookie, trả về false
+    return null;
 }
 
-export { checkCookieExist };
+export { getCookie };

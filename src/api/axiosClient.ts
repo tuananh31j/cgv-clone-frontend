@@ -1,5 +1,6 @@
 import axios from 'axios';
 import authApi from './authApi';
+import { getCookie } from '~/utilities/cookie';
 const axiosClient = axios.create({
     baseURL: import.meta.env.VITE_REACT_API_URL,
     timeout: 260000,
@@ -12,7 +13,8 @@ const axiosClient = axios.create({
 axiosClient.interceptors.request.use(
     async (config) => {
         const accessToken = localStorage.getItem('accessToken');
-        if (accessToken) {
+        const refreshToken = getCookie('refreshToken');
+        if (accessToken && refreshToken) {
             config.headers['Authorization'] = `Bearer ${accessToken}`;
         }
 

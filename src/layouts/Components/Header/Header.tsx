@@ -8,35 +8,22 @@ import { useSelector } from 'react-redux';
 import { RootState, useAppDispatch } from '~/store/store';
 import { logoutAsyncThunk } from '~/store/Slices/AuthSlice';
 import showMessage from '~/utilities/showMessage';
+import { useCookies } from 'react-cookie';
 const Header = () => {
+    const [_, __, removeRefreshToken] = useCookies(['refreshToken']);
+
     const user = useSelector((state: RootState) => state.auth.login.currentUser);
     const dispatch = useAppDispatch();
     const handleLogout = async () => {
         try {
-            await dispatch(logoutAsyncThunk());
+            await dispatch(logoutAsyncThunk())
+                .unwrap()
+                .then(() => removeRefreshToken('refreshToken'));
             showMessage('Đã đăng xuất!', 'info');
         } catch (error) {
             console.log(error);
         }
     };
-    // useEffect(() => {
-    //     (async () => {
-    //         if (user.id !== '') {
-    //             try {
-    //                 const { data } = await auth.getMe();
-    //                 if (data) {
-    //                     setCurrentUser(data);
-    //                 }
-    //             } catch (error) {
-    //                 console.log(error);
-
-    //                 setCurrentUser(undefined);
-    //             }
-    //         } else {
-    //             setCurrentUser(undefined);
-    //         }
-    //     })();
-    // }, [user]);
 
     return (
         <>
