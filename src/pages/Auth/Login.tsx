@@ -9,7 +9,6 @@ import { loginAsyncThunk } from '~/store/Slices/AuthSlice';
 import showMessage from '~/utilities/showMessage';
 import useDocumentTitle from '~/hooks/useDocumentTitle';
 import { useCookies } from 'react-cookie';
-
 const Login = () => {
     useDocumentTitle('Đăng nhập');
     const [_, setRefreshTokenCookie] = useCookies(['refreshToken']);
@@ -28,7 +27,12 @@ const Login = () => {
         try {
             dispatch(loginAsyncThunk(data))
                 .unwrap()
-                .then((value) => setRefreshTokenCookie('refreshToken', value.refreshToken));
+                .then((value) =>
+                    setRefreshTokenCookie('refreshToken', value.refreshToken, {
+                        domain: 'cgv-clone-backend-1.onrender.com',
+                        path: '/',
+                    })
+                );
             showMessage('Đăng nhập thành công!', 'success');
             navigator('/');
         } catch (error) {
