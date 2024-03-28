@@ -17,11 +17,11 @@ const authApi = {
         const path = 'auth/me';
         return axiosClient.post<ICustomer>(`${REACT_API_URL}/${path}`);
     },
-    refreshToken() {
+    refreshToken(refreshToken: string) {
         const path = 'auth/refresh';
         return axios.post<IRefreshTokenResponse>(
             `${REACT_API_URL}/${path}`,
-            {},
+            { refreshToken },
             {
                 withCredentials: true,
             }
