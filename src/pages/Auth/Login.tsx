@@ -8,9 +8,11 @@ import { useAppDispatch } from '~/store/store';
 import { loginAsyncThunk } from '~/store/Slices/AuthSlice';
 import showMessage from '~/utilities/showMessage';
 import useDocumentTitle from '~/hooks/useDocumentTitle';
+import { useCookies } from 'react-cookie';
 
 const Login = () => {
     useDocumentTitle('Đăng nhập');
+    const [_, setRefreshTokenCookie] = useCookies(['refreshToken']);
 
     const dispatch = useAppDispatch();
     const navigator = useNavigate();
@@ -24,7 +26,9 @@ const Login = () => {
             setTimeout(resolve, 1000);
         });
         try {
-            dispatch(loginAsyncThunk(data));
+            dispatch(loginAsyncThunk(data))
+                .unwrap()
+                .then((value) => setRefreshTokenCookie('refreshToken', value.refreshToken));
             showMessage('Đăng nhập thành công!', 'success');
             navigator('/');
         } catch (error) {

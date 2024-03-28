@@ -33,6 +33,7 @@ export type ILoginResponse = {
     name: string;
     role: string;
     accessToken: string;
+    refreshToken: string;
     id: string;
 };
 
