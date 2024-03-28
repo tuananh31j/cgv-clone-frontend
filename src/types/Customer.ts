@@ -29,8 +29,8 @@ export const editCustomerForm = z.object({
     email: z.string().nonempty('Bạn chưa điền email!').email('Email không hợp lệ!'),
     sex: z
         .string()
-        .nonempty('Bạn chưa điền email!')
-        .refine((value) => value == null, {
+        .nullable()
+        .refine((value) => value !== null, {
             message: 'Bạn phải chọn giới tính',
         }),
     date_of_birth: z.string().nonempty('Bạn chưa điền ngày sinh!'),
