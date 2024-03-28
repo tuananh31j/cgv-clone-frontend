@@ -14,12 +14,7 @@ export const registerSchema = z.object({
         .max(12, 'Số điện thoại không hợp lệ!'),
     email: z.string().nonempty('Bạn chưa điền email!').email('Email không hợp lệ!'),
     password: z.string().nonempty('Bạn chưa điền mật khẩu!'),
-    sex: z
-        .string()
-        .nullable()
-        .refine((value) => value !== null, {
-            message: 'Bạn phải chọn giới tính',
-        }),
+    sex: z.enum(['male', 'female'], { errorMap: () => ({ message: 'Bạn chưa chọn giới tính' }) }),
     date_of_birth: z.string().nonempty('Bạn chưa điền ngày sinh!'),
     region: z.string().nonempty('Bạn chưa chọn khu vực!'),
     fay_cinema: z.string().nonempty('Bạn chưa điền rạp yêu thích!'),

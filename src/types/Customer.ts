@@ -6,7 +6,7 @@ export interface ICustomer {
     phone: string;
     password: string;
     email: string;
-    sex: string;
+    sex: 'male' | 'female';
     address: string;
     date_of_birth: string;
     status: boolean;
@@ -27,12 +27,7 @@ export const editCustomerForm = z.object({
         .min(10, 'Số điện thoại không hợp lệ!')
         .max(12, 'Số điện thoại không hợp lệ!'),
     email: z.string().nonempty('Bạn chưa điền email!').email('Email không hợp lệ!'),
-    sex: z
-        .string()
-        .nullable()
-        .refine((value) => value !== null, {
-            message: 'Bạn phải chọn giới tính',
-        }),
+    sex: z.enum(['male', 'female'], { errorMap: () => ({ message: 'Bạn chưa chọn giới tính' }) }),
     date_of_birth: z.string().nonempty('Bạn chưa điền ngày sinh!'),
 });
 
