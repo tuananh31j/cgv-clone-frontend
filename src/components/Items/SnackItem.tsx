@@ -33,7 +33,7 @@ const SnackItem: React.FC<ISnackItemProps> = ({ concession, handleConcession, se
         <>
             <div className='grid grid-cols-2 items-center gap-7'>
                 <div>
-                    <img src={concession.image} alt='' />
+                    <img src={concession.iamge} alt='' />
                 </div>
                 <div className='mt-5 flex flex-col justify-start text-start'>
                     <h1 className='font-semibold uppercase'>{concession.name}</h1>
