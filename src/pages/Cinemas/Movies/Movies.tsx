@@ -10,7 +10,7 @@ import { IMoviesShow } from '~/types/Showtime';
 const Movies = ({ cinemaID }: { cinemaID: string }) => {
     const getMoviesOfCinema = async () => {
         try {
-            const { data } = await showtimeApi.getMoviesNowShowing();
+            const { data } = await showtimeApi.getMoviesNowShowingByCinema();
             return data.filter((item) => item._id.cinema === cinemaID);
         } catch (error) {
             console.log(error);

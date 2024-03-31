@@ -23,6 +23,10 @@ const showtimeApi = {
         const path = 'showtimes/movies-coming-soon';
         return axiosClient.get<IMoviesShow[]>(`${REACT_API_URL}/${path}`);
     },
+    getMoviesNowShowingByCinema() {
+        const path = 'showtimes/movies-now-showing-by-cinema';
+        return axiosClient.get<IMoviesShow[]>(`${REACT_API_URL}/${path}`);
+    },
 };
 
 export default showtimeApi;

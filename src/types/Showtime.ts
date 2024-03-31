@@ -67,7 +67,7 @@ export interface IShowtime {
 export type IMoviesShow = {
     _id: {
         movie: string;
-        cinema: string;
+        cinema?: string;
     };
     date: string;
     movieId: string;
