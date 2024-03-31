@@ -5,7 +5,7 @@ import { IMovie } from '~/types/Movie';
 
 interface ICarouselProps {
     Item: React.ElementType;
-    data: IMovie[] | number[];
+    data: IMovie[] | number[] | string[];
 }
 const Carousel: React.FC<ICarouselProps> = ({ Item, data }) => {
     const carouselElement = useRef<HTMLDivElement>(null);

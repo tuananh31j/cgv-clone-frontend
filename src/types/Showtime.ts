@@ -10,6 +10,7 @@ export interface IShowtime {
     cinema: {
         _id: string;
         name: string;
+        region_ref: string;
         createdAt: string;
         updatedAt: string;
         __v: number;
@@ -64,7 +65,11 @@ export interface IShowtime {
     __v: number;
 }
 export type IMoviesShow = {
-    _id: string;
+    _id: {
+        movie: string;
+        cinema: string;
+    };
     date: string;
+    movieId: string;
     movieDetails: IMovie;
 };

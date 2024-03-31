@@ -34,13 +34,8 @@ const HomePage = () => {
         <>
             <div className='container-box mx-auto mt-8'>
                 <div>
-                    <div className='wibget mt-7 border-b border-solid border-black'>
-                        <ul
-                            className={clsx(
-                                style.wibget__nav,
-                                ' mb-[10px] flex gap-4 border-b border-solid border-black pb-9 '
-                            )}
-                        >
+                    <div className='wibget mt-7'>
+                        <ul className={clsx(style.wibget__nav, ' mb-[10px] flex gap-4 pb-9 ')}>
                             <li>
                                 <Link className='theater' to='/'>
                                     cgv theater
@@ -74,7 +69,7 @@ const HomePage = () => {
                     </div>
                 </div>
             </div>
-            <div className={clsx(style.content, 'h-[447.26px]')}>
+            <div className={clsx(style.content, '-z-10 h-[447.26px]')}>
                 {banners && <Slideshow data={banners} />} {bannerLoading && <Loading />}
             </div>
             <MovieSelection moviesNowShowing={moviesNowShowing} loading={movieLoading} />

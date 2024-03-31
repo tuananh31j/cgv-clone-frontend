@@ -43,7 +43,7 @@ const Auth = () => {
                         <Outlet />
                     </div>
                 </div>
-                <div>{banners && <Slideshow data={banners}></Slideshow>}</div>
+                <div className=''>{banners && <Slideshow data={banners}></Slideshow>}</div>
             </div>
         </div>
     );

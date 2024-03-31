@@ -1,7 +1,7 @@
-import Wrapper from '../../Components/Wrapper';
 import { IShowtime } from '~/types/Showtime';
 import { IConcession } from '~/types/Concession';
 import { differenceInMinutes, format, parseISO } from 'date-fns';
+import Wrapper from '~/components/Wrapper';
 
 type IPaymentProps = {
     onRequest: () => void;
@@ -33,7 +33,9 @@ const Payment: React.FC<IPaymentProps> = ({ onRequest, ticketInfor }) => {
                         <div className='my-5 flex h-full max-w-[400px]  flex-col justify-between'>
                             <h1 className='text-[20px] font-bold uppercase'>{ticketInfor.showtimeTarget.movie.name}</h1>
                             <div className='flex w-full justify-between'>
-                                <p className='text-[12px] font-extralight italic'>{ticketInfor.showtimeTarget.date}</p>
+                                <p className='text-[12px] font-extralight italic'>
+                                    {format(ticketInfor.showtimeTarget.date, 'yyyy-MM-dd')}
+                                </p>
                                 <div className='flex flex-col justify-center'>
                                     <p className=' text-[12px] font-extralight italic'>
                                         <span>{format(parseISO(ticketInfor.showtimeTarget.start_time), 'hh:mm')}</span>~
@@ -43,7 +45,7 @@ const Payment: React.FC<IPaymentProps> = ({ onRequest, ticketInfor }) => {
                                         {differenceInMinutes(
                                             ticketInfor.showtimeTarget.end_time,
                                             ticketInfor.showtimeTarget.start_time
-                                        )}{' '}
+                                        )}
                                         phút
                                     </p>
                                 </div>

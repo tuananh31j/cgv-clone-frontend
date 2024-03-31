@@ -20,11 +20,8 @@ import { useSelector } from 'react-redux';
 import { RootState } from '~/store/store';
 import orderApi from '~/api/orderApi';
 import { format } from 'date-fns';
+import Loading from '~/components/Loading';
 
-const InitCalendar = {
-    index: '',
-    date: '',
-};
 const InitShowtime = {
     index: '',
     showtime: '',
@@ -45,10 +42,7 @@ interface ISelectRegion {
     index: number | string;
     region: string;
 }
-interface ISelectCalendar {
-    index: number | string;
-    date: string | Date;
-}
+
 interface ISelectShowtime {
     index: number | string;
     showtime: string;
@@ -58,7 +52,7 @@ const GroupTabs = ({ movieID, onHandleCloseDialog }: { movieID: string; onHandle
     const [tabControl, setTabControl] = useState<string>('tab1');
 
     //select
-    const [selectCalendar, setSelectCalendar] = useState<ISelectCalendar>(InitCalendar);
+    const [selectCalendar, setSelectCalendar] = useState<string>(format(new Date(), 'yyyy-MM-dd'));
     const [selectShowtime, setSelectShowtime] = useState<ISelectShowtime>(InitShowtime);
     const [selectRegion, setSelectRegion] = useState<ISelectRegion>(InitRegion);
     const [selectFormat, setSelectFormat] = useState<ISelectFormat>(InitFormat);
@@ -71,11 +65,11 @@ const GroupTabs = ({ movieID, onHandleCloseDialog }: { movieID: string; onHandle
         //     setTimeout(resolve, 3000);
         // });
         const { data } = await showtimeApi.getListMoviesShowtimeById(movieID);
+        setSelectCalendar(format(data[0].date, 'yyyy-MM-dd'));
         return data;
     }, [movieID]);
-    let movies: IShowtime[] = [];
 
-    movies = useAsync<IShowtime[] | []>(getMovieShowtimeList).value || [];
+    const { value: movies, loading } = useAsync<IShowtime[] | []>(getMovieShowtimeList, [movieID]);
 
     //get
     const getShowtimeTarget = async () => {
@@ -87,26 +81,34 @@ const GroupTabs = ({ movieID, onHandleCloseDialog }: { movieID: string; onHandle
     };
     const getFormatList = async () => {
         const { data } = await formatApi.getAll();
-        const listFormatCurrent = movies.map((item) => {
-            const dateOnly = format(item.date, 'yyyy-MM-dd');
-            if (dateOnly === selectCalendar.date && item.theater.region._id === selectRegion.region) {
-                return item.theater.format._id;
-            }
-        });
-        const formatList = data.filter((item, i) => listFormatCurrent.includes(item._id));
-        return formatList;
+        if (movies) {
+            const listFormatCurrent = movies.map((item) => {
+                const regionID = item.theater !== null ? item.theater.region._id : item.cinema.region_ref;
+                const dateOnly = format(item.date, 'yyyy-MM-dd');
+                if (dateOnly === selectCalendar && regionID === selectRegion.region) {
+                    return item.theater.format._id;
+                }
+            });
+            const formatList = data.filter((item, i) => listFormatCurrent.includes(item._id));
+            return formatList;
+        }
+        return [];
     };
     const getRegionList = async () => {
         const { data } = await regionApi.getAll();
-        const listRegionCurrent = movies.map((item) => {
-            const dateOnly = format(item.date, 'yyyy-MM-dd');
-            if (dateOnly === selectCalendar.date) {
-                return item.theater.region._id;
-            }
-        });
-        const regionList = data.filter((item, i) => listRegionCurrent.includes(item._id));
+        if (movies) {
+            const listRegionCurrent = movies.map((item) => {
+                const regionID = item.theater !== null ? item.theater.region._id : item.cinema.region_ref;
+                const dateOnly = format(item.date, 'yyyy-MM-dd');
+                if (dateOnly === selectCalendar) {
+                    return regionID;
+                }
+            });
+            const regionList = data.filter((item, i) => listRegionCurrent.includes(item._id));
 
-        return regionList;
+            return regionList;
+        }
+        return [];
     };
     const getListConcession = async () => {
         const { data } = await concessionApi.getAll();
@@ -203,8 +205,8 @@ const GroupTabs = ({ movieID, onHandleCloseDialog }: { movieID: string; onHandle
             showMessage('Vui lòng chọn ghế gần nhau!', 'warning');
         }
     };
-    const handleClickSelectCalendar = ({ index, date }: ISelectCalendar) => {
-        setSelectCalendar({ index, date });
+    const handleClickSelectCalendar = (data: string) => {
+        setSelectCalendar(data);
     };
     const handleClickSelectRegion = ({ index, region }: ISelectRegion) => {
         setSelectRegion({ index, region });
@@ -222,24 +224,28 @@ const GroupTabs = ({ movieID, onHandleCloseDialog }: { movieID: string; onHandle
 
     //side effect
     useEffect(() => {
-        if (selectCalendar.date && selectRegion.region !== '' && selectFormat.format !== '') {
-            const arr = movies
-                .filter(
-                    (item) =>
-                        item.theater.region._id === selectRegion.region &&
-                        item.theater.format._id === selectFormat.format &&
-                        format(item.date, 'yyyy-MM-dd') === selectCalendar.date
-                )
-                .map((item, i, arr) => {
-                    return arr.filter((movie) => {
-                        if (i >= 1) return movie.cinema._id === item.cinema._id && arr[i]._id !== item._id;
-                        return movie.cinema._id === item.cinema._id;
+        if (selectCalendar && selectRegion.region !== '' && selectFormat.format !== '') {
+            if (movies) {
+                const arr = movies
+                    .filter((item) => {
+                        const regionID = item.theater !== null ? item.theater.region._id : item.cinema.region_ref;
+                        return (
+                            regionID === selectRegion.region &&
+                            item.theater.format._id === selectFormat.format &&
+                            format(item.date, 'yyyy-MM-dd') === selectCalendar
+                        );
+                    })
+                    .map((item, i, arr) => {
+                        return arr.filter((movie) => {
+                            if (i >= 1) return movie.cinema._id === item.cinema._id && arr[i]._id !== item._id;
+                            return movie.cinema._id === item.cinema._id;
+                        });
                     });
-                });
 
-            setCurrentMovieTime(arr);
+                setCurrentMovieTime(arr);
+            }
         }
-    }, [selectCalendar, selectFormat, selectRegion, movieID, selectShowtime]);
+    }, [selectCalendar, selectFormat, selectRegion, movieID, selectShowtime, movies]);
 
     useEffect(() => {
         if (!!regions && regions.length >= 1) return setSelectRegion({ index: 0, region: regions[0]._id });
@@ -289,19 +295,22 @@ const GroupTabs = ({ movieID, onHandleCloseDialog }: { movieID: string; onHandle
             </Tabs.List>
             <Tabs.Content className='my-4' value='tab1'>
                 <Animation>
-                    <BookingTime
-                        regionTarget={selectRegion}
-                        calendarTarget={selectCalendar}
-                        formatTarget={selectFormat}
-                        regions={regions ? regions : []}
-                        formats={formats ? formats : []}
-                        movies={currentMovieTime}
-                        ShowtimeTarget={selectShowtime}
-                        handleClickSelectCalendar={handleClickSelectCalendar}
-                        handleClickSelectRegion={handleClickSelectRegion}
-                        handleClickSelectFormat={handleClickSelectFormat}
-                        handleClickSelectShowtime={handleClickSelectShowtime}
-                    />
+                    {loading && <Loading />}
+                    {movies && (
+                        <BookingTime
+                            regionTarget={selectRegion}
+                            calendarTarget={selectCalendar}
+                            formatTarget={selectFormat}
+                            regions={regions ? regions : []}
+                            formats={formats ? formats : []}
+                            movies={currentMovieTime}
+                            ShowtimeTarget={selectShowtime}
+                            handleClickSelectCalendar={handleClickSelectCalendar}
+                            handleClickSelectRegion={handleClickSelectRegion}
+                            handleClickSelectFormat={handleClickSelectFormat}
+                            handleClickSelectShowtime={handleClickSelectShowtime}
+                        />
+                    )}
                 </Animation>
             </Tabs.Content>
             <Tabs.Content className='my-4' value='tab2'>

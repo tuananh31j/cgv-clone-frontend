@@ -1,4 +1,4 @@
-import ButtonState from '../../Components/ButtonState';
+import ButtonState from '../../../ButtonState';
 
 interface ISeatProps {
     children?: React.ReactNode;

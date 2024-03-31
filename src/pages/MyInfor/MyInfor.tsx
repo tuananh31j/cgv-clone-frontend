@@ -21,8 +21,6 @@ const MyInfor = () => {
             await new Promise((resolve) => {
                 setTimeout(resolve, 1000);
             });
-            console.log(data);
-
             await customerApi.edit(data._id, data);
             showMessage('Cập nhật thành công!', 'success');
         } catch (error) {
@@ -33,8 +31,6 @@ const MyInfor = () => {
     useEffect(() => {
         (async () => {
             const { data } = await authApi.getMe();
-            console.log(data, '1');
-
             reset(data);
         })();
     }, []);

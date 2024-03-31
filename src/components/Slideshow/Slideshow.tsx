@@ -83,7 +83,7 @@ const Slideshow = ({ data }: { data: IBanner[] }) => {
 
     return (
         <>
-            <div className={`relative mx-auto my-5 mt-12 flex max-w-[978.4px] justify-center overflow-hidden`}>
+            <div className={`relative  mx-auto my-5 mt-12 flex max-w-[978.4px] justify-center overflow-hidden`}>
                 <div
                     ref={slideElement}
                     className='relative whitespace-nowrap transition-transform duration-1000 will-change-transform'
@@ -92,7 +92,7 @@ const Slideshow = ({ data }: { data: IBanner[] }) => {
                         return <SlideItem test={i} ref={itemCard} image={item.image} key={i} />;
                     })}
                 </div>
-                <div className='absolute bottom-0 z-50 flex gap-2 '>
+                <div className='absolute bottom-0 flex gap-2 '>
                     {data.map((item, i) => {
                         const activted = i === currentIndex;
                         return (

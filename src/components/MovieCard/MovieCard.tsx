@@ -9,16 +9,23 @@ import MovieDialog from '../MovieDialog';
 import Button from '../Button';
 import { format } from 'date-fns';
 import { IMoviesShow } from '~/types/Showtime';
+import { useSelector } from 'react-redux';
+import { RootState } from '~/store/store';
 
 type IMovieCardProps = { movie: IMoviesShow; unEvent: boolean };
 
 const MovieCard: React.FC<IMovieCardProps> = ({ movie, unEvent }) => {
+    const user = useSelector((state: RootState) => state.auth.login.currentUser.id);
     return (
         <div className='my-2'>
             <div className='relative box-border inline-table h-[260px] w-[200px] border-4 border-black'>
                 <Tippy content={movie.movieDetails.name} delay={[100, 50]} placement='right'>
-                    <Link to={`/movies/${movie._id}`}>
-                        <img src={movie.movieDetails.thumbnail} className='w-full cursor-pointer' alt='' />
+                    <Link to={`/movies/${movie._id.movie}`}>
+                        <img
+                            src={movie.movieDetails.thumbnail}
+                            className='h-[300px] w-full cursor-pointer object-cover'
+                            alt=''
+                        />
                     </Link>
                 </Tippy>
                 <span className={clsx(styles.card_rating_t16__bg, 'absolute left-2 top-2 h-10 w-10 indent-[-9999px]')}>
@@ -41,15 +48,16 @@ const MovieCard: React.FC<IMovieCardProps> = ({ movie, unEvent }) => {
                     69k
                 </span>
             </div>
-            <div>
+            <div className='flex flex-shrink-0 flex-col'>
                 <Tippy content={movie.movieDetails.name} delay={[100, 50]} placement='top'>
                     <h1 className='max-w-[198px] truncate  text-nowrap text-lg font-bold uppercase text-[#333333]'>
                         {movie.movieDetails.name}
                     </h1>
                 </Tippy>
 
-                <p>
-                    <span className='font-semibold'>Thể loại:</span> {movie.movieDetails.categories}
+                <p className='max-w-[198px] truncate'>
+                    <span className='font-semibold'>Thể loại: </span>
+                    {movie.movieDetails.categories}
                 </p>
                 <p>
                     <span className='font-semibold'>Thời lượng:</span> {movie.movieDetails.show_duration} phút
@@ -68,17 +76,18 @@ const MovieCard: React.FC<IMovieCardProps> = ({ movie, unEvent }) => {
                             <FontAwesomeIcon className='me-1' icon={faThumbsUp} />
                             Like <span>{movie.movieDetails.liked}</span>
                         </Button>
-                        <MovieDialog movieID={'tesst'}>
-                            <Button
-                                className='text-white'
-                                inLine
-                                primary
-                                large
-                                iconLeft={<img src={Image.iconPurchareTicket}></img>}
-                            >
+                        {user !== '' && (
+                            <MovieDialog movieID={movie._id.movie}>
+                                <Button iconLeft={<img src={Image.iconPurchareTicket} />} large primary inLine>
+                                    Mua vé
+                                </Button>
+                            </MovieDialog>
+                        )}
+                        {user === '' && (
+                            <Button to='/login' iconLeft={<img src={Image.iconPurchareTicket} />} large primary inLine>
                                 Mua vé
                             </Button>
-                        </MovieDialog>
+                        )}
                     </div>
                 </div>
             )}

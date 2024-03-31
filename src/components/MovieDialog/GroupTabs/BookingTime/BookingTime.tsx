@@ -1,12 +1,13 @@
 import { getListOfNext30Day } from '../../../../utilities/helper';
-import { CalendarItem, RegionItem, ScreenAndSubItem, TimeItem } from '../../Components/Items';
+import { CalendarItem, RegionItem, ScreenAndSubItem, TimeItem } from '../../../Items';
 import { IRegion } from '~/types/Region';
-import Wrapper from '../../Components/Wrapper';
 import { IFormat } from '~/types/Format';
 import { IShowtime } from '~/types/Showtime';
+import Wrapper from '~/components/Wrapper';
+import NoData from '~/components/NoData';
 
 type IBookingTimeProps = {
-    calendarTarget: { index: number | string; date: Date | string };
+    calendarTarget: string;
     regionTarget: { index: number | string; region: string };
     formatTarget: { index: number | string; format: string };
     ShowtimeTarget: { index: number | string; showtime: string };
@@ -14,7 +15,7 @@ type IBookingTimeProps = {
     formats: IFormat[];
     movies: IShowtime[][];
     handleClickSelectRegion: ({ index, region }: { index: number | string; region: string }) => void;
-    handleClickSelectCalendar: ({ index, date }: { index: number | string; date: string | Date }) => void;
+    handleClickSelectCalendar: (date: string) => void;
     handleClickSelectFormat: ({ index, format }: { index: number | string; format: string }) => void;
     handleClickSelectShowtime: ({ index, showtime }: { index: number | string; showtime: string }) => void;
 };
@@ -40,8 +41,8 @@ const BookingTime: React.FC<IBookingTimeProps> = ({
                         {list30Day.map((item, i) => (
                             <CalendarItem
                                 key={i}
-                                status={calendarTarget?.index === i}
-                                onClick={() => handleClickSelectCalendar({ index: i, date: item })}
+                                status={calendarTarget === item}
+                                onClick={() => handleClickSelectCalendar(item)}
                                 dataItem={item}
                             />
                         ))}
@@ -99,9 +100,7 @@ const BookingTime: React.FC<IBookingTimeProps> = ({
                 )}
                 {!(regions.length >= 1) && (
                     <>
-                        <Wrapper>
-                            <p className='text-center font-extralight italic'>Hiện Chưa có lịch!😊</p>
-                        </Wrapper>
+                        <NoData title='Hiện chưa có lịch' />
                     </>
                 )}
             </div>

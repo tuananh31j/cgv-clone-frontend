@@ -1,8 +1,8 @@
 import BookingProgress from '../../BookingProgress';
-import Wrapper from '../../Components/Wrapper';
-import Item from './Item';
 import { IConcession } from '~/types/Concession';
 import { IShowtime } from '~/types/Showtime';
+import Wrapper from '~/components/Wrapper';
+import { SnackItem } from '~/components/Items';
 
 type ISnackAndDrinksProps = {
     concessions: IConcession[];
@@ -27,7 +27,7 @@ const SnacksAndDrinks: React.FC<ISnackAndDrinksProps> = ({
                 {concessions && (
                     <div className='grid grid-cols-2 justify-center gap-[4px] text-center'>
                         {concessions.map((item, i) => (
-                            <Item
+                            <SnackItem
                                 selectedConcessions={propsBookingProgress.concessions}
                                 concession={item}
                                 key={i}

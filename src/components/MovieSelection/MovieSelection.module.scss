@@ -2,10 +2,10 @@
 
 .card {
     transition: opacity 3s ease-in-out;
-    .card__purchare {
+    .card__trailer {
         display: none;
     }
-    &:hover .card__purchare {
+    &:hover .card__trailer {
         display: block;
     }
     &:hover .card_image {

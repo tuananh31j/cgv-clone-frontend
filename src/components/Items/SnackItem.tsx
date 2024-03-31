@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 import { IConcession } from '~/types/Concession';
 
-type IItemProps = {
+type ISnackItemProps = {
     concession: IConcession;
     selectedConcessions: { quanlity: number; concession: IConcession }[];
     handleConcession: ({ quanlity, concession }: { quanlity: number; concession: IConcession }) => void;
 };
 
-const Item: React.FC<IItemProps> = ({ concession, handleConcession, selectedConcessions }) => {
+const SnackItem: React.FC<ISnackItemProps> = ({ concession, handleConcession, selectedConcessions }) => {
     const resultConcession = selectedConcessions.find((item) => item.concession._id === concession._id);
     const [concessionTarget, setConcessionTarget] = useState<{ quanlity: number; concession: IConcession }>({
         quanlity: resultConcession ? resultConcession.quanlity : 0,
@@ -62,4 +62,4 @@ const Item: React.FC<IItemProps> = ({ concession, handleConcession, selectedConc
     );
 };
 
-export default Item;
+export default SnackItem;

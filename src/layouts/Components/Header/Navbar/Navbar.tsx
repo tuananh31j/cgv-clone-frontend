@@ -15,27 +15,23 @@ const MENU_ITEMS = [
     },
     {
         name: 'Rạp cgv',
-        children: [
-            { name: 'Tất cả các rạp', path: '/cinemas-list' },
-            { name: 'Rạp đặc biệt', path: '/' },
-            { name: 'Rạp 3d', path: '/' },
-        ],
+        path: 'cinemas',
     },
     {
         name: 'Thành viên',
         children: [
-            { name: 'Tài khoản cgv', path: '/' },
-            { name: 'Quyền lợi', path: '/' },
+            { name: 'Tài khoản cgv', path: '/account' },
+            { name: 'Quyền lợi', path: '/comming-soon' },
         ],
     },
     {
         name: 'Cultureplex',
         children: [
-            { name: 'Quầy Online', path: '/' },
-            { name: 'Thuê Rạp & Vé Nhóm', path: '/' },
-            { name: 'E-CGV', path: '/' },
-            { name: 'CGV EGift', path: '/' },
-            { name: 'CGV Rules', path: '/' },
+            { name: 'Quầy Online', path: '/comming-soon' },
+            { name: 'Thuê Rạp & Vé Nhóm', path: '/comming-soon' },
+            { name: 'E-CGV', path: '/comming-soon' },
+            { name: 'CGV EGift', path: '/comming-soon' },
+            { name: 'CGV Rules', path: '/policy' },
         ],
     },
 ];
@@ -47,7 +43,7 @@ const Navbar = () => {
                 <ul className={clsx('flex gap-8 uppercase')}>
                     {MENU_ITEMS.map((item, i) => (
                         <li key={i}>
-                            <NavItem menuParentName={item.name} menuChildren={item.children} />
+                            <NavItem menu={item} />
                         </li>
                     ))}
                 </ul>

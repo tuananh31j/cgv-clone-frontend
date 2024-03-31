@@ -7,6 +7,7 @@ import MovieDialog from '../MovieDialog';
 import { IMovie } from '~/types/Movie';
 import { useSelector } from 'react-redux';
 import { RootState } from '~/store/store';
+import TrailerDialog from '../TrailerDialog';
 
 interface IMovieProps {
     item: IMovie;
@@ -23,12 +24,12 @@ const MovieItem = forwardRef<HTMLImageElement, IMovieProps>(({ item }, ref) => {
                     src={item.thumbnail}
                     alt=''
                 />
-                <img className={clsx(styles.card__purchare, ' absolute top-0')} src={Image.iconPlayCard} alt='' />
+                <TrailerDialog trailerEmbed={item.trailer_embed ? item.trailer_embed : 'gAmW3kvgMok'}>
+                    <img className={clsx(styles.card__trailer, ' absolute top-0')} src={Image.iconPlayCard} alt='' />
+                </TrailerDialog>
+
                 <div
-                    className={clsx(
-                        styles.card__purchare,
-                        'absolute top-[76%] h-[84px] w-full bg-black p-3 text-white'
-                    )}
+                    className={clsx(styles.card__trailer, 'absolute top-[76%] h-[84px] w-full bg-black p-3 text-white')}
                 >
                     <p className='mb-2 text-center font-bold uppercase'>{item.name}</p>
                     <div className='flex items-center justify-between text-sm font-semibold uppercase'>

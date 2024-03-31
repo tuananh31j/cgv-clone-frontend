@@ -18,7 +18,7 @@ const MoviesComingSoon = () => {
     return (
         <>
             {loading && <Loading />}
-            {moviesComingSoon && <MovieShowcase unEvent title='Phim sắp chiếu' data={moviesComingSoon} />}
+            {moviesComingSoon && <MovieShowcase breadcrumbs unEvent title='Phim sắp chiếu' data={moviesComingSoon} />}
         </>
     );
 };

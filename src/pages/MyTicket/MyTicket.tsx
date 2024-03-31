@@ -21,7 +21,7 @@ const MyTicket = () => {
     }, []);
     return (
         <>
-            <div className=' py-3 -z-50'>
+            <div className=' -z-50 py-3'>
                 <h1 className='w-full bg-gray-800 p-2 text-center text-white'>Vé của tôi</h1>
             </div>
             {myListOrders &&

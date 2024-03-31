@@ -1,5 +1,5 @@
 function getCookie(cookieName: string) {
-    const cookies = document.cookie; 
+    const cookies = document.cookie;
     const cookieArray = cookies.split(';');
     for (let i = 0; i < cookieArray.length; i++) {
         const cookie = cookieArray[i];

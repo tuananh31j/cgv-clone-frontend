@@ -18,7 +18,7 @@ const MoviesNowShowing = () => {
     return (
         <>
             {loading && <Loading />}
-            {moviesNowShowing && <MovieShowcase title='Phim đang chiếu' data={moviesNowShowing} />}
+            {moviesNowShowing && <MovieShowcase breadcrumbs title='Phim đang chiếu' data={moviesNowShowing} />}
         </>
     );
 };

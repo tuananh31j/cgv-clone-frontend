@@ -2,8 +2,8 @@ import Header from './Header';
 import Footer from './Footer';
 import Seat from './Seat';
 import showMessage from '~/utilities/showMessage';
-import Wrapper from '../../Components/Wrapper';
 import { gennerateSeats } from '~/utilities/helper';
+import Wrapper from '~/components/Wrapper';
 type ISeatSelectionProps = {
     seatingMatrix: {
         cols: number;

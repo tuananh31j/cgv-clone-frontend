@@ -36,8 +36,8 @@ const BookingProgress: React.FC<IBookingProgressProps> = ({ ticketInfor, onClick
                     <div className='flex items-center gap-4'>
                         <p>Suất chiếu</p>
                         <p className='text-lg font-semibold'>
-                            {format(parseISO(ticketInfor.showtimeTarget.start_time), 'hh:mm')},{' '}
-                            {ticketInfor.showtimeTarget.date}
+                            {format(parseISO(ticketInfor.showtimeTarget.start_time), 'hh:mm')},
+                            {format(ticketInfor.showtimeTarget.date, 'yyyy-MM-dd')}
                         </p>
                     </div>
                     <div className='flex items-center gap-4'>
