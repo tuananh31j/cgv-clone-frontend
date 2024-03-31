@@ -1,12 +1,12 @@
 import { useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
 import { RootState } from '~/store/store';
+import Loading from '../Loading';
 
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
-    const token = useSelector((state: RootState) => state.auth.login.currentUser.id);
-    if (token) {
-        return <Navigate to='/not-found' replace />;
-    }
+    const { loading, login } = useSelector((state: RootState) => state.auth);
+    if (loading) return <Loading />;
+    if (login.currentUser.id) return <Navigate to='/not-found' replace />;
 
     return children;
 };
